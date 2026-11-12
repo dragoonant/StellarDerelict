@@ -1,0 +1,16 @@
+node_modules
+dist
+e2e-out
+test-results
+playwright-report
+.DS_Store
+.claude/
+tools/out/
+# secrets and private sources (never commit)
+*.token*
+Tokens.txt
+tokens.txt*
+.env
+.env*
+docs/sources/
+*.pdf

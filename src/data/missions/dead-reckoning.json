@@ -1,0 +1,59 @@
+{
+  "id": "dead-reckoning",
+  "name": "Dead Reckoning",
+  "wreck": "the survey tender Halcyon Drift",
+  "brief": "The Halcyon Drift went dark eleven years ago. Its navigation core still holds where it had been. Cut in at the aft airlock, pull the core from the archive, and carry it back out before the hull lets go.",
+  "legend": {
+    "#": "wall",
+    ".": "floor",
+    "A": "airlock",
+    "V": "duct",
+    "D": "door",
+    "B": "bulkhead",
+    "T": "terminal",
+    "X": "console"
+  },
+  "grid": [
+    "#############################",
+    "#V......#####.X.#####......V#",
+    "#.#####.#####...#####.#####.#",
+    "#.#####.#####...#####.#####.#",
+    "#.#####.######B######.#####.#",
+    "#.#####.######.######.#####.#",
+    "#.........B.......B.........#",
+    "#.#####.######.######.#####.#",
+    "#.#####.#####T.######.#####.#",
+    "#.#####.######.######.#####.#",
+    "#.#####.######B#####T.#####.#",
+    "#.......######.######.......#",
+    "#######.######.######.#######",
+    "#AAA###.T#####.######.###...#",
+    "#AAA.D.................B...V#",
+    "#AAA###.######.######.###...#",
+    "#######.######.######.#######",
+    "#######V######T######V#######",
+    "#############################"
+  ],
+  "sealed": [[14, 4]],
+  "terminals": [
+    { "id": "archive-lock", "name": "Archive lock", "at": [13, 8], "system": "bulkheads", "doors": [[14, 4], [14, 10]] },
+    { "id": "flank-doors", "name": "Flank bulkheads", "at": [8, 13], "system": "bulkheads", "doors": [[10, 6], [18, 6], [23, 14]] },
+    { "id": "east-purge", "name": "East ring purge", "at": [20, 10], "system": "purge", "section": "east-ring", "ducts": [[27, 1]] },
+    { "id": "spine-lights", "name": "Spine lights", "at": [14, 17], "system": "lights", "section": "cross" }
+  ],
+  "sections": {
+    "east-ring": [[27, 1, 27, 11], [22, 1, 26, 1], [22, 11, 26, 11]],
+    "cross": [[1, 6, 27, 6], [14, 4, 14, 16]]
+  },
+  "squad": [
+    { "id": "venn", "name": "Sgt. Maro Venn", "role": "sergeant", "at": [2, 14], "facing": "E" },
+    { "id": "brandt", "name": "Ilse Brandt", "role": "warden", "at": [3, 14], "facing": "E" },
+    { "id": "okafor", "name": "Teo Okafor", "role": "warden", "at": [3, 13], "facing": "E" },
+    { "id": "riedel", "name": "Kass Riedel", "role": "scorcher", "at": [2, 13], "facing": "E" },
+    { "id": "sato", "name": "Juno Sato", "role": "tech", "at": [3, 15], "facing": "E" }
+  ],
+  "startPings": [[1, 1], [27, 1]],
+  "arrivals": { "normal": 2, "alarm": 3 },
+  "roundLimit": 16,
+  "pingBag": [1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3]
+}

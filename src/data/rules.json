@@ -1,0 +1,40 @@
+{
+  "wardenAp": 4,
+  "stalkerAp": 6,
+  "pingAp": 6,
+  "cpBase": 2,
+  "cpDie": 3,
+  "cpSergeant": 1,
+  "heldCpMax": 2,
+  "cost": {
+    "forward": 1,
+    "back": 2,
+    "turn": 1,
+    "door": 1,
+    "fire": 1,
+    "vent": 1,
+    "watch": 2,
+    "scorch": 2,
+    "melee": 1,
+    "terminal": 1,
+    "takeCore": 2
+  },
+  "terminalCp": 1,
+  "repeater": {
+    "dice": 2,
+    "closeRange": 3,
+    "closeTarget": 5,
+    "farTarget": 6,
+    "maxRange": 12,
+    "heatLock": 4,
+    "coolPerRound": 2,
+    "heldCpHeat": 2
+  },
+  "litBonus": 1,
+  "scorcher": { "range": 6, "charges": 6, "killOn": 2 },
+  "melee": { "stalkerDice": 2, "stalkerBonus": 1, "sergeantBonus": 2, "flankPenalty": 2 },
+  "stalker": { "moveCost": 1, "doorCost": 1, "tearCost": 1, "tearOn": 5 },
+  "ductWatchRadius": 3,
+  "revealRadius": 2,
+  "timer": { "base": 45, "perWarden": 15 }
+}
