@@ -71,6 +71,9 @@ function questionTexture(): CanvasTexture {
   return qTex
 }
 
+// facing wedge on the tile: a solid triangle in front of the figure (forward is -z)
+const wedgeGeo = new BufferGeometry().setAttribute('position', new Float32BufferAttribute([-0.22, 0, -0.4, 0.22, 0, -0.4, 0, 0, -0.74], 3))
+
 const FIGURE_LERP = 14
 
 function useSmoothPlacement(dims: Dims, at: [number, number], unit: string, facing: Facing | null) {
@@ -124,9 +127,8 @@ function WardenFigure({ dims, u, selected, carrier }: { dims: Dims; u: WardenUni
           <mesh geometry={wardenGeo}>
             <meshLambertMaterial color={body} />
           </mesh>
-          <mesh position={[0, 0.03, -0.42]} rotation-x={-Math.PI / 2}>
-            <circleGeometry args={[0.16, 3]} />
-            <meshBasicMaterial color={tokens.scan} fog={false} side={DoubleSide} />
+          <mesh geometry={wedgeGeo} position={[0, 0.04, 0]}>
+            <meshBasicMaterial color={tokens.lit} fog={false} side={DoubleSide} />
           </mesh>
           {selected && (
             <>
@@ -164,8 +166,12 @@ function StalkerFigure({ dims, u }: { dims: Dims; u: ViewUnit }) {
   const ref = useSmoothPlacement(dims, u.at, u.id, null)
   return (
     <group ref={ref}>
-      <mesh geometry={stalkerGeo}>
-        <meshLambertMaterial color={tokens.molt} />
+      <mesh position={[0, 0.03, 0]} rotation-x={-Math.PI / 2}>
+        <circleGeometry args={[0.46, 20]} />
+        <meshBasicMaterial color={tokens.molt} transparent opacity={0.35} fog={false} depthWrite={false} />
+      </mesh>
+      <mesh geometry={stalkerGeo} scale={1.35}>
+        <meshBasicMaterial color={tokens.molt} />
       </mesh>
     </group>
   )

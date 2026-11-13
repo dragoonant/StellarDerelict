@@ -145,6 +145,15 @@ export class MapController {
     this.vel = { x: 0, z: 0 }
   }
 
+  /** Glide back to the opening view: a table point, a zoom, the home azimuth and no extra tilt. */
+  flyOpening(x: number, z: number, zoom: number): void {
+    this.goalZoom = clamp(zoom, ZOOM_MIN, ZOOM_MAX)
+    this.goalAz = this.homeAz
+    this.anchor = null
+    this.goalPan = { x: clamp(x, -this.lim.x, this.lim.x), z: clamp(z, -this.lim.z, this.lim.z), tilt: 0 }
+    this.vel = { x: 0, z: 0 }
+  }
+
   /** Glide to a table point at a zoom. */
   flyTo(x: number, z: number, zoom: number): void {
     this.goalZoom = clamp(zoom, ZOOM_MIN, ZOOM_MAX)

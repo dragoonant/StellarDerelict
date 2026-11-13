@@ -8,7 +8,7 @@ export const ZOOM_MIN = -0.1
 export const ZOOM_MAX = 1
 /** Elevation (radians above the horizon) of the overview and of the closest view. */
 export const EL_FAR = 0.97
-export const EL_NEAR = 0.55
+export const EL_NEAR = 0.85
 export const EL_MAX = 1.32
 /** How far above the sand the orbit target sits at full zoom (chest height of a figure). */
 export const EYE_HEIGHT = 0.75

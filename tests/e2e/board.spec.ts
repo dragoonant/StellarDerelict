@@ -6,7 +6,7 @@ test('KB rule 25: a tap on the tile behind a standing figure reaches that tile; 
   await page.goto('./?speed=instant&seed=22')
   await toMission(page)
   // look east along the airlock row, so the square ahead of Brandt (4,14) is drawn behind her figure
-  await page.evaluate(() => window.__sd!.setView({ az: -Math.PI / 2, zoom: 0.4 }))
+  await page.evaluate(() => window.__sd!.setView({ az: -Math.PI / 2, zoom: 0.6, tilt: -0.5 }))
   await page.waitForTimeout(600)
   const g = await page.evaluate(() => {
     const sd = window.__sd!
@@ -26,7 +26,7 @@ test('KB rule 25: a tap on the tile behind a standing figure reaches that tile; 
     .poll(() => page.evaluate(() => (window.__sd!.state()!.units.find((u) => u.id === 'brandt') as { at: number[] }).at))
     .toEqual([4, 14])
   // a tap on a Warden tile behind another figure selects that Warden (Okafor at 3,13 lies behind Brandt from the south)
-  await page.evaluate(() => window.__sd!.setView({ az: 0, zoom: 0.4 }))
+  await page.evaluate(() => window.__sd!.setView({ az: 0, zoom: 0.6, tilt: -0.5 }))
   await page.waitForTimeout(600)
   const ok = await page.evaluate(() => window.__sd!.project(3, 13, 0)!)
   await page.mouse.click(ok.x, ok.y)

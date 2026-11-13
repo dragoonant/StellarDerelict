@@ -10,11 +10,11 @@ import { tokens } from '../tokens'
 import { WALL_H, toWorldX, toWorldZ, type Dims } from './layout'
 
 const C = {
-  seen: new Color(tokens.deck).lerp(new Color(tokens.scan), 0.2),
-  mapped: new Color(tokens.deck).lerp(new Color(tokens.scanDim), 0.06),
-  wall: new Color(tokens.void).lerp(new Color(tokens.trace), 0.55),
+  seen: new Color(tokens.deck).lerp(new Color(tokens.scan), 0.42),
+  mapped: new Color(tokens.deck).lerp(new Color(tokens.scanDim), 0.45),
+  wall: new Color(tokens.void).lerp(new Color(tokens.trace), 0.1),
   lineSeen: new Color(tokens.scan),
-  lineMapped: new Color(tokens.scanDim).lerp(new Color(tokens.trace), 0.45),
+  lineMapped: new Color(tokens.scanDim),
   trace: new Color(tokens.trace),
 }
 
@@ -94,27 +94,24 @@ export function Deck({ mission, dims, seen }: { mission: string; dims: Dims; see
     col.needsUpdate = true
   }, [lines, floors, seen])
 
+  // a faint outline only along the edge where a wall meets the deck (no per-tile grid on wall tops)
   const wallTops = useMemo(() => {
     const geo = new BufferGeometry()
-    const arr = new Float32Array(walls.length * 8 * 3)
-    walls.forEach(([x, y], i) => {
+    const pts: number[] = []
+    const open = (x: number, y: number): boolean => (g.terrain[y]?.[x] ?? 'wall') !== 'wall'
+    for (const [x, y] of walls) {
       const cx = toWorldX(dims, x)
       const cz = toWorldZ(dims, y)
       const a = 0.5
-      const segs = [
-        [cx - a, cz - a, cx + a, cz - a],
-        [cx + a, cz - a, cx + a, cz + a],
-        [cx + a, cz + a, cx - a, cz + a],
-        [cx - a, cz + a, cx - a, cz - a],
-      ]
-      segs.forEach((s, k) => {
-        const o = (i * 8 + k * 2) * 3
-        arr.set([s[0] as number, WALL_H + 0.005, s[1] as number, s[2] as number, WALL_H + 0.005, s[3] as number], o)
-      })
-    })
-    geo.setAttribute('position', new BufferAttribute(arr, 3))
+      const y0 = WALL_H + 0.005
+      if (open(x, y - 1)) pts.push(cx - a, y0, cz - a, cx + a, y0, cz - a)
+      if (open(x + 1, y)) pts.push(cx + a, y0, cz - a, cx + a, y0, cz + a)
+      if (open(x, y + 1)) pts.push(cx + a, y0, cz + a, cx - a, y0, cz + a)
+      if (open(x - 1, y)) pts.push(cx - a, y0, cz + a, cx - a, y0, cz - a)
+    }
+    geo.setAttribute('position', new BufferAttribute(new Float32Array(pts), 3))
     return geo
-  }, [walls, dims])
+  }, [walls, dims, g])
 
   return (
     <group>
@@ -125,10 +122,10 @@ export function Deck({ mission, dims, seen }: { mission: string; dims: Dims; see
         <lineBasicMaterial vertexColors />
       </lineSegments>
       <instancedMesh ref={wallRef} args={[box, undefined, walls.length]} frustumCulled={false}>
-        <meshLambertMaterial color={C.wall} />
+        <meshBasicMaterial color={C.wall} />
       </instancedMesh>
       <lineSegments geometry={wallTops} frustumCulled={false}>
-        <lineBasicMaterial color={C.trace.clone().lerp(new Color(tokens.scanDim), 0.6)} />
+        <lineBasicMaterial color={C.trace} />
       </lineSegments>
     </group>
   )

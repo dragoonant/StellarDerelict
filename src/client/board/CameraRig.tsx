@@ -1,8 +1,8 @@
 // The board camera: the MapController (touch and mouse, KB rule 27) fitted to the free part of the window.
 import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { PerspectiveCamera, Vector3 } from 'three'
-import { distFor } from './cameraModel'
+import { clamp, distFor, ZOOM_MAX, zoomFor } from './cameraModel'
 import { MapController } from './mapController'
 import { viewApi } from './viewApi'
 import type { Dims } from './layout'
@@ -89,15 +89,24 @@ export function CameraRig({ dims, home }: { dims: Dims; home: { x: number; z: nu
     })
   }, [ctl, camera, size.width, size.height, dims])
 
-  // a new mission starts above the airlock
+  // the opening view: above the airlock, about 13 squares across on a desktop (7 on a phone) so the figures read
+  const opening = (): number => {
+    const cam = camera as PerspectiveCamera
+    const tiles = size.width < 700 ? 10 : 18
+    const aspect = size.width / size.height
+    const dist = tiles / (2 * Math.tan((cam.fov * Math.PI) / 360) * aspect)
+    return clamp(zoomFor(dist, ctl.fit.overview), 0, ZOOM_MAX)
+  }
+  const openZoom = useRef(0.4)
+  openZoom.current = opening()
   useEffect(() => {
     ctl.reset(false)
-    ctl.setView({ x: home.x, z: home.z, zoom: size.width < 700 ? 0.5 : 0.3 })
+    ctl.setView({ x: home.x, z: home.z, zoom: openZoom.current })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ctl, home.x, home.z])
 
   useEffect(() => {
-    viewApi.reset = () => ctl.flyHome()
+    viewApi.reset = () => ctl.flyOpening(home.x, home.z, openZoom.current)
     viewApi.setView = (p) => ctl.setView(p)
     viewApi.flyTo = (x, z, zoom) => ctl.flyTo(x, z, zoom ?? Math.max(ctl.view.zoom, 0.45))
     viewApi.camera = () => {
@@ -111,7 +120,7 @@ export function CameraRig({ dims, home }: { dims: Dims; home: { x: number; z: nu
       const r = gl.domElement.getBoundingClientRect()
       return { x: r.left + ((v.x + 1) / 2) * r.width, y: r.top + ((1 - v.y) / 2) * r.height }
     }
-  }, [camera, ctl, gl])
+  }, [camera, ctl, gl, home.x, home.z])
 
   useFrame((_, dt) => ctl.update(Math.min(dt, 0.1)))
 
