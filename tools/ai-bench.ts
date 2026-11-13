@@ -221,6 +221,10 @@ async function main(): Promise<void> {
     check(vet.fallbacks === 0, `veteran fallbacks ${vet.fallbacks} = 0`)
     check(vet.avgMs <= 30, `veteran average decision ${vet.avgMs.toFixed(2)} ms <= 30`)
   }
+  if (rec && reg && rnd && pct(rnd) > pct(reg) - 25)
+    console.log(
+      `NOTE  the two recruit gates need random <= regular - 25 (recruit is capped at ${(pct(reg) - 10).toFixed(1)}% and floored at ${(pct(rnd) + 15).toFixed(1)}%); measured random ${pct(rnd).toFixed(1)}% vs regular ${pct(reg).toFixed(1)}%: the scripted Wardens lose to the random Molt's clutter by running out of clock`,
+    )
   const viol = [...rows.values()].reduce((a, r) => a + r.violations, 0)
   const stalls = [...rows.values()].reduce((a, r) => a + r.stalls, 0)
   check(viol === 0, `invariant violations ${viol} = 0`)

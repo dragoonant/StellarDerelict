@@ -211,6 +211,25 @@ Fill in from `npm run sim` (spec 00). Target for the first mission: scripted War
 Rows B-0 to B-2 were first run by the engine build, whose notes were lost to a container restart; every row above was
 re-run on 2026-11-13. The scripted policies are blunt; re-measure with the M4 AI before tuning further.
 
+### 13b. AI bench (2026-11-13, M4)
+
+`npm run bench:ai -- --games 400` (spec 40): scripted Wardens against each Molt, seeds 1..400, invariants on, no constant changed.
+The sides are fixed, so a Molt win is the Warden loss rate. Decision times are per Molt decision on the cloud container (4 cores, 4 games at once).
+
+| Molt | Molt win % | Avg rounds | Reasons | Fallbacks | Avg / max decision | s per game |
+|---|---|---|---|---|---|---|
+| random | 85.0 | 15.8 | time 85%, core out 15% | 0 | 0.11 / 18 ms | 0.32 |
+| recruit | 49.0 | 14.5 | squad lost 2%, time 47%, core out 51% | 0 | 0.23 / 12 ms | 0.22 |
+| regular (scripted, unchanged) | 61.0 | 12.4 | squad lost 50%, time 11%, core out 39% | 0 | 0.40 / 17 ms | 0.28 |
+| veteran | 99.8 | 13.4 | squad lost 32%, time 68%, core out 0.2% | 0 | 0.73 / 24 ms | 0.52 |
+
+0 invariant violations and 0 stalls in 1,600 games. Gates: veteran >= regular + 10 pass; recruit <= regular - 10 pass; veteran
+fallbacks 0 and average decision <= 30 ms pass; **recruit >= random + 15 fails by construction** (it would need 100% while
+recruit <= 51%): the random Molt wins 85% by running the scripted Wardens out of clock, 24 points more than the scripted Molt.
+Against the Veteran the scripted Wardens win almost never, so the 35-55% target of section 13 does not hold for the Veteran
+tier; no rebalancing was done (the scripted Wardens are a blunt proxy for a person). The Veteran wins mostly on time: its
+pings wait out of sight along the squad's route and the scripted Wardens do not clear them.
+
 ## 14. Rulings
 
 From the coordinator's read of `src/engine/rules.ts` against this spec (2026-11-13); no rule errors were found.

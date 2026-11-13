@@ -4,8 +4,8 @@
  */
 import { rules } from '../../data'
 import { query } from '../../engine'
-import type { Action, Board, Pos, StalkerUnit, WardenUnit } from '../../engine'
-import { attackTable, stalkerOdds, tIdx } from './combat'
+import type { Action, Board, Pos, WardenUnit } from '../../engine'
+import { attackTable, tIdx } from './combat'
 import type { DecisionKind } from './kinds'
 import {
   forward,
@@ -15,7 +15,6 @@ import {
   HOW_DOOR,
   HOW_TEAR,
   idxOf,
-  KIND_CLOSED,
   KIND_OPEN,
   KIND_SEALED,
   mdist,
@@ -60,9 +59,10 @@ export interface Ctx {
 }
 
 export const END_SCORE = 0.05
-const REVEAL_T = 1.0
+const REVEAL_T = 2.5
 const OFFK = 1.2
 const TEAR_W = 0.4
+const BLOCK_W = 0.8
 
 /** deterministic hash in [0,1) */
 export function hash01(a: number, b: number, c: number): number {
@@ -129,6 +129,11 @@ function killValue(c: Ctx, w: WardenUnit): number {
   if (w.role === 'sergeant') k += 3
   if (w.role === 'scorcher') k += 2
   if (!w.watch) k += 0.5
+  if (w.role !== 'scorcher' && w.heat >= rules.repeater.heatLock) k += 1
+  // isolated: no other Warden within three squares
+  let alone = true
+  for (const o of S.wardens) if (o.id !== w.id && Math.abs(o.at[0] - w.at[0]) + Math.abs(o.at[1] - w.at[1]) <= 3) alone = false
+  if (alone && S.wardens.length > 1) k += 1.5
   return k
 }
 
@@ -205,8 +210,10 @@ function valueAt(c: Ctx, plan: Plan, s: number, a: number, surv: number, from: n
   }
   const g = plan.G[s] as number
   const gv = Number.isFinite(g) ? g : 999
+  // once the core is out, standing in the carrier's way costs the squad time (units block movement)
+  const block = S.coreTaken && S.routeDist[s] === 0 && S.exposure(s) <= 0.4 ? BLOCK_W * c.profile.cover : 0
   const risk = c.profile.cover * (SV_STAY * S.exposure(s) * (adjacent && a >= 1 ? 0.8 : 1) + SV_STAY * (1 - surv))
-  let v = atk - GW * gv - risk
+  let v = atk - GW * gv - risk + block
   // do not bunch where the scorcher can burst us
   if (S.scorchLos(s)) {
     let friends = 0
@@ -399,6 +406,4 @@ export function makeCtx(b: Board, d: Dyn, profile: Profile): Ctx {
   return c
 }
 
-void stalkerOdds
-export type { StalkerUnit, Pos }
 
