@@ -6,22 +6,50 @@ import type { Board, Event, Pos, ViewUnit } from '../engine'
 import type { Side } from './store'
 
 const at = (p: Pos): string => `${p[0]},${p[1]}`
+const cap = (t: string): string => t.charAt(0).toUpperCase() + t.slice(1)
 const pad = (n: number): string => String(n).padStart(2, '0')
 export const roundLabel = (n: number): string => pad(n)
 
 export function nameOf(b: Board, id: string): string {
   const u = b.units.find((x) => x.id === id)
   if (u && u.kind === 'warden') return u.name.split(' ').slice(-1)[0] ?? u.name
-  if (id.startsWith('s')) return `Stalker ${id.toUpperCase()}`
-  if (id.startsWith('p')) return `Contact ${id.toUpperCase()}`
+  if (/^s\d+$/.test(id)) return `Stalker ${id.toUpperCase()}`
+  if (/^p\d+$/.test(id)) return `Contact ${id.toUpperCase()}`
   return id
 }
 
-const isMoltId = (id: string): boolean => id.startsWith('s') || id.startsWith('p')
+/** Molt ids are s<n> and p<n>; Warden ids are names (venn, sato...), so a bare first letter must not be tested. */
+export const isMoltId = (id: string): boolean => /^[sp]\d+$/.test(id)
 
 export interface Line {
   side: Side
   text: string
+  /** set on move lines so consecutive moves by one unit can be folded into one */
+  moved?: { unit: string; squares: number; to: Pos }
+}
+
+/** A short place description for a door square, from the mission data where it names one. */
+export function doorName(b: Board, p: Pos): string {
+  const g = geoOf(b.mission)
+  if (g.mission.sealed.some((q) => q[0] === p[0] && q[1] === p[1])) return 'the archive bulkhead'
+  const t = query.terrain(b, p)
+  if (t === 'bulkhead') return `flank bulkhead ${at(p)}`
+  const nearAirlock = [[1, 0], [-1, 0], [0, 1], [0, -1]].some((d) => query.terrain(b, [p[0] + (d[0] as number), p[1] + (d[1] as number)]) === 'airlock')
+  return nearAirlock ? 'the airlock door' : `door ${at(p)}`
+}
+
+export const terminalName = (b: Board, id: string): string => geoOf(b.mission).terminalById[id]?.name.toLowerCase() ?? id
+
+export function foldMoveLine(prev: { text: string; moved?: Line['moved'] } | undefined, next: Line, b: Board): { fold: boolean; text: string; moved: Line['moved'] } | null {
+  if (!prev?.moved || !next.moved || prev.moved.unit !== next.moved.unit) return null
+  const squares = prev.moved.squares + next.moved.squares
+  return { fold: true, text: moveText(b, next.moved.unit, squares, next.moved.to), moved: { unit: next.moved.unit, squares, to: next.moved.to } }
+}
+
+function moveText(b: Board, unit: string, squares: number, to: Pos): string {
+  const who = nameOf(b, unit)
+  const word = isMoltId(unit) ? 'creeps' : 'advances'
+  return `${who} ${word} ${squares} square${squares === 1 ? '' : 's'} (now at ${at(to)}).`
 }
 
 /** `b` is the state the event happened in (any state with the same units is enough for names). */
@@ -33,12 +61,12 @@ export function describeEvent(ev: Event, b: Board): Line | null {
         ? { side: 'sys', text: `ROUND ${pad(ev.round)} - Warden phase. Command points: ${ev.cp ?? 0}.` }
         : { side: 'sys', text: `ROUND ${pad(ev.round)} - Molt phase.` }
     case 'moved':
-      return { side: isMoltId(ev.unit) ? 'molt' : 'warden', text: `${n(ev.unit)} moves to ${at(ev.to)}.` }
+      return { side: isMoltId(ev.unit) ? 'molt' : 'warden', text: moveText(b, ev.unit, 1, ev.to), moved: { unit: ev.unit, squares: 1, to: ev.to } }
     case 'turned':
       return { side: 'warden', text: `${n(ev.unit)} turns to face ${ev.facing}.` }
     case 'doorChanged': {
       const w = { open: 'opens', closed: 'closes', sealed: 'is sealed', torn: 'is torn open' }[ev.state]
-      return { side: 'sys', text: `Door ${at(ev.door)} ${w}.` }
+      return { side: 'sys', text: `${cap(doorName(b, ev.door))} ${w}.` }
     }
     case 'fired':
       return {
@@ -79,9 +107,9 @@ export function describeEvent(ev: Event, b: Board): Line | null {
         text: `${n(ev.ping)} resolves at ${at(ev.at)}: ${ev.stalkers} stalker${ev.stalkers === 1 ? '' : 's'}${ev.lost > 0 ? `, ${ev.lost} lost for lack of room` : ''}${ev.forced ? ' (exposed)' : ''}.`,
       }
     case 'tearRolled':
-      return { side: 'molt', text: `${n(ev.unit)} tears at door ${at(ev.door)}: ${ev.die}. ${ev.torn ? 'The door gives.' : 'It holds.'}` }
+      return { side: 'molt', text: `${n(ev.unit)} tears at ${doorName(b, ev.door)}: ${ev.die}. ${ev.torn ? 'The door gives.' : 'It holds.'}` }
     case 'terminalUsed':
-      return { side: 'warden', text: `${n(ev.unit)} runs ${ev.op}${ev.door ? ` on door ${at(ev.door)}` : ''} at the ${ev.terminal.replace(/-/g, ' ')} terminal.` }
+      return { side: 'warden', text: `${n(ev.unit)} runs ${ev.op}${ev.door ? ` on ${doorName(b, ev.door)}` : ''} at the ${terminalName(b, ev.terminal)} terminal.` }
     case 'lit':
       return { side: 'sys', text: `The ${ev.section} section lights up.` }
     case 'purged':

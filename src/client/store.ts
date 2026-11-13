@@ -11,6 +11,7 @@ export interface LogLine {
   id: number
   side: Side
   text: string
+  moved?: { unit: string; squares: number; to: [number, number] }
 }
 
 export interface Settings {

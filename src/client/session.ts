@@ -8,7 +8,7 @@ import { makeRand, randomAction } from '../ai/random'
 import { moltPolicy, wardenPolicy } from '../ai/scripted'
 import { viewApi } from './board/viewApi'
 import { toWorldX, toWorldZ, dimsOf } from './board/layout'
-import { describeEvent } from './describe'
+import { describeEvent, foldMoveLine } from './describe'
 import { directorBusy, present, resetDirector, SPEED_FACTOR, whenDirectorIdle } from './director'
 import { clearSave, loadSave, loadSettings, storeSave, storeSettings } from './storage'
 import { getStore, setStore, type LogLine, type Screen, type Settings, type Speed, type TimerSetting } from './store'
@@ -180,11 +180,18 @@ function accept(a: Action): boolean {
   }
   const next = r.state
   const nv = wview(next)
-  const lines: LogLine[] = []
+  // consecutive moves by one unit fold into one line
+  const lines: LogLine[] = s.log.slice(-1)
+  const had = lines.length
   for (const ev of r.events) {
     const l = describeEvent(ev, nv)
-    if (l) lines.push({ id: logId++, side: l.side, text: l.text })
+    if (!l) continue
+    const f = foldMoveLine(lines[lines.length - 1], l, nv)
+    const last = lines[lines.length - 1]
+    if (f && last) lines[lines.length - 1] = { ...last, text: f.text, moved: f.moved }
+    else lines.push({ id: logId++, side: l.side, text: l.text, ...(l.moved ? { moved: l.moved } : {}) })
   }
+  const logOut = [...s.log.slice(0, s.log.length - had), ...lines]
   const kills = s.kills + r.events.filter((e: Event) => e.type === 'destroyed' && e.kind !== 'warden').length
   const newPhase = r.events.some((e) => e.type === 'phaseStarted' && e.seat === 'warden')
   const max = newPhase ? fullTimer(nv, s.settings.timer) : s.timerMax
@@ -192,7 +199,7 @@ function accept(a: Action): boolean {
   setStore({
     state: next,
     actions: [...s.actions, a],
-    log: [...s.log, ...lines].slice(-400),
+    log: logOut.slice(-400),
     kills,
     timerMax: max,
     timerLeft: newPhase ? max : s.timerLeft,
