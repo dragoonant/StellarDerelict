@@ -2,9 +2,9 @@
  * Scripted policies for the sim and the balance record. They are decent, not clever: the real AI is a later milestone.
  * The Warden policy is written for Dead Reckoning (terminal ids and slots are named below); the Molt policy is generic.
  */
-import { getMission } from '../src/data'
-import { query } from '../src/engine'
-import type { Action, Board, Facing, Pos, StalkerUnit, ViewUnit, WardenUnit } from '../src/engine'
+import { getMission } from '../data'
+import { query } from '../engine'
+import type { Action, Board, Facing, Pos, StalkerUnit, ViewUnit, WardenUnit } from '../engine'
 
 export type Policy = (b: Board, rand: () => number) => Action
 
