@@ -29,7 +29,7 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 |---|---|---|
 | M0 | Scaffold, specs 00/10/11/50, deploy workflow | done 2026-11-12 |
 | M1–M2 | Data, pure engine, tests by rule id, sim with invariants, balance table B-0..B-5 | done 2026-11-13 |
-| M3 | First playable Dead Reckoning: board, HUD, random Molt bot, director, autosave + Continue, phone rules (KB 22, 24–27) with e2e gates | |
+| M3 | First playable Dead Reckoning: board, HUD, random Molt bot, director, autosave + Continue, phone rules (KB 22, 24–27) with e2e gates | done 2026-11-13 |
 | M4 | Utility Molt AI in a worker; bench gate | |
 | M5–M6 | Figures and audio (GPU PC session) | |
 | M7 | Polish, more missions, playable Molt, run layer | |

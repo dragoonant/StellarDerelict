@@ -1,12 +1,14 @@
 # STATUS (rewritten at each stage; trust `git log` over this file)
 
-**2026-11-13 — M1–M2 done.** Data loaders, the pure engine (`src/engine`), a random bot, scripted sim policies,
-97 unit tests named by rule id, a golden round, save envelope tests, data validation and the sim.
+**2026-11-13 — M3 done: Dead Reckoning is playable.** Title, briefing, mission and debrief; 3D board with tile-only
+picking and the KB rule 27 camera; HUD (boarding clock and timer, CP, objective, squad strip, action bar, inspector,
+comms log, terminal prompt); director at Normal / Fast / Instant; a scripted Molt bot (`src/ai/scripted.ts`,
+`?bot=random` for the random one); autosave and Continue.
 
-- Sim, 1,000 games on Dead Reckoning: Wardens win 36.9% (target 35–55%), 0 invariant violations, 0 stalls.
-  Balance rows B-0..B-5 are in `docs/spec/10-rules.md` §13; the adopted change is `melee.stalkerBonus` 1 → 0.
-- The engine build was cut off by a container restart after the code was written and its hand-back report was lost.
-  The coordinator then read `src/engine/rules.ts` against spec 10: no rule errors, six rulings logged in §14.
-- Next: M3 first playable (board, HUD, random Molt bot, director, autosave + Continue, phone rules).
-- Not done: no board, no real AI, no audio, no generated figures. The page still shows only the title.
+- Gates: typecheck, 99 unit tests, data validation, sim (0 violations), 14 e2e tests, build.
+- Balance: scripted Wardens win 36.9% of 1,000 games (spec 10 §13). Not yet played by a person.
+- Rough edges: the debrief is plain; heat bars snap at phase start (cooling has no event); hover and long-press odds
+  have no e2e test; no scanline flicker on the wordmark; wall tops read too much like floor (being fixed next).
+- Next: board readability pass, then M4 (utility Molt AI in a worker, bench gate).
+- Not done: no real AI, no audio, no generated figures (procedural stand-ins), one mission only.
 - Pages: the workflow publishes to `gh-pages`; the repo is private, so the link serves only once it is public.
