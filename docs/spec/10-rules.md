@@ -213,4 +213,11 @@ re-run on 2026-11-13. The scripted policies are blunt; re-measure with the M4 AI
 
 ## 14. Rulings
 
-(none yet)
+From the coordinator's read of `src/engine/rules.ts` against this spec (2026-11-13); no rule errors were found.
+
+- RULING: SC-1 | A closed door square may be targeted; the doorway burns but the door stays closed | SC-1 excludes only walls, terminals and the console | Confirmed
+- RULING: P-2, P-6 | Path distance for the duct watch radius and for reveal placement does not pass closed doors | G-3 defines path distance through enterable squares | Confirmed
+- RULING: M-4 | The flank penalty applies only when the stalker is the attacker | A Warden can only strike the square ahead (M-1) | Confirmed
+- RULING: G-2 | A destroyed Warden stays in `units` with `alive: false`; its square is free and it blocks nothing | Keeps squad order and the debrief roster stable | Confirmed
+- RULING: O-4 | Held CP are spent only by a watching Warden's lock, never by choice | C-3 gives held CP no other use | Confirmed
+- RULING: P-7 | A ping revealed by force in the Warden phase keeps whatever AP it had; it is reset at the next Molt phase like any unit | T-4 | Confirmed
