@@ -1,4 +1,6 @@
-import { listMissions, rules, roles } from '../src/data'
+import { existsSync } from 'node:fs'
+import { listMissions, rules, roles, assets, getMission } from '../src/data'
+import { EVENT_SOUNDS } from '../src/client/audio/soundMap'
 import type { Mission } from '../src/data'
 
 const errors: string[] = []
@@ -103,7 +105,61 @@ function checkMission(m: Mission): void {
   if (m.grid.join('').split('').some((c) => c === 'D' || c === 'B') === false && m.terminals.length) err(id, 'terminals but no doors')
 }
 
+const SPEC_SLUGS = ['warden-sergeant', 'warden-rifle-a', 'warden-rifle-b', 'warden-scorcher', 'warden-tech', 'stalker-a', 'stalker-b', 'stalker-c', 'terminal', 'console', 'core']
+const MUSIC_STATES = ['calm', 'tense', 'battle', 'alarm', 'victory', 'defeat', 'title']
+const PUBLIC = new URL('../public/assets/', import.meta.url)
+
+function checkAssets(): void {
+  const e = (msg: string): void => err('assets', msg)
+  const onDisk = (file: string, what: string, enabled: boolean): void => {
+    if (enabled && !existsSync(new URL(file, PUBLIC))) e(`${what} is enabled but public/assets/${file} does not exist`)
+  }
+  const seen = new Set<string>()
+  for (const m of assets.models) {
+    if (seen.has(m.slug)) e(`duplicate model ${m.slug}`)
+    seen.add(m.slug)
+    if (!['warden', 'stalker', 'prop'].includes(m.kind)) e(`model ${m.slug} has unknown kind ${m.kind}`)
+    if (m.file !== `models/${m.slug}.glb`) e(`model ${m.slug} file must be models/${m.slug}.glb`)
+    if (!(m.heightIn > 0) || m.heightIn > 5) e(`model ${m.slug} has a bad heightIn`)
+    if (typeof m.yaw !== 'number' || typeof m.enabled !== 'boolean') e(`model ${m.slug} needs a numeric yaw and a boolean enabled`)
+    if (!m.prompt || m.prompt.length < 40) e(`model ${m.slug} has no prompt`)
+    if (m.kind === 'warden' && !m.role) e(`warden model ${m.slug} has no role`)
+    onDisk(m.file, `model ${m.slug}`, m.enabled)
+  }
+  for (const s of SPEC_SLUGS) if (!seen.has(s)) e(`model ${s} from spec 30 is missing`)
+  const ids = new Set<string>()
+  for (const s of assets.sounds) {
+    if (ids.has(s.id)) e(`duplicate sound ${s.id}`)
+    ids.add(s.id)
+    if (s.bus !== 'sfx') e(`sound ${s.id} bus must be sfx`)
+    if (!(s.gain > 0 && s.gain <= 1.5)) e(`sound ${s.id} has a bad gain`)
+    if (!(s.seconds >= 0.3 && s.seconds <= 47)) e(`sound ${s.id} seconds must be within the studio's 1-47 s (0.3 minimum for interface sounds)`)
+    if (!s.files.length || s.files.some((f) => !f.startsWith('audio/sfx/'))) e(`sound ${s.id} files must be under audio/sfx/`)
+    if (![...Object.keys(EVENT_SOUNDS), 'ui', 'timer', 'always'].includes(s.event)) e(`sound ${s.id} names unknown event ${s.event}`)
+    if (!s.prompt) e(`sound ${s.id} has no prompt`)
+    for (const f of s.files) onDisk(f, `sound ${s.id}`, s.enabled)
+  }
+  for (const st of MUSIC_STATES) if (!assets.music.some((m) => m.state === st)) e(`music state ${st} is missing`)
+  for (const m of assets.music) {
+    if (!m.file.startsWith('audio/music/') || !(m.bpm >= 10 && m.bpm <= 300) || !(m.seconds >= 10 && m.seconds <= 240)) e(`music ${m.state} is malformed`)
+    onDisk(m.file, `music ${m.state}`, m.enabled)
+  }
+  const squad = new Set((getMission('dead-reckoning')?.squad ?? []).map((u) => u.id))
+  const vids = new Set<string>()
+  for (const v of assets.voice) {
+    if (vids.has(v.id)) e(`duplicate voice ${v.id}`)
+    vids.add(v.id)
+    if (v.speaker !== 'carrier' && !squad.has(v.speaker)) e(`voice ${v.id} names unknown speaker ${v.speaker}`)
+    if (!v.text.trim() || v.text.length > 80) e(`voice ${v.id} text must be 1-80 characters`)
+    if (!v.file.startsWith('audio/voice/') || !v.voiceDesign) e(`voice ${v.id} is malformed`)
+    onDisk(v.file, `voice ${v.id}`, v.enabled)
+  }
+  for (const w of squad) if (assets.voice.filter((v) => v.speaker === w).length !== 6) e(`${w} needs exactly six voice lines`)
+  if (assets.voice.filter((v) => v.speaker === 'carrier').length !== 4) e('the carrier needs exactly four voice lines')
+}
+
 checkRules()
+checkAssets()
 const missions = listMissions()
 for (const m of missions) checkMission(m)
 if (errors.length) {

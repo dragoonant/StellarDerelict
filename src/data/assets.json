@@ -1,0 +1,1011 @@
+{
+  "models": [
+    {
+      "slug": "warden-sergeant",
+      "kind": "warden",
+      "role": "sergeant",
+      "file": "models/warden-sergeant.glb",
+      "enabled": false,
+      "heightIn": 1.6,
+      "yaw": 0,
+      "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, a raised ridge along the helmet crown and one pauldron painted teal; a heavy shock maul with a ribbed head held low in the right fist, a short twin-barrel repeater in the left"
+    },
+    {
+      "slug": "warden-rifle-a",
+      "kind": "warden",
+      "role": "warden",
+      "file": "models/warden-rifle-a.glb",
+      "enabled": false,
+      "heightIn": 1.6,
+      "yaw": 0,
+      "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, an oversized twin-barrel repeater with a boxy heat shroud held across the chest in both fists, muzzle to the figure's left"
+    },
+    {
+      "slug": "warden-rifle-b",
+      "kind": "warden",
+      "role": "warden",
+      "file": "models/warden-rifle-b.glb",
+      "enabled": false,
+      "heightIn": 1.6,
+      "yaw": 0,
+      "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, the same twin-barrel repeater braced at the hip and pointing forward, left foot leading"
+    },
+    {
+      "slug": "warden-scorcher",
+      "kind": "warden",
+      "role": "scorcher",
+      "file": "models/warden-scorcher.glb",
+      "enabled": false,
+      "heightIn": 1.6,
+      "yaw": 0,
+      "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, a wide-nozzle scorcher with a blackened flared muzzle held in both fists, a fat fuel cylinder on the back pack with a braided hose to the weapon"
+    },
+    {
+      "slug": "warden-tech",
+      "kind": "warden",
+      "role": "tech",
+      "file": "models/warden-tech.glb",
+      "enabled": false,
+      "heightIn": 1.6,
+      "yaw": 0,
+      "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, a twin-barrel repeater in the right fist, the left forearm carrying a folding interface arm with a data spike, a short antenna mast and a cable reel on the pack"
+    },
+    {
+      "slug": "stalker-a",
+      "kind": "stalker",
+      "file": "models/stalker-a.glb",
+      "enabled": false,
+      "heightIn": 1.3,
+      "yaw": 0,
+      "prompt": "a highly detailed painted miniature of a low, long-limbed alien predator in mid-moult, crouched and about as long as it is tall: a wedge-shaped eyeless skull about a third of its body length with a split lower jaw and needle teeth, two long scything forelimbs raised, a narrow ribbed body, two bent digitigrade hind legs, a short whip tail, dark red-black new chitin showing through flaking translucent pale old shell with torn edges, wet highlights only on the new chitin, matte old shell, crisp segment lines, standing on a plain black round base, white background, full creature in view, wordless, lunging forward, both forelimbs reaching, jaw open"
+    },
+    {
+      "slug": "stalker-b",
+      "kind": "stalker",
+      "file": "models/stalker-b.glb",
+      "enabled": false,
+      "heightIn": 1.3,
+      "yaw": 0,
+      "prompt": "a highly detailed painted miniature of a low, long-limbed alien predator in mid-moult, crouched and about as long as it is tall: a wedge-shaped eyeless skull about a third of its body length with a split lower jaw and needle teeth, two long scything forelimbs raised, a narrow ribbed body, two bent digitigrade hind legs, a short whip tail, dark red-black new chitin showing through flaking translucent pale old shell with torn edges, wet highlights only on the new chitin, matte old shell, crisp segment lines, standing on a plain black round base, white background, full creature in view, wordless, crouched low and coiled, one forelimb planted, head turned to its right"
+    },
+    {
+      "slug": "stalker-c",
+      "kind": "stalker",
+      "file": "models/stalker-c.glb",
+      "enabled": false,
+      "heightIn": 1.5,
+      "yaw": 0,
+      "prompt": "a highly detailed painted miniature of a low, long-limbed alien predator in mid-moult, crouched and about as long as it is tall: a wedge-shaped eyeless skull about a third of its body length with a split lower jaw and needle teeth, two long scything forelimbs raised, a narrow ribbed body, two bent digitigrade hind legs, a short whip tail, dark red-black new chitin showing through flaking translucent pale old shell with torn edges, wet highlights only on the new chitin, matte old shell, crisp segment lines, standing on a plain black round base, white background, full creature in view, wordless, reared up on its hind legs, forelimbs spread wide, most of the old shell already shed"
+    },
+    {
+      "slug": "terminal",
+      "kind": "prop",
+      "file": "models/terminal.glb",
+      "enabled": false,
+      "heightIn": 0.9,
+      "yaw": 0,
+      "prompt": "a waist-high wall-mounted ship control pedestal with a cracked teal screen, exposed conduit and a hand bar, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 4k triangles"
+    },
+    {
+      "slug": "console",
+      "kind": "prop",
+      "file": "models/console.glb",
+      "enabled": false,
+      "heightIn": 1.5,
+      "yaw": 0,
+      "prompt": "a chest-high archive console with a cylindrical glass core socket glowing teal in its centre, heavy clamps, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 6k triangles"
+    },
+    {
+      "slug": "core",
+      "kind": "prop",
+      "file": "models/core.glb",
+      "enabled": false,
+      "heightIn": 0.5,
+      "yaw": 0,
+      "prompt": "a short armoured data cylinder with a carry handle and a teal light band, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 2k triangles"
+    }
+  ],
+  "sounds": [
+    {
+      "id": "repeater-shot",
+      "files": [
+        "audio/sfx/repeater-shot-1.mp3",
+        "audio/sfx/repeater-shot-2.mp3",
+        "audio/sfx/repeater-shot-3.mp3"
+      ],
+      "event": "fired",
+      "enabled": false,
+      "gain": 0.9,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "two fast heavy slugs from a twin-barrel autogun in a metal corridor, dry punchy transient, short metallic tail, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "repeater-hit",
+      "files": [
+        "audio/sfx/repeater-hit-1.mp3",
+        "audio/sfx/repeater-hit-2.mp3"
+      ],
+      "event": "fired",
+      "enabled": false,
+      "when": "hit",
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 1,
+      "prompt": "a slug punching through brittle shell and wet flesh, close, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "repeater-lock",
+      "files": [
+        "audio/sfx/repeater-lock.mp3"
+      ],
+      "event": "locked",
+      "enabled": false,
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "a hot gun breech seizing: a hard clunk and a rising electronic warning chirp, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "vent",
+      "files": [
+        "audio/sfx/vent.mp3"
+      ],
+      "event": "vented",
+      "enabled": false,
+      "gain": 0.7,
+      "bus": "sfx",
+      "seconds": 2,
+      "prompt": "pressurised coolant venting from a weapon, sharp hiss falling away, ticking metal, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "watch-set",
+      "files": [
+        "audio/sfx/watch-set.mp3"
+      ],
+      "event": "watchSet",
+      "enabled": false,
+      "gain": 0.6,
+      "bus": "sfx",
+      "seconds": 1,
+      "prompt": "a weapon safety snapping off and a servo brace locking, quiet, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "scorch",
+      "files": [
+        "audio/sfx/scorch-1.mp3",
+        "audio/sfx/scorch-2.mp3"
+      ],
+      "event": "scorched",
+      "enabled": false,
+      "gain": 0.9,
+      "bus": "sfx",
+      "seconds": 3,
+      "prompt": "a heavy flame projector burst in a narrow corridor, roar and whoosh, crackling tail, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "melee-hit",
+      "files": [
+        "audio/sfx/melee-hit-1.mp3",
+        "audio/sfx/melee-hit-2.mp3",
+        "audio/sfx/melee-hit-3.mp3"
+      ],
+      "event": "meleeFought",
+      "enabled": false,
+      "gain": 0.85,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "claws raking armour plate, a heavy grapple and a crunch, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "maul",
+      "files": [
+        "audio/sfx/maul.mp3"
+      ],
+      "event": "meleeFought",
+      "enabled": false,
+      "when": "attacker:sergeant,won",
+      "gain": 0.9,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "an electrified hammer blow, crackle and a wet crack, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "breach",
+      "files": [
+        "audio/sfx/breach.mp3"
+      ],
+      "event": "breached",
+      "enabled": false,
+      "gain": 0.85,
+      "bus": "sfx",
+      "seconds": 2,
+      "prompt": "armour plate tearing, a sharp air leak and a suit alarm tone, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "warden-down",
+      "files": [
+        "audio/sfx/warden-down.mp3"
+      ],
+      "event": "destroyed",
+      "enabled": false,
+      "when": "kind:warden",
+      "gain": 0.9,
+      "bus": "sfx",
+      "seconds": 2.5,
+      "prompt": "a heavy armoured body falling on deck plate, a flatline tone cut short, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "stalker-screech",
+      "files": [
+        "audio/sfx/stalker-screech-1.mp3",
+        "audio/sfx/stalker-screech-2.mp3",
+        "audio/sfx/stalker-screech-3.mp3"
+      ],
+      "event": "revealed",
+      "enabled": false,
+      "gain": 0.85,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "a rising insectile shriek with a clicking undertone, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "stalker-death",
+      "files": [
+        "audio/sfx/stalker-death-1.mp3",
+        "audio/sfx/stalker-death-2.mp3",
+        "audio/sfx/stalker-death-3.mp3"
+      ],
+      "event": "destroyed",
+      "enabled": false,
+      "when": "kind:stalker",
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "a shell bursting and a short gurgling hiss, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "skitter",
+      "files": [
+        "audio/sfx/skitter-1.mp3",
+        "audio/sfx/skitter-2.mp3",
+        "audio/sfx/skitter-3.mp3"
+      ],
+      "event": "moved",
+      "enabled": false,
+      "when": "unit:stalker",
+      "gain": 0.6,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "many hard claws running on metal plate, fast, close, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "footstep",
+      "files": [
+        "audio/sfx/footstep-1.mp3",
+        "audio/sfx/footstep-2.mp3",
+        "audio/sfx/footstep-3.mp3"
+      ],
+      "event": "moved",
+      "enabled": false,
+      "when": "unit:warden",
+      "gain": 0.5,
+      "bus": "sfx",
+      "seconds": 0.8,
+      "prompt": "one heavy magnetic boot step on deck plate with a servo whine, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "ping",
+      "files": [
+        "audio/sfx/ping-1.mp3",
+        "audio/sfx/ping-2.mp3"
+      ],
+      "event": "pingArrived",
+      "enabled": false,
+      "gain": 0.6,
+      "bus": "sfx",
+      "seconds": 1,
+      "prompt": "a soft sonar blip with a short watery echo, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "duct-rattle",
+      "files": [
+        "audio/sfx/duct-rattle.mp3"
+      ],
+      "event": "pingArrived",
+      "enabled": false,
+      "gain": 0.5,
+      "bus": "sfx",
+      "seconds": 2.5,
+      "prompt": "something heavy moving inside sheet-metal ducting, distant, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "door-open",
+      "files": [
+        "audio/sfx/door-open.mp3"
+      ],
+      "event": "doorChanged",
+      "enabled": false,
+      "when": "state:open",
+      "gain": 0.7,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "a heavy pneumatic bulkhead door sliding open, hiss and thud, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "door-close",
+      "files": [
+        "audio/sfx/door-close.mp3"
+      ],
+      "event": "doorChanged",
+      "enabled": false,
+      "when": "state:closed",
+      "gain": 0.7,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "a heavy pneumatic bulkhead door sliding shut, hiss and thud, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "door-seal",
+      "files": [
+        "audio/sfx/door-seal.mp3"
+      ],
+      "event": "doorChanged",
+      "enabled": false,
+      "when": "state:sealed",
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "magnetic clamps slamming shut in sequence, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "door-unseal",
+      "files": [
+        "audio/sfx/door-unseal.mp3"
+      ],
+      "event": "terminalUsed",
+      "enabled": false,
+      "when": "op:unseal",
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "magnetic clamps releasing in sequence, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "door-tear",
+      "files": [
+        "audio/sfx/door-tear-1.mp3",
+        "audio/sfx/door-tear-2.mp3"
+      ],
+      "event": "tearRolled",
+      "enabled": false,
+      "gain": 0.9,
+      "bus": "sfx",
+      "seconds": 2,
+      "prompt": "claws wrenching a metal door, shrieking steel (torn: the panel gives way), no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "terminal",
+      "files": [
+        "audio/sfx/terminal.mp3"
+      ],
+      "event": "terminalUsed",
+      "enabled": false,
+      "gain": 0.6,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "old ship console keys and a confirming two-tone beep, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "lights-on",
+      "files": [
+        "audio/sfx/lights-on.mp3"
+      ],
+      "event": "lit",
+      "enabled": false,
+      "gain": 0.7,
+      "bus": "sfx",
+      "seconds": 3,
+      "prompt": "breakers thrown one after another down a long corridor, hum rising, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "purge",
+      "files": [
+        "audio/sfx/purge.mp3"
+      ],
+      "event": "purged",
+      "enabled": false,
+      "gain": 0.9,
+      "bus": "sfx",
+      "seconds": 5,
+      "prompt": "a decompression blast: klaxon, a roar of escaping air, then silence, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "core-taken",
+      "files": [
+        "audio/sfx/core-taken.mp3"
+      ],
+      "event": "coreTaken",
+      "enabled": false,
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 2.5,
+      "prompt": "a heavy data cylinder unlocking from clamps, a low power-down, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "alarm",
+      "files": [
+        "audio/sfx/alarm.mp3"
+      ],
+      "event": "alarm",
+      "enabled": false,
+      "gain": 0.7,
+      "bus": "sfx",
+      "seconds": 4,
+      "prompt": "a slow ship-wide warning klaxon, three pulses, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "core-dropped",
+      "files": [
+        "audio/sfx/core-dropped.mp3"
+      ],
+      "event": "coreDropped",
+      "enabled": false,
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 1.2,
+      "prompt": "a metal cylinder hitting a deck plate, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "core-picked",
+      "files": [
+        "audio/sfx/core-picked.mp3"
+      ],
+      "event": "corePicked",
+      "enabled": false,
+      "gain": 0.7,
+      "bus": "sfx",
+      "seconds": 1.2,
+      "prompt": "a metal cylinder being grabbed and locked to a suit, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "phase-warden",
+      "files": [
+        "audio/sfx/phase-warden.mp3"
+      ],
+      "event": "phaseStarted",
+      "enabled": false,
+      "when": "seat:warden",
+      "gain": 0.5,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "a short clean two-note console chime, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "phase-molt",
+      "files": [
+        "audio/sfx/phase-molt.mp3"
+      ],
+      "event": "phaseStarted",
+      "enabled": false,
+      "when": "seat:molt",
+      "gain": 0.5,
+      "bus": "sfx",
+      "seconds": 1.5,
+      "prompt": "a low reversed swell with clicks, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "timer-warn",
+      "files": [
+        "audio/sfx/timer-warn.mp3"
+      ],
+      "event": "timer",
+      "enabled": false,
+      "when": "under:15",
+      "gain": 0.5,
+      "bus": "sfx",
+      "seconds": 1,
+      "prompt": "a dry metronome tick, urgent, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "ui-select",
+      "files": [
+        "audio/sfx/ui-select.mp3"
+      ],
+      "event": "ui",
+      "enabled": false,
+      "when": "select",
+      "gain": 0.4,
+      "bus": "sfx",
+      "seconds": 0.4,
+      "prompt": "a small dry instrument click, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "ui-arm",
+      "files": [
+        "audio/sfx/ui-arm.mp3"
+      ],
+      "event": "ui",
+      "enabled": false,
+      "when": "arm",
+      "gain": 0.4,
+      "bus": "sfx",
+      "seconds": 0.4,
+      "prompt": "a small dry two-tone beep, rising, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "ui-deny",
+      "files": [
+        "audio/sfx/ui-deny.mp3"
+      ],
+      "event": "ui",
+      "enabled": false,
+      "when": "deny",
+      "gain": 0.4,
+      "bus": "sfx",
+      "seconds": 0.4,
+      "prompt": "a small dry low buzz, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "ui-confirm",
+      "files": [
+        "audio/sfx/ui-confirm.mp3"
+      ],
+      "event": "ui",
+      "enabled": false,
+      "when": "confirm",
+      "gain": 0.4,
+      "bus": "sfx",
+      "seconds": 0.4,
+      "prompt": "a small dry two-tone beep, resolving, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "sting-win",
+      "files": [
+        "audio/sfx/sting-win.mp3"
+      ],
+      "event": "gameOver",
+      "enabled": false,
+      "when": "winner:warden",
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 5,
+      "prompt": "an airlock cycling and a rising relieved tone, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "sting-loss",
+      "files": [
+        "audio/sfx/sting-loss.mp3"
+      ],
+      "event": "gameOver",
+      "enabled": false,
+      "when": "winner:molt",
+      "gain": 0.8,
+      "bus": "sfx",
+      "seconds": 5,
+      "prompt": "radio static collapsing to a flat tone, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "ambience",
+      "files": [
+        "audio/sfx/ambience.mp3"
+      ],
+      "event": "always",
+      "enabled": false,
+      "gain": 0.35,
+      "bus": "sfx",
+      "seconds": 40,
+      "prompt": "the inside of a dead ship: low hull groans, distant ticking, air through broken ducts, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion",
+      "loop": true
+    }
+  ],
+  "music": [
+    {
+      "state": "calm",
+      "file": "audio/music/calm.mp3",
+      "enabled": false,
+      "seconds": 120,
+      "bpm": 60,
+      "prompt": "instrumental, sparse dark ambient, low analogue drones, slow sonar-like pulses, distant metallic resonance, no drums, 60 bpm"
+    },
+    {
+      "state": "tense",
+      "file": "audio/music/tense.mp3",
+      "enabled": false,
+      "seconds": 120,
+      "bpm": 100,
+      "prompt": "instrumental, pulsing bass ostinato, tight ticking percussion, uneasy high strings, 100 bpm"
+    },
+    {
+      "state": "battle",
+      "file": "audio/music/battle.mp3",
+      "enabled": false,
+      "seconds": 120,
+      "bpm": 132,
+      "prompt": "instrumental, driving industrial percussion, distorted low brass stabs, urgent synth arpeggio, 132 bpm"
+    },
+    {
+      "state": "alarm",
+      "file": "audio/music/alarm.mp3",
+      "enabled": false,
+      "seconds": 120,
+      "bpm": 140,
+      "prompt": "instrumental, driving industrial battle music with a wailing siren motif and faster hi-hats, 140 bpm"
+    },
+    {
+      "state": "victory",
+      "file": "audio/music/victory.mp3",
+      "enabled": false,
+      "seconds": 30,
+      "bpm": 72,
+      "prompt": "instrumental, a slow warm resolving chord progression, soft pads and low strings, 72 bpm"
+    },
+    {
+      "state": "defeat",
+      "file": "audio/music/defeat.mp3",
+      "enabled": false,
+      "seconds": 30,
+      "bpm": 50,
+      "prompt": "instrumental, a hollow descending drone, distant metal, fading out, 50 bpm"
+    },
+    {
+      "state": "title",
+      "file": "audio/music/title.mp3",
+      "enabled": false,
+      "seconds": 90,
+      "bpm": 66,
+      "prompt": "instrumental, cold wide ambient pad with a slow three-note motif, radio static textures, 66 bpm"
+    }
+  ],
+  "voice": [
+    {
+      "id": "venn-moved",
+      "speaker": "venn",
+      "event": "moved",
+      "enabled": false,
+      "text": "Moving.",
+      "file": "audio/voice/venn-moved.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+    },
+    {
+      "id": "venn-revealed",
+      "speaker": "venn",
+      "event": "revealed",
+      "enabled": false,
+      "text": "Contact. Eyes up, Lantern.",
+      "file": "audio/voice/venn-revealed.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+    },
+    {
+      "id": "venn-locked",
+      "speaker": "venn",
+      "event": "locked",
+      "enabled": false,
+      "text": "Repeater's cooked. Venting it.",
+      "file": "audio/voice/venn-locked.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+    },
+    {
+      "id": "venn-breached",
+      "speaker": "venn",
+      "event": "breached",
+      "enabled": false,
+      "text": "Plate's open. Still standing.",
+      "file": "audio/voice/venn-breached.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+    },
+    {
+      "id": "venn-watch-set",
+      "speaker": "venn",
+      "event": "watchSet",
+      "enabled": false,
+      "text": "Holding here. Watching the lane.",
+      "file": "audio/voice/venn-watch-set.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+    },
+    {
+      "id": "venn-phase-started",
+      "speaker": "venn",
+      "event": "phaseStarted",
+      "enabled": false,
+      "text": "Command points are mine. Make them count.",
+      "file": "audio/voice/venn-phase-started.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio.",
+      "when": "seat:warden"
+    },
+    {
+      "id": "brandt-moved",
+      "speaker": "brandt",
+      "event": "moved",
+      "enabled": false,
+      "text": "Copy. Shifting.",
+      "file": "audio/voice/brandt-moved.mp3",
+      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+    },
+    {
+      "id": "brandt-revealed",
+      "speaker": "brandt",
+      "event": "revealed",
+      "enabled": false,
+      "text": "Something ahead. I have it.",
+      "file": "audio/voice/brandt-revealed.mp3",
+      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+    },
+    {
+      "id": "brandt-locked",
+      "speaker": "brandt",
+      "event": "locked",
+      "enabled": false,
+      "text": "Barrels are seized.",
+      "file": "audio/voice/brandt-locked.mp3",
+      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+    },
+    {
+      "id": "brandt-breached",
+      "speaker": "brandt",
+      "event": "breached",
+      "enabled": false,
+      "text": "Seal is cracked. Hissing.",
+      "file": "audio/voice/brandt-breached.mp3",
+      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+    },
+    {
+      "id": "brandt-watch-set",
+      "speaker": "brandt",
+      "event": "watchSet",
+      "enabled": false,
+      "text": "On watch.",
+      "file": "audio/voice/brandt-watch-set.mp3",
+      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+    },
+    {
+      "id": "brandt-vented",
+      "speaker": "brandt",
+      "event": "vented",
+      "enabled": false,
+      "text": "Venting. Give me a breath.",
+      "file": "audio/voice/brandt-vented.mp3",
+      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+    },
+    {
+      "id": "okafor-moved",
+      "speaker": "okafor",
+      "event": "moved",
+      "enabled": false,
+      "text": "On the move.",
+      "file": "audio/voice/okafor-moved.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+    },
+    {
+      "id": "okafor-revealed",
+      "speaker": "okafor",
+      "event": "revealed",
+      "enabled": false,
+      "text": "Contact, contact. Eyes on it.",
+      "file": "audio/voice/okafor-revealed.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+    },
+    {
+      "id": "okafor-locked",
+      "speaker": "okafor",
+      "event": "locked",
+      "enabled": false,
+      "text": "Gun is locked. Need a second.",
+      "file": "audio/voice/okafor-locked.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+    },
+    {
+      "id": "okafor-breached",
+      "speaker": "okafor",
+      "event": "breached",
+      "enabled": false,
+      "text": "Suit is breached. Keep it quick.",
+      "file": "audio/voice/okafor-breached.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+    },
+    {
+      "id": "okafor-watch-set",
+      "speaker": "okafor",
+      "event": "watchSet",
+      "enabled": false,
+      "text": "Covering this door.",
+      "file": "audio/voice/okafor-watch-set.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+    },
+    {
+      "id": "okafor-vented",
+      "speaker": "okafor",
+      "event": "vented",
+      "enabled": false,
+      "text": "Venting heat. One moment.",
+      "file": "audio/voice/okafor-vented.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+    },
+    {
+      "id": "riedel-moved",
+      "speaker": "riedel",
+      "event": "moved",
+      "enabled": false,
+      "text": "Going.",
+      "file": "audio/voice/riedel-moved.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+    },
+    {
+      "id": "riedel-revealed",
+      "speaker": "riedel",
+      "event": "revealed",
+      "enabled": false,
+      "text": "There it is.",
+      "file": "audio/voice/riedel-revealed.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+    },
+    {
+      "id": "riedel-locked",
+      "speaker": "riedel",
+      "event": "locked",
+      "enabled": false,
+      "text": "Nozzle is dry. Not now.",
+      "file": "audio/voice/riedel-locked.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+    },
+    {
+      "id": "riedel-breached",
+      "speaker": "riedel",
+      "event": "breached",
+      "enabled": false,
+      "text": "Suit is torn open. Still burning.",
+      "file": "audio/voice/riedel-breached.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+    },
+    {
+      "id": "riedel-watch-set",
+      "speaker": "riedel",
+      "event": "watchSet",
+      "enabled": false,
+      "text": "Staying put. Fuel is hot.",
+      "file": "audio/voice/riedel-watch-set.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+    },
+    {
+      "id": "riedel-scorched",
+      "speaker": "riedel",
+      "event": "scorched",
+      "enabled": false,
+      "text": "Burn it all. Clear the lane.",
+      "file": "audio/voice/riedel-scorched.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+    },
+    {
+      "id": "sato-moved",
+      "speaker": "sato",
+      "event": "moved",
+      "enabled": false,
+      "text": "Understood. Going.",
+      "file": "audio/voice/sato-moved.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+    },
+    {
+      "id": "sato-revealed",
+      "speaker": "sato",
+      "event": "revealed",
+      "enabled": false,
+      "text": "Movement on the board.",
+      "file": "audio/voice/sato-revealed.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+    },
+    {
+      "id": "sato-locked",
+      "speaker": "sato",
+      "event": "locked",
+      "enabled": false,
+      "text": "Heat limit hit. Venting.",
+      "file": "audio/voice/sato-locked.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+    },
+    {
+      "id": "sato-breached",
+      "speaker": "sato",
+      "event": "breached",
+      "enabled": false,
+      "text": "Pressure is dropping in my suit.",
+      "file": "audio/voice/sato-breached.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+    },
+    {
+      "id": "sato-watch-set",
+      "speaker": "sato",
+      "event": "watchSet",
+      "enabled": false,
+      "text": "Watching. Sensors are up.",
+      "file": "audio/voice/sato-watch-set.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+    },
+    {
+      "id": "sato-terminal-used",
+      "speaker": "sato",
+      "event": "terminalUsed",
+      "enabled": false,
+      "text": "Console answered. Input accepted.",
+      "file": "audio/voice/sato-terminal-used.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+    },
+    {
+      "id": "carrier-core-taken",
+      "speaker": "carrier",
+      "event": "coreTaken",
+      "enabled": false,
+      "text": "Core is mine. Moving.",
+      "file": "audio/voice/carrier-core-taken.mp3",
+      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
+      "when": "carrier"
+    },
+    {
+      "id": "carrier-core-dropped",
+      "speaker": "carrier",
+      "event": "coreDropped",
+      "enabled": false,
+      "text": "Core is down! Somebody grab it.",
+      "file": "audio/voice/carrier-core-dropped.mp3",
+      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
+      "when": "carrier"
+    },
+    {
+      "id": "carrier-core-picked",
+      "speaker": "carrier",
+      "event": "corePicked",
+      "enabled": false,
+      "text": "Got it. Back on the move.",
+      "file": "audio/voice/carrier-core-picked.mp3",
+      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
+      "when": "carrier"
+    },
+    {
+      "id": "carrier-breached",
+      "speaker": "carrier",
+      "event": "breached",
+      "enabled": false,
+      "text": "Carrier is breached. Core is still with me.",
+      "file": "audio/voice/carrier-breached.mp3",
+      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
+      "when": "carrier"
+    }
+  ]
+}

@@ -25,3 +25,5 @@ export function listMissions(): Mission[] {
 }
 
 registerMission(deadReckoning as unknown as Mission)
+
+export * from './assets'

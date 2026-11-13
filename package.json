@@ -13,7 +13,13 @@
     "e2e": "playwright test --trace off",
     "validate:data": "tsx tools/validate-data.ts",
     "sim": "tsx tools/sim.ts",
-    "bench:ai": "tsx tools/ai-bench.ts"
+    "bench:ai": "tsx tools/ai-bench.ts",
+    "figures:lint": "node tools/figures/lint-prompts.mjs",
+    "figures:concepts": "node tools/figures/gen-concepts.mjs",
+    "figures:inputs": "node tools/figures/make-hunyuan-inputs.mjs",
+    "models:optimize": "node tools/models/optimize.mjs",
+    "audio:gen": "node tools/audio/gen-audio.mjs",
+    "audio:measure": "node tools/audio/measure-audio.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",
