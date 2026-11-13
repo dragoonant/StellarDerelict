@@ -41,6 +41,7 @@ Decisions: `PLAN.md` (D1–D8). Rules: `docs/spec/10-rules.md` (rule ids, balanc
 | M0 scaffold + specs | 2026-11-12 | coordinator | Specs 00/10/11/50 and the mission map written by the session model before any agent ran |
 | M1–M2 data + engine | 2026-11-13 | 1 Sonnet | 97 tests by rule id, golden round, sim with invariants. A container restart killed the agent after the code was written; the coordinator finished balance and the golden fixture |
 | M3 first playable | 2026-11-13 | 1 Sonnet (~23 min, ~0.3M tokens) | Screens, board, HUD, director, scripted Molt bot, autosave + Continue; 14 e2e tests covering rules 8, 22, 24, 25, 27 and the timer |
+| M4 Molt AI + Warden policy | 2026-11-13 | 1 Sonnet, two runs (~0.9M tokens) | Utility Molt AI in a worker, tiers, bench gates; then a utility Warden policy and re-tune (B-6..B-8). 130 unit tests, 16 e2e |
 
 ## 4. Lessons for the series
 - *(added 2026-11-13, stellar-derelict)* **A container restart kills background agents but keeps their files.** The
@@ -58,3 +59,13 @@ Decisions: `PLAN.md` (D1–D8). Rules: `docs/spec/10-rules.md` (rule ids, balanc
   repo is public and readable. Keep the entry as a draft file in the game repo and tell the owner.
 - *(added 2026-11-13, stellar-derelict)* **Wall tops drawn with the same grid as the deck read as floor.** On a
   corridor board the walls must be the quietest surface; check the first board screenshot for "where can I walk".
+- *(added 2026-11-13, stellar-derelict)* **Bench each scripted side against a random opponent before trusting any
+  balance row.** The first scripted Wardens "won 36.9%" against the scripted Molt, and five balance rows were tuned on
+  that. The M4 bench then showed a *random* Molt beating them 85%, all on the clock: in one-wide corridors the column
+  faced itself and nothing cleared blockers. A utility Warden policy (formation, clearing blockers, flushing contacts
+  round corners, a clock budget) beat random 100% with no time-outs, and the tier ladder came out at 73 / 43 / 24%
+  Warden wins (recruit / regular / veteran, 400 games each) with no rule change. The earlier rows are kept in the spec
+  but marked as measured with the weak policy.
+- *(added 2026-11-13, stellar-derelict)* **A bench policy that actually uses every action finds client bugs.** The
+  utility Wardens scorched often enough to show that the presented state never spent a scorcher charge.
+
