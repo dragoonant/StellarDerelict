@@ -1,0 +1,60 @@
+# Stellar Derelict — living entry (DRAFT for `dragoonant/tabletop-kb`)
+
+> This file is the entry meant for `tabletop-kb/stellar-derelict.md`. The cloud session that built the game was not
+> given push access to the KB repo (2026-11-13), so the entry waits here. Copy it across, add the index row below to the
+> KB `README.md`, and add the three gotchas to `gotchas.md`.
+
+Index row: `| [stellar-derelict.md](stellar-derelict.md) | Stellar Derelict, an original 3D corridor-tactics game (armoured squad vs alien swarm on a derelict ship; same family as the classic boarding-action board games, not a port), 1 human vs AI, started 2026-11-12 in a cloud session; **living entry** | The series' third original ruleset; a two-phase asymmetric engine with hidden contacts and `view(state, seat)`; deterministic weapon heat in place of random jams; a balance table where the obvious levers did nothing. |`
+
+Repo `dragoonant/StellarDerelict` (private as of 2026-11-13), started 2026-11-12 from a **claude.ai cloud session**.
+Decisions: `PLAN.md` (D1–D8). Rules: `docs/spec/10-rules.md` (rule ids, balance B-0..B-5, rulings). Look:
+`docs/spec/50-presentation.md`. State: `STATUS.md`.
+
+## 1. Overview
+- **An original game, not a port.** The owner asked for "a spiritual successor to a board game" and confirmed the guess
+  (the classic armoured-marines-versus-aliens corridor game). Owner, 2026-11-12: "I love the setting - aliens vs heavily
+  armored marines, let's keep that." The premise carries over; the names, numbers, missions and look are written fresh
+  (PLAN D1). As with three-kingdoms-tactics and wasteland-behemoths, "the spec is the product".
+- Owner decisions 2026-11-12 (one batch of four questions): 3D board (D3); Wardens vs AI first, playable aliens later
+  (D4); presentation concept "scanner ghost-map" (D5); push to `main` and Pages after every stage (D6).
+- Shape: five Wardens (4 AP each plus a shared command-point roll) against the Molt, who arrive at ducts as pings that
+  hide one to three stalkers until a Warden sees them. First mission "Dead Reckoning": unseal the archive at a terminal,
+  take the core, carry it back to the airlock within 16 rounds.
+- Rules of its own: repeater **heat** (a shot adds 1, locked at 4, cools 2 a round, vent for 1 AP) instead of random
+  jams; hardsuit **plating** (the first lethal hit breaches, the second kills); **ship systems** at terminals
+  (seal/unseal bulkheads, lights, a one-use purge); a timed Warden phase as a client rule.
+
+## 2. Stack and donor map
+| Subsystem | Donor | Notes |
+|---|---|---|
+| Config (Vite 8, React 19, three 0.186, R3F 9, drei 10, zustand 5, TS 7 strict, Vitest 5, Playwright pinned 1.63.0, `PW_PORT`) | three-kingdoms-tactics | `base: './'` as in wasteland-behemoths |
+| Deploy | wasteland-behemoths / bossforge route | Gates, then force-push `dist/` to `gh-pages`; first run green in under a minute |
+| Engine contract | KB recipe steps 2 and 4 | Written fresh: `step` never throws, plain-JSON state, sfc32 in state, `legalActions` never empty, `view(state, seat)`, `query.*` |
+| Camera and picking (rules 25, 27) | assembly-forge `src/client/board/mapController.ts`, `cameraModel.ts`, `viewApi.ts` | Adapted to a square grid |
+| Save (rule 22) | Rule 22 text | Envelope with snapshot + actions; key `stellar-derelict-save` |
+| Presentation | none (fresh) | "Scanner ghost-map": teal on black, square corners, mono type; must-not-look-like table in spec 50 |
+
+## 3. Milestone log
+| Milestone | Date | Agents | Notes |
+|---|---|---|---|
+| Kickoff + KB read | 2026-11-12 | coordinator | One question batch (4). The owner said "Go" after the plan |
+| M0 scaffold + specs | 2026-11-12 | coordinator | Specs 00/10/11/50 and the mission map written by the session model before any agent ran |
+| M1–M2 data + engine | 2026-11-13 | 1 Sonnet | 97 tests by rule id, golden round, sim with invariants. A container restart killed the agent after the code was written; the coordinator finished balance and the golden fixture |
+| M3 first playable | 2026-11-13 | 1 Sonnet (~23 min, ~0.3M tokens) | Screens, board, HUD, director, scripted Molt bot, autosave + Continue; 14 e2e tests covering rules 8, 22, 24, 25, 27 and the timer |
+
+## 4. Lessons for the series
+- *(added 2026-11-13, stellar-derelict)* **A container restart kills background agents but keeps their files.** The
+  engine agent's code survived on disk, uncommitted; its hand-back report and its balance notes did not. Tell every
+  agent to commit locally at checkpoints and to overwrite a progress report file after each one, and have the
+  coordinator checkpoint-commit in-flight work to the feature branch (never `main`) when a stop hook asks.
+- *(added 2026-11-13, stellar-derelict)* **In an asymmetric squad game, find out what kills the squad before tuning
+  the clock.** Scripted Wardens won 23%. Two more rounds: no change. A lower alarm arrival rate: no change. A softer
+  contact mix: +10 points but duller contacts. Removing the swarm's +1 melee bonus: 23% to 56% with the soft mix, 36.9%
+  with the original mix (adopted). The sim's reason split (squad lost 69%, out of time 8%) pointed at melee from the
+  first row.
+- *(added 2026-11-13, stellar-derelict)* **When an agent's report is lost, the session model's read of the rules file
+  against the spec is cheap** (about 800 lines) and doubles as the independent review the Legion Forge lesson asks for.
+- *(added 2026-11-13, stellar-derelict)* **A cloud session may be refused push access to the KB repo** even when the
+  repo is public and readable. Keep the entry as a draft file in the game repo and tell the owner.
+- *(added 2026-11-13, stellar-derelict)* **Wall tops drawn with the same grid as the deck read as floor.** On a
+  corridor board the walls must be the quietest surface; check the first board screenshot for "where can I walk".
