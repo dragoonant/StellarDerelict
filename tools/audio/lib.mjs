@@ -8,19 +8,19 @@ export const PUBLIC_ASSETS = path.join(REPO_ROOT, 'public', 'assets')
 export const RAW_DIR = path.join(REPO_ROOT, 'tools', 'out', 'audio', 'raw')
 export const KINDS = ['sfx', 'music', 'voice']
 
-/** A stable seed from an id, so a re-run reproduces the same take (the seed is recorded in the request). */
-export function seedOf(id) {
+/** A stable seed from an id, so a re-run reproduces the same take (the seed is recorded in the request); `reroll` offsets it for another take. */
+export function seedOf(id, reroll = 0) {
   let h = 2166136261
   for (let i = 0; i < id.length; i++) {
     h ^= id.charCodeAt(i)
     h = Math.imul(h, 16777619) >>> 0
   }
-  return h % 2147483647
+  return (h + Math.max(0, Math.floor(reroll))) % 2147483647
 }
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 
-export function buildSfxJob(s) {
+export function buildSfxJob(s, reroll = 0) {
   return {
     mode: 'sfx',
     prompt: s.prompt,
@@ -29,11 +29,11 @@ export function buildSfxJob(s) {
     steps: 50,
     guidance: 5,
     batch: clamp(s.files.length, 1, 4),
-    seed: seedOf(s.id),
+    seed: seedOf(s.id, reroll),
   }
 }
 
-export function buildMusicJob(m) {
+export function buildMusicJob(m, reroll = 0) {
   return {
     mode: 'music',
     prompt: m.prompt,
@@ -44,11 +44,11 @@ export function buildMusicJob(m) {
     key: m.key ?? 'C minor',
     timesig: '4',
     batch: 1,
-    seed: seedOf(`music-${m.state}`),
+    seed: seedOf(`music-${m.state}`, reroll),
   }
 }
 
-export function buildVoiceJob(v) {
+export function buildVoiceJob(v, reroll = 0) {
   return {
     mode: 'voice',
     model: 'qwen-design',
@@ -56,15 +56,16 @@ export function buildVoiceJob(v) {
     language: 'English',
     instruct: v.voiceDesign,
     temperature: 0.8,
-    seed: seedOf(v.id),
+    seed: seedOf(v.id, reroll),
   }
 }
 
 /**
  * The jobs still to run. `exists(relPath)` says whether a public file is already there. An entry is skipped when every one of its
- * files exists (unless `force`). `only` is a Set of ids (sound id, music state, voice id) or null; `kind` is sfx|music|voice or null.
+ * files exists (unless `force`). `only` is a Set of ids (sound id, music state, voice id) or null; `kind` is sfx|music|voice or null;
+ * `reroll` (with `force`) offsets every seed for another take.
  */
-export function planAudio(manifest, { only = null, kind = null, force = false } = {}, exists = () => false) {
+export function planAudio(manifest, { only = null, kind = null, force = false, reroll = 0 } = {}, exists = () => false) {
   const jobs = []
   const add = (k, id, body, files, extra = {}) => {
     if (kind && kind !== k) return
@@ -73,9 +74,9 @@ export function planAudio(manifest, { only = null, kind = null, force = false } 
     if (!force && missing.length === 0) return
     jobs.push({ kind: k, id, body, files, missing: force ? files : missing, ...extra })
   }
-  for (const s of manifest.sounds) add('sfx', s.id, buildSfxJob(s), s.files, { loop: !!s.loop })
-  for (const m of manifest.music) add('music', m.state, buildMusicJob(m), [m.file])
-  for (const v of manifest.voice) add('voice', v.id, buildVoiceJob(v), [v.file])
+  for (const s of manifest.sounds) add('sfx', s.id, buildSfxJob(s, reroll), s.files, { loop: !!s.loop })
+  for (const m of manifest.music) add('music', m.state, buildMusicJob(m, reroll), [m.file])
+  for (const v of manifest.voice) add('voice', v.id, buildVoiceJob(v, reroll), [v.file])
   return jobs
 }
 

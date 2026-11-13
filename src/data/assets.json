@@ -117,7 +117,7 @@
         "audio/sfx/repeater-shot-3.mp3"
       ],
       "event": "fired",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.9,
       "bus": "sfx",
       "seconds": 1.5,
@@ -131,7 +131,7 @@
         "audio/sfx/repeater-hit-2.mp3"
       ],
       "event": "fired",
-      "enabled": false,
+      "enabled": true,
       "when": "hit",
       "gain": 0.8,
       "bus": "sfx",
@@ -145,7 +145,7 @@
         "audio/sfx/repeater-lock.mp3"
       ],
       "event": "locked",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.8,
       "bus": "sfx",
       "seconds": 1.5,
@@ -158,7 +158,7 @@
         "audio/sfx/vent.mp3"
       ],
       "event": "vented",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.7,
       "bus": "sfx",
       "seconds": 2,
@@ -171,7 +171,7 @@
         "audio/sfx/watch-set.mp3"
       ],
       "event": "watchSet",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.6,
       "bus": "sfx",
       "seconds": 1,
@@ -185,7 +185,7 @@
         "audio/sfx/scorch-2.mp3"
       ],
       "event": "scorched",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.9,
       "bus": "sfx",
       "seconds": 3,
@@ -200,7 +200,7 @@
         "audio/sfx/melee-hit-3.mp3"
       ],
       "event": "meleeFought",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.85,
       "bus": "sfx",
       "seconds": 1.5,
@@ -213,7 +213,7 @@
         "audio/sfx/maul.mp3"
       ],
       "event": "meleeFought",
-      "enabled": false,
+      "enabled": true,
       "when": "attacker:sergeant,won",
       "gain": 0.9,
       "bus": "sfx",
@@ -227,7 +227,7 @@
         "audio/sfx/breach.mp3"
       ],
       "event": "breached",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.85,
       "bus": "sfx",
       "seconds": 2,
@@ -240,7 +240,7 @@
         "audio/sfx/warden-down.mp3"
       ],
       "event": "destroyed",
-      "enabled": false,
+      "enabled": true,
       "when": "kind:warden",
       "gain": 0.9,
       "bus": "sfx",
@@ -256,7 +256,7 @@
         "audio/sfx/stalker-screech-3.mp3"
       ],
       "event": "revealed",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.85,
       "bus": "sfx",
       "seconds": 1.5,
@@ -271,7 +271,7 @@
         "audio/sfx/stalker-death-3.mp3"
       ],
       "event": "destroyed",
-      "enabled": false,
+      "enabled": true,
       "when": "kind:stalker",
       "gain": 0.8,
       "bus": "sfx",
@@ -287,7 +287,7 @@
         "audio/sfx/skitter-3.mp3"
       ],
       "event": "moved",
-      "enabled": false,
+      "enabled": true,
       "when": "unit:stalker",
       "gain": 0.6,
       "bus": "sfx",
@@ -303,7 +303,7 @@
         "audio/sfx/footstep-3.mp3"
       ],
       "event": "moved",
-      "enabled": false,
+      "enabled": true,
       "when": "unit:warden",
       "gain": 0.5,
       "bus": "sfx",
@@ -318,7 +318,7 @@
         "audio/sfx/ping-2.mp3"
       ],
       "event": "pingArrived",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.6,
       "bus": "sfx",
       "seconds": 1,
@@ -331,7 +331,7 @@
         "audio/sfx/duct-rattle.mp3"
       ],
       "event": "pingArrived",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.5,
       "bus": "sfx",
       "seconds": 2.5,
@@ -344,7 +344,7 @@
         "audio/sfx/door-open.mp3"
       ],
       "event": "doorChanged",
-      "enabled": false,
+      "enabled": true,
       "when": "state:open",
       "gain": 0.7,
       "bus": "sfx",
@@ -358,7 +358,7 @@
         "audio/sfx/door-close.mp3"
       ],
       "event": "doorChanged",
-      "enabled": false,
+      "enabled": true,
       "when": "state:closed",
       "gain": 0.7,
       "bus": "sfx",
@@ -372,7 +372,7 @@
         "audio/sfx/door-seal.mp3"
       ],
       "event": "doorChanged",
-      "enabled": false,
+      "enabled": true,
       "when": "state:sealed",
       "gain": 0.8,
       "bus": "sfx",
@@ -386,7 +386,7 @@
         "audio/sfx/door-unseal.mp3"
       ],
       "event": "terminalUsed",
-      "enabled": false,
+      "enabled": true,
       "when": "op:unseal",
       "gain": 0.8,
       "bus": "sfx",
@@ -401,7 +401,7 @@
         "audio/sfx/door-tear-2.mp3"
       ],
       "event": "tearRolled",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.9,
       "bus": "sfx",
       "seconds": 2,
@@ -414,7 +414,7 @@
         "audio/sfx/terminal.mp3"
       ],
       "event": "terminalUsed",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.6,
       "bus": "sfx",
       "seconds": 1.5,
@@ -427,7 +427,7 @@
         "audio/sfx/lights-on.mp3"
       ],
       "event": "lit",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.7,
       "bus": "sfx",
       "seconds": 3,
@@ -440,7 +440,7 @@
         "audio/sfx/purge.mp3"
       ],
       "event": "purged",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.9,
       "bus": "sfx",
       "seconds": 5,
@@ -453,7 +453,7 @@
         "audio/sfx/core-taken.mp3"
       ],
       "event": "coreTaken",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.8,
       "bus": "sfx",
       "seconds": 2.5,
@@ -466,7 +466,7 @@
         "audio/sfx/alarm.mp3"
       ],
       "event": "alarm",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.7,
       "bus": "sfx",
       "seconds": 4,
@@ -479,7 +479,7 @@
         "audio/sfx/core-dropped.mp3"
       ],
       "event": "coreDropped",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.8,
       "bus": "sfx",
       "seconds": 1.2,
@@ -492,7 +492,7 @@
         "audio/sfx/core-picked.mp3"
       ],
       "event": "corePicked",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.7,
       "bus": "sfx",
       "seconds": 1.2,
@@ -505,7 +505,7 @@
         "audio/sfx/phase-warden.mp3"
       ],
       "event": "phaseStarted",
-      "enabled": false,
+      "enabled": true,
       "when": "seat:warden",
       "gain": 0.5,
       "bus": "sfx",
@@ -519,7 +519,7 @@
         "audio/sfx/phase-molt.mp3"
       ],
       "event": "phaseStarted",
-      "enabled": false,
+      "enabled": true,
       "when": "seat:molt",
       "gain": 0.5,
       "bus": "sfx",
@@ -533,7 +533,7 @@
         "audio/sfx/timer-warn.mp3"
       ],
       "event": "timer",
-      "enabled": false,
+      "enabled": true,
       "when": "under:15",
       "gain": 0.5,
       "bus": "sfx",
@@ -547,7 +547,7 @@
         "audio/sfx/ui-select.mp3"
       ],
       "event": "ui",
-      "enabled": false,
+      "enabled": true,
       "when": "select",
       "gain": 0.4,
       "bus": "sfx",
@@ -561,7 +561,7 @@
         "audio/sfx/ui-arm.mp3"
       ],
       "event": "ui",
-      "enabled": false,
+      "enabled": true,
       "when": "arm",
       "gain": 0.4,
       "bus": "sfx",
@@ -575,7 +575,7 @@
         "audio/sfx/ui-deny.mp3"
       ],
       "event": "ui",
-      "enabled": false,
+      "enabled": true,
       "when": "deny",
       "gain": 0.4,
       "bus": "sfx",
@@ -589,7 +589,7 @@
         "audio/sfx/ui-confirm.mp3"
       ],
       "event": "ui",
-      "enabled": false,
+      "enabled": true,
       "when": "confirm",
       "gain": 0.4,
       "bus": "sfx",
@@ -603,7 +603,7 @@
         "audio/sfx/sting-win.mp3"
       ],
       "event": "gameOver",
-      "enabled": false,
+      "enabled": true,
       "when": "winner:warden",
       "gain": 0.8,
       "bus": "sfx",
@@ -617,7 +617,7 @@
         "audio/sfx/sting-loss.mp3"
       ],
       "event": "gameOver",
-      "enabled": false,
+      "enabled": true,
       "when": "winner:molt",
       "gain": 0.8,
       "bus": "sfx",
@@ -631,7 +631,7 @@
         "audio/sfx/ambience.mp3"
       ],
       "event": "always",
-      "enabled": false,
+      "enabled": true,
       "gain": 0.35,
       "bus": "sfx",
       "seconds": 40,
@@ -644,7 +644,7 @@
     {
       "state": "calm",
       "file": "audio/music/calm.mp3",
-      "enabled": false,
+      "enabled": true,
       "seconds": 120,
       "bpm": 60,
       "prompt": "instrumental, sparse dark ambient, low analogue drones, slow sonar-like pulses, distant metallic resonance, no drums, 60 bpm"
@@ -652,7 +652,7 @@
     {
       "state": "tense",
       "file": "audio/music/tense.mp3",
-      "enabled": false,
+      "enabled": true,
       "seconds": 120,
       "bpm": 100,
       "prompt": "instrumental, pulsing bass ostinato, tight ticking percussion, uneasy high strings, 100 bpm"
@@ -660,7 +660,7 @@
     {
       "state": "battle",
       "file": "audio/music/battle.mp3",
-      "enabled": false,
+      "enabled": true,
       "seconds": 120,
       "bpm": 132,
       "prompt": "instrumental, driving industrial percussion, distorted low brass stabs, urgent synth arpeggio, 132 bpm"
@@ -668,7 +668,7 @@
     {
       "state": "alarm",
       "file": "audio/music/alarm.mp3",
-      "enabled": false,
+      "enabled": true,
       "seconds": 120,
       "bpm": 140,
       "prompt": "instrumental, driving industrial battle music with a wailing siren motif and faster hi-hats, 140 bpm"
@@ -676,7 +676,7 @@
     {
       "state": "victory",
       "file": "audio/music/victory.mp3",
-      "enabled": false,
+      "enabled": true,
       "seconds": 30,
       "bpm": 72,
       "prompt": "instrumental, a slow warm resolving chord progression, soft pads and low strings, 72 bpm"
@@ -684,7 +684,7 @@
     {
       "state": "defeat",
       "file": "audio/music/defeat.mp3",
-      "enabled": false,
+      "enabled": true,
       "seconds": 30,
       "bpm": 50,
       "prompt": "instrumental, a hollow descending drone, distant metal, fading out, 50 bpm"
@@ -692,7 +692,7 @@
     {
       "state": "title",
       "file": "audio/music/title.mp3",
-      "enabled": false,
+      "enabled": true,
       "seconds": 90,
       "bpm": 66,
       "prompt": "instrumental, cold wide ambient pad with a slow three-note motif, radio static textures, 66 bpm"
@@ -703,7 +703,7 @@
       "id": "venn-moved",
       "speaker": "venn",
       "event": "moved",
-      "enabled": false,
+      "enabled": true,
       "text": "Moving.",
       "file": "audio/voice/venn-moved.mp3",
       "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
@@ -712,7 +712,7 @@
       "id": "venn-revealed",
       "speaker": "venn",
       "event": "revealed",
-      "enabled": false,
+      "enabled": true,
       "text": "Contact. Eyes up, Lantern.",
       "file": "audio/voice/venn-revealed.mp3",
       "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
@@ -721,7 +721,7 @@
       "id": "venn-locked",
       "speaker": "venn",
       "event": "locked",
-      "enabled": false,
+      "enabled": true,
       "text": "Repeater's cooked. Venting it.",
       "file": "audio/voice/venn-locked.mp3",
       "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
@@ -730,7 +730,7 @@
       "id": "venn-breached",
       "speaker": "venn",
       "event": "breached",
-      "enabled": false,
+      "enabled": true,
       "text": "Plate's open. Still standing.",
       "file": "audio/voice/venn-breached.mp3",
       "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
@@ -739,7 +739,7 @@
       "id": "venn-watch-set",
       "speaker": "venn",
       "event": "watchSet",
-      "enabled": false,
+      "enabled": true,
       "text": "Holding here. Watching the lane.",
       "file": "audio/voice/venn-watch-set.mp3",
       "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
@@ -748,7 +748,7 @@
       "id": "venn-phase-started",
       "speaker": "venn",
       "event": "phaseStarted",
-      "enabled": false,
+      "enabled": true,
       "text": "Command points are mine. Make them count.",
       "file": "audio/voice/venn-phase-started.mp3",
       "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio.",
@@ -758,7 +758,7 @@
       "id": "brandt-moved",
       "speaker": "brandt",
       "event": "moved",
-      "enabled": false,
+      "enabled": true,
       "text": "Copy. Shifting.",
       "file": "audio/voice/brandt-moved.mp3",
       "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
@@ -767,7 +767,7 @@
       "id": "brandt-revealed",
       "speaker": "brandt",
       "event": "revealed",
-      "enabled": false,
+      "enabled": true,
       "text": "Something ahead. I have it.",
       "file": "audio/voice/brandt-revealed.mp3",
       "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
@@ -776,7 +776,7 @@
       "id": "brandt-locked",
       "speaker": "brandt",
       "event": "locked",
-      "enabled": false,
+      "enabled": true,
       "text": "Barrels are seized.",
       "file": "audio/voice/brandt-locked.mp3",
       "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
@@ -785,7 +785,7 @@
       "id": "brandt-breached",
       "speaker": "brandt",
       "event": "breached",
-      "enabled": false,
+      "enabled": true,
       "text": "Seal is cracked. Hissing.",
       "file": "audio/voice/brandt-breached.mp3",
       "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
@@ -794,7 +794,7 @@
       "id": "brandt-watch-set",
       "speaker": "brandt",
       "event": "watchSet",
-      "enabled": false,
+      "enabled": true,
       "text": "On watch.",
       "file": "audio/voice/brandt-watch-set.mp3",
       "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
@@ -803,7 +803,7 @@
       "id": "brandt-vented",
       "speaker": "brandt",
       "event": "vented",
-      "enabled": false,
+      "enabled": true,
       "text": "Venting. Give me a breath.",
       "file": "audio/voice/brandt-vented.mp3",
       "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
@@ -812,7 +812,7 @@
       "id": "okafor-moved",
       "speaker": "okafor",
       "event": "moved",
-      "enabled": false,
+      "enabled": true,
       "text": "On the move.",
       "file": "audio/voice/okafor-moved.mp3",
       "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
@@ -821,7 +821,7 @@
       "id": "okafor-revealed",
       "speaker": "okafor",
       "event": "revealed",
-      "enabled": false,
+      "enabled": true,
       "text": "Contact, contact. Eyes on it.",
       "file": "audio/voice/okafor-revealed.mp3",
       "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
@@ -830,7 +830,7 @@
       "id": "okafor-locked",
       "speaker": "okafor",
       "event": "locked",
-      "enabled": false,
+      "enabled": true,
       "text": "Gun is locked. Need a second.",
       "file": "audio/voice/okafor-locked.mp3",
       "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
@@ -839,7 +839,7 @@
       "id": "okafor-breached",
       "speaker": "okafor",
       "event": "breached",
-      "enabled": false,
+      "enabled": true,
       "text": "Suit is breached. Keep it quick.",
       "file": "audio/voice/okafor-breached.mp3",
       "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
@@ -848,7 +848,7 @@
       "id": "okafor-watch-set",
       "speaker": "okafor",
       "event": "watchSet",
-      "enabled": false,
+      "enabled": true,
       "text": "Covering this door.",
       "file": "audio/voice/okafor-watch-set.mp3",
       "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
@@ -857,7 +857,7 @@
       "id": "okafor-vented",
       "speaker": "okafor",
       "event": "vented",
-      "enabled": false,
+      "enabled": true,
       "text": "Venting heat. One moment.",
       "file": "audio/voice/okafor-vented.mp3",
       "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
@@ -866,7 +866,7 @@
       "id": "riedel-moved",
       "speaker": "riedel",
       "event": "moved",
-      "enabled": false,
+      "enabled": true,
       "text": "Going.",
       "file": "audio/voice/riedel-moved.mp3",
       "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
@@ -875,7 +875,7 @@
       "id": "riedel-revealed",
       "speaker": "riedel",
       "event": "revealed",
-      "enabled": false,
+      "enabled": true,
       "text": "There it is.",
       "file": "audio/voice/riedel-revealed.mp3",
       "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
@@ -884,7 +884,7 @@
       "id": "riedel-locked",
       "speaker": "riedel",
       "event": "locked",
-      "enabled": false,
+      "enabled": true,
       "text": "Nozzle is dry. Not now.",
       "file": "audio/voice/riedel-locked.mp3",
       "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
@@ -893,7 +893,7 @@
       "id": "riedel-breached",
       "speaker": "riedel",
       "event": "breached",
-      "enabled": false,
+      "enabled": true,
       "text": "Suit is torn open. Still burning.",
       "file": "audio/voice/riedel-breached.mp3",
       "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
@@ -902,7 +902,7 @@
       "id": "riedel-watch-set",
       "speaker": "riedel",
       "event": "watchSet",
-      "enabled": false,
+      "enabled": true,
       "text": "Staying put. Fuel is hot.",
       "file": "audio/voice/riedel-watch-set.mp3",
       "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
@@ -911,7 +911,7 @@
       "id": "riedel-scorched",
       "speaker": "riedel",
       "event": "scorched",
-      "enabled": false,
+      "enabled": true,
       "text": "Burn it all. Clear the lane.",
       "file": "audio/voice/riedel-scorched.mp3",
       "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
@@ -920,7 +920,7 @@
       "id": "sato-moved",
       "speaker": "sato",
       "event": "moved",
-      "enabled": false,
+      "enabled": true,
       "text": "Understood. Going.",
       "file": "audio/voice/sato-moved.mp3",
       "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
@@ -929,7 +929,7 @@
       "id": "sato-revealed",
       "speaker": "sato",
       "event": "revealed",
-      "enabled": false,
+      "enabled": true,
       "text": "Movement on the board.",
       "file": "audio/voice/sato-revealed.mp3",
       "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
@@ -938,7 +938,7 @@
       "id": "sato-locked",
       "speaker": "sato",
       "event": "locked",
-      "enabled": false,
+      "enabled": true,
       "text": "Heat limit hit. Venting.",
       "file": "audio/voice/sato-locked.mp3",
       "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
@@ -947,7 +947,7 @@
       "id": "sato-breached",
       "speaker": "sato",
       "event": "breached",
-      "enabled": false,
+      "enabled": true,
       "text": "Pressure is dropping in my suit.",
       "file": "audio/voice/sato-breached.mp3",
       "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
@@ -956,7 +956,7 @@
       "id": "sato-watch-set",
       "speaker": "sato",
       "event": "watchSet",
-      "enabled": false,
+      "enabled": true,
       "text": "Watching. Sensors are up.",
       "file": "audio/voice/sato-watch-set.mp3",
       "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
@@ -965,7 +965,7 @@
       "id": "sato-terminal-used",
       "speaker": "sato",
       "event": "terminalUsed",
-      "enabled": false,
+      "enabled": true,
       "text": "Console answered. Input accepted.",
       "file": "audio/voice/sato-terminal-used.mp3",
       "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
@@ -974,7 +974,7 @@
       "id": "carrier-core-taken",
       "speaker": "carrier",
       "event": "coreTaken",
-      "enabled": false,
+      "enabled": true,
       "text": "Core is mine. Moving.",
       "file": "audio/voice/carrier-core-taken.mp3",
       "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
@@ -984,7 +984,7 @@
       "id": "carrier-core-dropped",
       "speaker": "carrier",
       "event": "coreDropped",
-      "enabled": false,
+      "enabled": true,
       "text": "Core is down! Somebody grab it.",
       "file": "audio/voice/carrier-core-dropped.mp3",
       "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
@@ -994,7 +994,7 @@
       "id": "carrier-core-picked",
       "speaker": "carrier",
       "event": "corePicked",
-      "enabled": false,
+      "enabled": true,
       "text": "Got it. Back on the move.",
       "file": "audio/voice/carrier-core-picked.mp3",
       "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
@@ -1004,7 +1004,7 @@
       "id": "carrier-breached",
       "speaker": "carrier",
       "event": "breached",
-      "enabled": false,
+      "enabled": true,
       "text": "Carrier is breached. Core is still with me.",
       "file": "audio/voice/carrier-breached.mp3",
       "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",

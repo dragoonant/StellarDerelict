@@ -43,6 +43,7 @@ Decisions: `PLAN.md` (D1–D8). Rules: `docs/spec/10-rules.md` (rule ids, balanc
 | M3 first playable | 2026-11-13 | 1 Sonnet (~23 min, ~0.3M tokens) | Screens, board, HUD, director, scripted Molt bot, autosave + Continue; 14 e2e tests covering rules 8, 22, 24, 25, 27 and the timer |
 | M4 Molt AI + Warden policy | 2026-11-13 | 1 Sonnet, two runs (~0.9M tokens) | Utility Molt AI in a worker, tiers, bench gates; then a utility Warden policy and re-tune (B-6..B-8). 130 unit tests, 16 e2e |
 | M5 figures (GPU PC) | 2026-11-12 | session model only | 44 Flux klein concepts (image edit with the style reference, about 26 s per 4), one re-roll (the sergeant's maul never appeared until the weapon line led the prompt); Hunyuan 2.1 shape / 2.0 paint / finalize for 11 models in about 25 min of GPU; props decimated at the shape stage; gallery gate on close-ups |
+| M6 audio (GPU PC) | 2026-11-12 | session model only | 79 Audio Studio jobs (Stable Audio Open 5 s each, ACE-Step 10 s a track, Qwen voice design 8 s a line), about 20 min of GPU; three takes for two effects, one layered transient; levelled by kind; enabled, not verified by ear |
 
 ## 4. Lessons for the series
 - *(added 2026-11-12, stellar-derelict M5)* **Check the facing convention of the gallery against the loader before
@@ -55,6 +56,15 @@ Decisions: `PLAN.md` (D1–D8). Rules: `docs/spec/10-rules.md` (rule ids, balanc
 - *(added 2026-11-12, stellar-derelict M5)* **FLUX.2 klein image-edit copies the reference's props.** Handcuffs, a
   hose and a skull buckle from the style photo kept appearing; a long shared prompt body pushed the per-figure weapon
   line out of the picture (no maul in 4 of 4). Put the weapon line first in the per-figure text and name both hands.
+- *(added 2026-11-12, stellar-derelict M6)* **Generated audio needs levelling before anyone listens.** Stable Audio
+  Open takes ranged from -11 to -56 LUFS for the same prompt family (two of 54 files were effectively silent), and
+  ACE-Step tracks from -13 to -28 LUFS with peaks over 0 dBFS. Level by kind in the measure pass (effects -18 LUFS,
+  beds -24, music and voice -16), level gunshot-class sounds by peak so the crest gate still means something, flag
+  files under -42 LUFS as failed takes, and re-roll with a seed offset rather than lifting them 30 dB.
+- *(added 2026-11-12, stellar-derelict M6)* **Two ffmpeg traps in a measuring tool.** `-ac 1` / `-ac 2` rematrix with
+  -3 dB coefficients, so a mono-downmixed stereo file reads 2 dB hot and an upmixed mono file 3 dB quiet: decode at the
+  file's own channel count and mix in code. `alimiter` auto-levels to its ceiling by default (`level=false` to use
+  it as a ceiling). And a dev server that just streamed a file holds it on Windows: retry the in-place rename.
 - *(added 2026-11-12, stellar-derelict M5)* **Long creatures need their own footprint cap.** A 0.95-square cap sized
   the stalkers at half a Warden; 1.25 squares (tail overhang) brought them back to about 0.7 of one.
 - *(added 2026-11-13, stellar-derelict)* **A container restart kills background agents but keeps their files.** The

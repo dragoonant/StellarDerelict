@@ -6,8 +6,12 @@ and voice lines are our own words. Audio is "not verified by ear" until the owne
 
 The manifest is `src/data/assets.json` (`sounds[]`, `music[]`, `voice[]`): id, file, the generation prompt and
 parameters, the engine event that plays it, gain and variants. `tools/audio/gen-audio.mjs` is idempotent (skips files
-that exist; `--only`, `--force`), `tools/audio/measure-audio.mjs` reports peak, loudness and crest factor and trims
-silence, and `sounds.html` auditions every entry.
+that exist; `--only`, `--force`, `--force --reroll n` for another take), `tools/audio/measure-audio.mjs` reports peak,
+loudness and crest factor, trims silence, levels every file to its kind's loudness target (effects -18 LUFS, the
+ambience loop -24, music and voice -16, gunshot-class ids by peak to -1 dBFS so the crest survives; limiter at -1 dB)
+and flags gunshots under crest 8 and near-silent files (failed generations under -42 LUFS: re-roll them),
+`tools/audio/layer-transient.mjs` mixes a short noise transient over an attenuated body when no take reaches the crest
+gate, and `sounds.html` auditions every entry.
 
 ## Direction
 

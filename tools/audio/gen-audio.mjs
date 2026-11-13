@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Generate the game's sounds, music and voice lines with the local Audio Studio (port 7890) from src/data/assets.json.
 // Runs on the owner's GPU PC only. One GPU job at a time. Idempotent: an entry whose files all exist is skipped.
-//   node tools/audio/gen-audio.mjs [--dry-run] [--only id,id] [--kind sfx|music|voice] [--force] [--base url]
+//   node tools/audio/gen-audio.mjs [--dry-run] [--only id,id] [--kind sfx|music|voice] [--force] [--reroll n] [--base url]
 //   node tools/audio/gen-audio.mjs --enable [--only ...] [--kind ...]   flip `enabled` for entries whose files exist (after listening)
 // Downloads FLAC/WAV to tools/out/audio/raw, converts to mp3 with ffmpeg (voice gets a radio band), writes public/assets/<file>.
 import { spawnSync } from 'node:child_process'
@@ -16,6 +16,7 @@ const HELP = `Usage: node tools/audio/gen-audio.mjs [options]
   --only <id,id>     sound ids, music states or voice ids
   --kind <k>         sfx | music | voice
   --force            regenerate even if the files exist
+  --reroll <n>       with --force: offset every seed by n for another take (n = 1, 2, ...)
   --enable           mark entries enabled in src/data/assets.json when all their files exist (no generation)
   --base <url>       studio address (default ${DEFAULT_BASE})
   --timeout <sec>    per job (default 900)
@@ -32,12 +33,16 @@ export function parseArgv(argv, manifest) {
     only: { type: 'string' },
     kind: { type: 'string' },
     force: { type: 'boolean' },
+    reroll: { type: 'string' },
     enable: { type: 'boolean' },
     base: { type: 'string' },
     timeout: { type: 'string' },
     help: { type: 'boolean', short: 'h' },
   })
   if (v.kind !== undefined && !KINDS.includes(v.kind)) throw new UsageError(`--kind must be one of ${KINDS.join(', ')}`)
+  const reroll = v.reroll === undefined ? 0 : Number(v.reroll)
+  if (!Number.isInteger(reroll) || reroll < 0) throw new UsageError('--reroll takes a whole number of takes (1, 2, ...)')
+  if (reroll > 0 && v.force !== true) throw new UsageError('--reroll only makes sense with --force')
   let only = null
   if (v.only !== undefined) {
     only = new Set(list(v.only))
@@ -49,6 +54,7 @@ export function parseArgv(argv, manifest) {
     help: v.help === true,
     dryRun: v['dry-run'] === true,
     force: v.force === true,
+    reroll,
     enable: v.enable === true,
     kind: v.kind ?? null,
     only,
@@ -84,8 +90,8 @@ export async function main(argv, io = { log: console.log, err: console.error }) 
     return 0
   }
 
-  const jobs = planAudio(manifest, { only: o.only, kind: o.kind, force: o.force }, exists)
-  io.log(`${jobs.length} job(s) to run${o.force ? ' (force)' : ''}; entries whose files exist are skipped.`)
+  const jobs = planAudio(manifest, { only: o.only, kind: o.kind, force: o.force, reroll: o.reroll }, exists)
+  io.log(`${jobs.length} job(s) to run${o.force ? ` (force${o.reroll ? `, take ${o.reroll + 1}` : ''})` : ''}; entries whose files exist are skipped.`)
   for (const j of jobs) {
     io.log(`  ${j.kind.padEnd(5)} ${j.id.padEnd(22)} -> ${j.files.join(', ')}`)
     if (o.dryRun) io.log(`        POST ${o.base}/api/jobs ${JSON.stringify(j.body)}`)

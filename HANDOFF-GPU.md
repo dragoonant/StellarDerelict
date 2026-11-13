@@ -1,5 +1,9 @@
 # Handoff: figures and audio on the GPU PC (M5–M6)
 
+> **Done 2026-11-12 on the GPU PC.** Both stages ran as written below; what differed is in `STATUS.md`,
+> `tools/figures/README.md` (props decimated at the shape stage, the gallery looks from -Z) and spec 60 (levelling,
+> re-rolls, the transient layer). Kept as the record of the runbook.
+
 For a Claude session running **on the owner's GPU PC** in a checkout of this repo. The cloud session that built the
 game could not reach that PC, so nothing below has been run against the real studios yet.
 

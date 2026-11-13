@@ -96,11 +96,14 @@ describe('AUD-8 audio generator plan', () => {
     expect(planAudio(assets, { kind: 'voice', only: new Set(['venn-moved']) }, () => false)).toHaveLength(1)
   })
   it('flips enabled only for the ids named', () => {
-    const m = withEnabled(assets as never, new Set(['calm', 'venn-moved', 'ping']))
+    const before = JSON.stringify(assets)
+    const off = withEnabled(assets as never, knownIds(assets), false) // the shipped manifest has everything enabled since M6
+    expect(off.sounds.every((s: { enabled: boolean }) => !s.enabled)).toBe(true)
+    const m = withEnabled(off, new Set(['calm', 'venn-moved', 'ping']))
     expect(m.music.filter((e: { enabled: boolean }) => e.enabled)).toHaveLength(1)
     expect(m.voice.filter((e: { enabled: boolean }) => e.enabled)).toHaveLength(1)
     expect(m.sounds.filter((e: { enabled: boolean }) => e.enabled)).toHaveLength(1)
-    expect(assets.sounds.every((s) => !s.enabled)).toBe(true) // the original is not mutated
+    expect(JSON.stringify(assets)).toBe(before) // the original is not mutated
   })
   it('converts with ffmpeg: mono mp3 for effects, radio band for voice, stereo for music', () => {
     expect(convertArgs('sfx', 'a.flac', 'a.mp3')).toContain('libmp3lame')
@@ -115,7 +118,8 @@ describe('AUD-8 audio generator plan', () => {
   })
   it('--dry-run prints the jobs and touches no network', async () => {
     const out: string[] = []
-    const code = await genAudio(['--dry-run', '--only', 'ping'], { log: (m: string) => out.push(m), err: (m: string) => out.push(m) })
+    // --force: once the ping files exist on disk the plan would otherwise be empty
+    const code = await genAudio(['--dry-run', '--force', '--only', 'ping'], { log: (m: string) => out.push(m), err: (m: string) => out.push(m) })
     expect(code).toBe(0)
     expect(out.join('\n')).toMatch(/POST http:\/\/localhost:7890\/api\/jobs/)
   })
