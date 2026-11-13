@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { makeRand } from '../../src/ai/random'
-import { moltPolicy, wardenPolicy } from '../../src/ai/scripted'
+import { moltPolicy } from '../../src/ai/scripted'
+import { wardenPolicy } from '../../src/ai/warden'
 import { patch } from '../../src/client/director'
 import { createGame, step, view } from '../../src/engine'
 import type { State, View } from '../../src/engine'

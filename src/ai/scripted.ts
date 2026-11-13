@@ -8,9 +8,9 @@ import type { Action, Board, Facing, Pos, StalkerUnit, ViewUnit, WardenUnit } fr
 
 export type Policy = (b: Board, rand: () => number) => Action
 
-const DX: Record<Facing, number> = { N: 0, E: 1, S: 0, W: -1 }
-const DY: Record<Facing, number> = { N: -1, E: 0, S: 1, W: 0 }
-const FACINGS: Facing[] = ['N', 'E', 'S', 'W']
+export const DX: Record<Facing, number> = { N: 0, E: 1, S: 0, W: -1 }
+export const DY: Record<Facing, number> = { N: -1, E: 0, S: 1, W: 0 }
+export const FACINGS: Facing[] = ['N', 'E', 'S', 'W']
 const LEFT: Record<Facing, Facing> = { N: 'W', W: 'S', S: 'E', E: 'N' }
 const RIGHT: Record<Facing, Facing> = { N: 'E', E: 'S', S: 'W', W: 'N' }
 const ORTHO: Pos[] = [
@@ -30,7 +30,7 @@ const END: Action = { type: 'endPhase' }
 
 type DoorKind = 'open' | 'closed' | 'sealed' | 'wall'
 
-function squareKind(b: Board, x: number, y: number): DoorKind | 'floor' {
+export function squareKind(b: Board, x: number, y: number): DoorKind | 'floor' {
   const t = query.terrain(b, [x, y])
   if (t === 'wall' || t === 'terminal' || t === 'console') return 'wall'
   if (t === 'door' || t === 'bulkhead') {
@@ -50,10 +50,10 @@ function wardensOf(b: Board): WardenUnit[] {
 function stalkersOf(b: Board): StalkerUnit[] {
   return b.units.filter((u): u is StalkerUnit => u.kind === 'stalker')
 }
-function occupied(b: Board, x: number, y: number, except?: string): ViewUnit | undefined {
+export function occupied(b: Board, x: number, y: number, except?: string): ViewUnit | undefined {
   return b.units.find((u) => alive(u) && u.at[0] === x && u.at[1] === y && u.id !== except)
 }
-function burning(b: Board, x: number, y: number): boolean {
+export function burning(b: Board, x: number, y: number): boolean {
   return b.burn.some((p) => p[0] === x && p[1] === y)
 }
 
@@ -124,36 +124,36 @@ function stepInto(b: Board, u: ViewUnit, next: Pos): Action | null {
 // Warden policy
 // ---------------------------------------------------------------------------------------------
 
-type Slot = [number, number, Facing]
-const FLANK_TERMINAL = 'flank-doors'
-const LOCK_TERMINAL = 'archive-lock'
-const FLANK_DOORS: Pos[] = [
+export type Slot = [number, number, Facing]
+export const FLANK_TERMINAL = 'flank-doors'
+export const LOCK_TERMINAL = 'archive-lock'
+export const FLANK_DOORS: Pos[] = [
   [10, 6],
   [18, 6],
   [23, 14],
 ]
-const ARCHIVE_DOOR: Pos = [14, 4]
-const STAGING: Slot[] = [
+export const ARCHIVE_DOOR: Pos = [14, 4]
+export const STAGING: Slot[] = [
   [10, 14, 'E'],
   [11, 14, 'E'],
   [12, 14, 'E'],
   [13, 14, 'E'],
 ]
-const DEEP: Slot[] = [
+export const DEEP: Slot[] = [
   [1, 13, 'E'],
   [1, 15, 'E'],
   [1, 14, 'E'],
   [2, 13, 'E'],
   [2, 15, 'E'],
 ]
-const ARMS: Slot[] = [
+export const ARMS: Slot[] = [
   [13, 6, 'W'],
   [15, 6, 'E'],
   [12, 6, 'W'],
   [16, 6, 'E'],
 ]
 
-type GoalFn = (x: number, y: number, f: Facing) => boolean
+export type GoalFn = (x: number, y: number, f: Facing) => boolean
 
 function spare(b: Board): number {
   return Math.max(0, b.cp - 2)
@@ -166,13 +166,13 @@ function canSpendSpare(b: Board, w: WardenUnit, n: number): boolean {
   return w.ap >= n || n - w.ap <= spare(b)
 }
 
-interface Plan {
+export interface Plan {
   cost: number
   action: Action | null
 }
 
 /** Cheapest way for a Warden to reach any (x, y, facing) the goal accepts; friends are ignored, Molt units block. */
-function planWarden(b: Board, w: WardenUnit, goal: GoalFn, blockFriends = false): Plan | null {
+export function planWarden(b: Board, w: WardenUnit, goal: GoalFn, blockFriends = false): Plan | null {
   const mission = getMission(b.mission)
   if (!mission) return null
   const H = mission.grid.length
@@ -243,17 +243,17 @@ function planWarden(b: Board, w: WardenUnit, goal: GoalFn, blockFriends = false)
   return { cost, action }
 }
 
-function adjacentGoal(target: Pos, b: Board): GoalFn {
+export function adjacentGoal(target: Pos, b: Board): GoalFn {
   return (x, y, f) => x + DX[f] === target[0] && y + DY[f] === target[1] && squareKind(b, x, y) !== 'wall'
 }
-function slotGoal(s: Slot): GoalFn {
+export function slotGoal(s: Slot): GoalFn {
   return (x, y, f) => x === s[0] && y === s[1] && f === s[2]
 }
 
-function terminalPos(b: Board, id: string): Pos | null {
+export function terminalPos(b: Board, id: string): Pos | null {
   return getMission(b.mission)?.terminals.find((t) => t.id === id)?.at ?? null
 }
-function consolePos(b: Board): Pos | null {
+export function consolePos(b: Board): Pos | null {
   const m = getMission(b.mission)
   if (!m) return null
   for (let y = 0; y < m.grid.length; y++)
@@ -261,9 +261,9 @@ function consolePos(b: Board): Pos | null {
   return null
 }
 
-type Stage = 'flanks' | 'unlock' | 'core' | 'carry' | 'pickup'
+export type Stage = 'flanks' | 'unlock' | 'core' | 'carry' | 'pickup'
 
-function stageOf(b: Board): Stage {
+export function stageOf(b: Board): Stage {
   if (b.core.where === 'carried') return 'carry'
   if (b.core.where === 'loose') return 'pickup'
   const doorsDone = FLANK_DOORS.every((d) => {
@@ -275,7 +275,7 @@ function stageOf(b: Board): Stage {
   return 'core'
 }
 
-function airDistances(b: Board): Map<string, number> {
+export function airDistances(b: Board): Map<string, number> {
   const m = getMission(b.mission)
   const dist = new Map<string, number>()
   if (!m) return dist
@@ -374,7 +374,8 @@ function scorch(b: Board, w: WardenUnit, near: ViewUnit[]): Action | null {
   return best.score >= 2 || (best.score >= 1 && close) ? best.a : null
 }
 
-export const wardenPolicy: Policy = (b) => {
+/** The first scripted Warden (M3). Kept for comparison; the sim and bench use `wardenPolicy` from warden.ts. */
+export const wardenPolicyV1: Policy = (b) => {
   const ws = wardensOf(b)
   const act = (w: WardenUnit): boolean => w.ap > 0 || b.cp > 0
   // pass A: combat

@@ -4,7 +4,8 @@ import { listMissions, getMission } from '../src/data'
 import { createGame, legalActions, query, step, view } from '../src/engine'
 import type { Action, Board, State } from '../src/engine'
 import { checkInvariants } from './invariants'
-import { moltPolicy, wardenPolicy } from '../src/ai/scripted'
+import { moltPolicy } from '../src/ai/scripted'
+import { wardenPolicy } from '../src/ai/warden'
 
 function arg(name: string, fallback: string): string {
   const i = process.argv.indexOf(`--${name}`)

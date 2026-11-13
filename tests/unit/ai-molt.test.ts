@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { makeRand } from '../../src/ai/random'
-import { moltPolicy, wardenPolicy } from '../../src/ai/scripted'
+import { moltPolicy } from '../../src/ai/scripted'
+import { wardenPolicy } from '../../src/ai/warden'
 import { chooseMoltAction, TIERS, type Tier } from '../../src/ai/tiers'
 import { ACTION_CLASS, DECISION_KINDS, kindOfAction, PENDING_KIND } from '../../src/ai/molt/kinds'
 import { stalkerOdds } from '../../src/ai/molt/combat'
