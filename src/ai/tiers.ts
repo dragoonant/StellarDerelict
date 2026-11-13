@@ -31,3 +31,9 @@ export function chooseMoltAction(state: State | Board, tier: Tier, seed: number 
       return utilityAction(b, RECRUIT, s, opts)
   }
 }
+
+/** The tier a mission was set up with (`setup.options.difficulty`), Regular when absent or unknown. */
+export function tierOfSetup(setup: { options?: Record<string, unknown> } | null | undefined): Tier {
+  const d = setup?.options?.difficulty
+  return isTier(d) ? d : DEFAULT_TIER
+}

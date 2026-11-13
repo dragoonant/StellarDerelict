@@ -5,7 +5,9 @@ import { createGame, legalActions, query, step, view } from '../engine'
 import { makeSave, writeSave, type SaveEnvelope } from '../engine/save'
 import type { Action, Event, Pos, State, View, WardenUnit } from '../engine'
 import { makeRand, randomAction } from '../ai/random'
-import { moltPolicy, wardenPolicy } from '../ai/scripted'
+import { wardenPolicy } from '../ai/scripted'
+import { isTier, tierOfSetup, type Tier } from '../ai/tiers'
+import { chooseInWorker } from './moltBot'
 import { viewApi } from './board/viewApi'
 import { toWorldX, toWorldZ, dimsOf } from './board/layout'
 import { describeEvent, foldMoveLine } from './describe'
@@ -21,6 +23,16 @@ let botEpoch = 0
 let botRunning = false
 let logId = 1
 
+/** The tier the Molt bot plays: a URL override, else the mission's saved difficulty. */
+export function activeBot(): 'random' | Tier {
+  const s = getStore()
+  return s.botOverride ?? tierOfSetup(s.setup)
+}
+
+export function setDifficulty(difficulty: Tier): void {
+  setStore({ difficulty })
+}
+
 const same = (a: Pos, b: Pos): boolean => a[0] === b[0] && a[1] === b[1]
 export const wview = (s: State): View => view(s, 'warden')
 
@@ -32,7 +44,8 @@ export function initSession(): void {
     speed: speed === 'instant' || speed === 'fast' || speed === 'normal' ? speed : (stored.speed ?? 'normal'),
     timer: stored.timer ?? 'standard',
   }
-  setStore({ settings, bot: params.get('bot') === 'random' ? 'random' : 'scripted' })
+  const bot = params.get('bot')
+  setStore({ settings, botOverride: bot === 'random' ? 'random' : isTier(bot) ? bot : null })
   refreshSave()
 }
 
@@ -96,7 +109,7 @@ export function startMission(): void {
   resetDirector()
   const seedParam = params.get('seed')
   const seed = seedParam !== null && Number.isFinite(Number(seedParam)) ? Number(seedParam) : Math.floor(Math.random() * 2147483647)
-  const setup = { mission: MISSION_ID, seed }
+  const setup = { mission: MISSION_ID, seed, options: { difficulty: getStore().difficulty } }
   const state = createGame(setup)
   const v = wview(state)
   const mission = getMission(MISSION_ID)
@@ -253,13 +266,17 @@ export async function runBot(): Promise<void> {
       const cur = getStore()
       if (mine !== botEpoch || !cur.state || cur.state.toAct !== 'molt' || cur.state.result) break
       const mv = view(cur.state, 'molt')
-      const rand = makeRand((cur.state.seed + cur.actions.length * 7919) >>> 0)
+      const seed = (cur.state.seed + cur.actions.length * 7919) >>> 0
+      const rand = makeRand(seed)
+      const bot = cur.botOverride ?? tierOfSetup(cur.setup)
       let a: Action | null
       try {
-        a = cur.bot === 'random' ? randomAction(mv, 'molt', rand) : moltPolicy(mv, rand)
+        a = bot === 'random' ? randomAction(mv, 'molt', rand) : await chooseInWorker(mv, bot, seed)
       } catch {
         a = null
       }
+      // the world may have moved on while the worker thought (a new mission, a reopened save)
+      if (mine !== botEpoch || getStore().state !== cur.state) continue
       if (!a || !accept(a)) {
         const fallback = randomAction(mv, 'molt', rand) ?? ({ type: 'endPhase' } as Action)
         if (!accept(fallback)) accept({ type: 'endPhase' })

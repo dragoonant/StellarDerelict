@@ -1,6 +1,7 @@
 // The client store: what the screens and the board read. Rules live in the engine; this holds the session around it.
 import { create } from 'zustand'
 import type { Action, Pos, Setup, State, View } from '../engine'
+import type { Tier } from '../ai/tiers'
 
 export type Screen = 'title' | 'briefing' | 'mission' | 'debrief'
 export type Speed = 'normal' | 'fast' | 'instant'
@@ -63,7 +64,10 @@ export interface GameStore {
   saveRead: SaveRead
   howTo: boolean
   settingsOpen: boolean
-  bot: 'scripted' | 'random'
+  /** the difficulty picked on the Briefing for the next mission */
+  difficulty: Tier
+  /** a URL override: the random bot, or a tier that beats the Briefing's choice */
+  botOverride: 'random' | Tier | null
 }
 
 export const useStore = create<GameStore>(() => ({
@@ -91,7 +95,8 @@ export const useStore = create<GameStore>(() => ({
   saveRead: { kind: 'none' },
   howTo: false,
   settingsOpen: false,
-  bot: 'scripted',
+  difficulty: 'regular',
+  botOverride: null,
 }))
 
 export const getStore = (): GameStore => useStore.getState()

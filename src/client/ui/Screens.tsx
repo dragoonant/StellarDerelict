@@ -2,7 +2,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getMission, roles, rules } from '../../data'
 import { geoOf } from '../../engine/grid'
-import { MISSION_ID, continueSave, discardSave, goto, setSpeed, setTimerSetting, startMission } from '../session'
+import { MISSION_ID, continueSave, discardSave, goto, setDifficulty, setSpeed, setTimerSetting, startMission } from '../session'
+import { TIER_LABEL, tierOfSetup, type Tier } from '../../ai/tiers'
 import { setStore, useStore, type Speed, type TimerSetting } from '../store'
 import { roundLabel } from '../describe'
 
@@ -40,7 +41,7 @@ export function Title() {
     const m = getMission(st.mission)
     const alive = st.units.filter((u) => u.kind === 'warden' && u.alive).length
     const total = st.units.filter((u) => u.kind === 'warden').length
-    return `${m?.name ?? st.mission}, round ${roundLabel(st.round)} of ${m?.roundLimit ?? '?'}, ${st.phase === 'warden' ? 'Warden' : 'Molt'} phase, ${alive} of ${total} Wardens alive, core ${st.core.where === 'carried' ? 'carried' : st.core.where === 'loose' ? 'dropped' : 'still in the archive'}, saved ${savedWhen(saveRead.save.savedAt)}`
+    return `${m?.name ?? st.mission}, round ${roundLabel(st.round)} of ${m?.roundLimit ?? '?'}, ${st.phase === 'warden' ? 'Warden' : 'Molt'} phase, ${alive} of ${total} Wardens alive, core ${st.core.where === 'carried' ? 'carried' : st.core.where === 'loose' ? 'dropped' : 'still in the archive'}, ${TIER_LABEL[tierOfSetup(saveRead.save.setup)]} difficulty, saved ${savedWhen(saveRead.save.savedAt)}`
   }, [saveRead])
 
   const board = (): void => {
@@ -159,6 +160,16 @@ const SPEEDS: { id: Speed; label: string }[] = [
   { id: 'fast', label: 'Fast' },
   { id: 'instant', label: 'Instant' },
 ]
+const DIFFICULTIES: { id: Tier; label: string }[] = [
+  { id: 'recruit', label: 'Recruit' },
+  { id: 'regular', label: 'Regular' },
+  { id: 'veteran', label: 'Veteran' },
+]
+const DIFFICULTY_NOTE: Record<Tier, string> = {
+  recruit: 'The swarm hesitates, strikes head on and reveals one contact at a time.',
+  regular: 'The swarm as first scripted: steady, with no tricks.',
+  veteran: 'The swarm flanks, gangs up on one Warden and reveals together.',
+}
 const TIMERS: { id: TimerSetting; label: string }[] = [
   { id: 'standard', label: 'Standard' },
   { id: 'relaxed', label: 'Relaxed' },
@@ -200,6 +211,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
 export function Briefing() {
   const m = getMission(MISSION_ID)
   const settings = useStore((s) => s.settings)
+  const difficulty = useStore((s) => s.difficulty)
   const [shown, setShown] = useState(0)
   const brief = m?.brief ?? ''
   useEffect(() => {
@@ -235,6 +247,8 @@ export function Briefing() {
         ))}
       </ul>
       <Segmented label="Boarding clock" value={settings.timer} options={TIMERS} onPick={setTimerSetting} />
+      <Segmented label="Difficulty" value={difficulty} options={DIFFICULTIES} onPick={setDifficulty} />
+      <p className="line line--dim">{DIFFICULTY_NOTE[difficulty]}</p>
       <div className="row">
         <button type="button" className="primary" onClick={startMission} data-act="cut-in">
           Cut in
@@ -250,6 +264,7 @@ export function Briefing() {
 export function Debrief() {
   const state = useStore((s) => s.state)
   const kills = useStore((s) => s.kills)
+  const setup = useStore((s) => s.setup)
   const m = getMission(MISSION_ID)
   if (!state || !state.result) return null
   const won = state.result.winner === 'warden'
@@ -271,6 +286,8 @@ export function Debrief() {
         </dd>
         <dt>Molt destroyed</dt>
         <dd>{kills}</dd>
+        <dt>Difficulty</dt>
+        <dd>{TIER_LABEL[tierOfSetup(setup)]}</dd>
       </dl>
       <ul className="roster">
         {wardens.map((u) =>

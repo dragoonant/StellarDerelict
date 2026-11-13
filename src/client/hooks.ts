@@ -3,7 +3,8 @@ import { legalActions, view } from '../engine'
 import type { Action, State, View } from '../engine'
 import { viewApi } from './board/viewApi'
 import { dimsOf, toWorldX, toWorldZ } from './board/layout'
-import { botIdle, dispatchHuman, MISSION_ID, setSpeed, wardenSuggestion } from './session'
+import { activeBot, botIdle, dispatchHuman, MISSION_ID, setSpeed, wardenSuggestion } from './session'
+import { botInfo } from './moltBot'
 import { getStore, type Speed } from './store'
 
 export interface SdHooks {
@@ -18,6 +19,8 @@ export interface SdHooks {
   camera(): ReturnType<typeof viewApi.camera>
   setView(p: { x?: number; z?: number; az?: number; zoom?: number; tilt?: number }): void
   speed(v: Speed): void
+  /** the Molt bot: its tier, whether decisions come from the worker or the main thread, and how many were asked for */
+  bot(): { tier: string; mode: string; reason: string; decisions: number }
   idle(): Promise<void>
   ui(): { screen: string; selected: string | null; armed: string | null; actions: number; log: number; timerLeft: number; hover: [number, number] | null }
 }
@@ -41,6 +44,7 @@ export function installHooks(): void {
     camera: () => viewApi.camera(),
     setView: (p) => viewApi.setView(p),
     speed: (v) => setSpeed(v),
+    bot: () => ({ tier: activeBot(), ...botInfo() }),
     idle: () =>
       new Promise((resolve) => {
         const check = (): void => {
