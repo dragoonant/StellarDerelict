@@ -1,0 +1,188 @@
+{
+ "setup": {
+  "mission": "dead-reckoning",
+  "seed": 2026
+ },
+ "actions": [
+  {
+   "type": "move",
+   "unit": "brandt",
+   "to": [
+    4,
+    14
+   ]
+  },
+  {
+   "type": "door",
+   "unit": "brandt",
+   "door": [
+    5,
+    14
+   ]
+  },
+  {
+   "type": "move",
+   "unit": "brandt",
+   "to": [
+    5,
+    14
+   ]
+  },
+  {
+   "type": "watch",
+   "unit": "okafor"
+  },
+  {
+   "type": "turn",
+   "unit": "sato",
+   "facing": "N"
+  },
+  {
+   "type": "turn",
+   "unit": "venn",
+   "facing": "S"
+  },
+  {
+   "type": "endPhase"
+  },
+  {
+   "type": "arrive",
+   "duct": [
+    27,
+    14
+   ]
+  },
+  {
+   "type": "arrive",
+   "duct": [
+    7,
+    17
+   ]
+  },
+  {
+   "type": "reveal",
+   "unit": "p1"
+  },
+  {
+   "type": "endPhase"
+  }
+ ],
+ "events": [
+  {
+   "type": "moved",
+   "unit": "brandt",
+   "from": [
+    3,
+    14
+   ],
+   "to": [
+    4,
+    14
+   ]
+  },
+  {
+   "type": "doorChanged",
+   "door": [
+    5,
+    14
+   ],
+   "state": "open"
+  },
+  {
+   "type": "moved",
+   "unit": "brandt",
+   "from": [
+    4,
+    14
+   ],
+   "to": [
+    5,
+    14
+   ]
+  },
+  {
+   "type": "watchSet",
+   "unit": "okafor"
+  },
+  {
+   "type": "turned",
+   "unit": "sato",
+   "facing": "N"
+  },
+  {
+   "type": "turned",
+   "unit": "venn",
+   "facing": "S"
+  },
+  {
+   "type": "phaseStarted",
+   "seat": "molt",
+   "round": 1
+  },
+  {
+   "type": "pingArrived",
+   "unit": "p3",
+   "duct": [
+    27,
+    14
+   ]
+  },
+  {
+   "type": "pingArrived",
+   "unit": "p4",
+   "duct": [
+    7,
+    17
+   ]
+  },
+  {
+   "type": "revealed",
+   "ping": "p1",
+   "at": [
+    1,
+    1
+   ],
+   "stalkers": 3,
+   "lost": 0,
+   "forced": false,
+   "units": [
+    {
+     "id": "s5",
+     "at": [
+      1,
+      1
+     ]
+    },
+    {
+     "id": "s6",
+     "at": [
+      2,
+      1
+     ]
+    },
+    {
+     "id": "s7",
+     "at": [
+      1,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "type": "roundEnded",
+   "round": 1
+  },
+  {
+   "type": "watchEnded",
+   "unit": "okafor",
+   "why": "phase"
+  },
+  {
+   "type": "phaseStarted",
+   "seat": "warden",
+   "round": 2,
+   "cp": 6
+  }
+ ]
+}

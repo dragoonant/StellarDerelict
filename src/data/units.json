@@ -1,0 +1,6 @@
+{
+  "sergeant": { "label": "Sergeant", "weapon": "repeater", "flags": ["cpBonus", "meleeBonus"] },
+  "warden": { "label": "Warden", "weapon": "repeater", "flags": [] },
+  "scorcher": { "label": "Scorcher", "weapon": "scorcher", "flags": ["noWatch"] },
+  "tech": { "label": "Tech", "weapon": "repeater", "flags": ["freeTerminal"] }
+}

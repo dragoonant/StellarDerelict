@@ -24,7 +24,7 @@ Two sides: the **Wardens** (armoured boarders, seat `warden`) and the **Molt** (
 | `repeater.heatLock`, `repeater.coolPerRound`, `repeater.heldCpHeat` | 4, 2, 2 | F-4, F-5, O-4 |
 | `litBonus` | 1 | SYS-4 |
 | `scorcher.range`, `scorcher.charges`, `scorcher.killOn` | 6, 6, 2 | SC-1..3 |
-| `melee.stalkerDice`, `melee.stalkerBonus`, `melee.sergeantBonus`, `melee.flankPenalty` | 2, 1, 2, 2 | M-2..4 |
+| `melee.stalkerDice`, `melee.stalkerBonus`, `melee.sergeantBonus`, `melee.flankPenalty` | 2, 0, 2, 2 | M-2..4 |
 | `stalker.moveCost`, `stalker.doorCost`, `stalker.tearCost`, `stalker.tearOn` | 1, 1, 1, 5 | S-1, D-3, D-4 |
 | `ductWatchRadius` | 3 | P-2 |
 | `revealRadius` | 2 | P-6 |
@@ -201,7 +201,15 @@ Fill in from `npm run sim` (spec 00). Target for the first mission: scripted War
 
 | Id | Date | Change | Warden win % | Notes |
 |---|---|---|---|---|
-| B-0 | | constants as first written | | |
+| B-0 | 2026-11-13 | constants as first written (`melee.stalkerBonus` 1, round limit 16, bag four 1s / five 2s / three 3s) | 23.3 (300 games) | squad lost 68.7%, out of time 8.0% |
+| B-1 | 2026-11-13 | round limit 16 → 18 | 23.7 (300) | no effect: the squad dies, it does not run out of time. Reverted |
+| B-2 | 2026-11-13 | B-1 plus a softer bag (nine 1s, two 2s, one 3) | 33.3 (300) | helps, but makes most pings a single stalker. Reverted |
+| B-3 | 2026-11-13 | B-2 with round limit 16 and alarm arrivals 3 → 2 | 33.0 (300) | alarm rate does nothing measurable. Reverted |
+| B-4 | 2026-11-13 | soft bag, `melee.stalkerBonus` 1 → 0 | 56.0 (300) | the melee bonus is the lever: squad lost falls to 28.0% |
+| **B-5** | 2026-11-13 | **adopted:** `melee.stalkerBonus` 0 with the original bag, round limit and arrivals | **36.9 (1,000)** | squad lost 52.7%, out of time 10.4%, average 12.2 rounds; 0 invariant violations, 0 stalls |
+
+Rows B-0 to B-2 were first run by the engine build, whose notes were lost to a container restart; every row above was
+re-run on 2026-11-13. The scripted policies are blunt; re-measure with the M4 AI before tuning further.
 
 ## 14. Rulings
 

@@ -32,7 +32,7 @@
   },
   "litBonus": 1,
   "scorcher": { "range": 6, "charges": 6, "killOn": 2 },
-  "melee": { "stalkerDice": 2, "stalkerBonus": 1, "sergeantBonus": 2, "flankPenalty": 2 },
+  "melee": { "stalkerDice": 2, "stalkerBonus": 0, "sergeantBonus": 2, "flankPenalty": 2 },
   "stalker": { "moveCost": 1, "doorCost": 1, "tearCost": 1, "tearOn": 5 },
   "ductWatchRadius": 3,
   "revealRadius": 2,
