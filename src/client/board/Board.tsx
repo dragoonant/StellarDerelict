@@ -1,7 +1,7 @@
 // The one persistent <Canvas> for the whole session, and the scene inside it. Picking is by tile only (KB rule 25):
 // the pick plane below is the only object in the scene with pointer handlers.
 import { Canvas } from '@react-three/fiber'
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { query } from '../../engine'
 import type { Pos, View } from '../../engine'
 import { MISSION_ID, canAct, legalOf, setHover, tapTile, wardenOf } from '../session'
@@ -161,9 +161,6 @@ export function BoardCanvas() {
   const screen = useStore((s) => s.screen)
   const has = useStore((s) => s.presented !== null)
   const active = screen === 'mission'
-  useEffect(() => {
-    document.body.dataset.screen = screen
-  }, [screen])
   return (
     <div className="board" style={{ visibility: active ? 'visible' : 'hidden' }} data-testid="board">
       <Canvas flat dpr={[1, 1.5]} gl={{ antialias: false, powerPreference: 'high-performance' }} camera={{ fov: 45, near: 0.1, far: 400, position: [0, 20, 20] }} frameloop={active && has ? 'always' : 'never'}>
