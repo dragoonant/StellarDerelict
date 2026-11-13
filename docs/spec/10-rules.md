@@ -207,28 +207,39 @@ Fill in from `npm run sim` (spec 00). Target for the first mission: scripted War
 | B-3 | 2026-11-13 | B-2 with round limit 16 and alarm arrivals 3 → 2 | 33.0 (300) | alarm rate does nothing measurable. Reverted |
 | B-4 | 2026-11-13 | soft bag, `melee.stalkerBonus` 1 → 0 | 56.0 (300) | the melee bonus is the lever: squad lost falls to 28.0% |
 | **B-5** | 2026-11-13 | **adopted:** `melee.stalkerBonus` 0 with the original bag, round limit and arrivals | **36.9 (1,000)** | squad lost 52.7%, out of time 10.4%, average 12.2 rounds; 0 invariant violations, 0 stalls |
+| B-6 | 2026-11-13 | measuring stick replaced: utility Warden policy (spec 40) in place of the M3 script, AI and constants unchanged | 42.8 vs regular (400), 94.5 vs recruit, 3.0 vs veteran, 100 vs random | the M3 Wardens lost to a *random* Molt 85% of games on the clock, so B-0..B-5 were measured with a broken stick. No constant changed |
+| B-7 | 2026-11-13 | recruit: idle 0.35 → 0.15, wake radius 8 → 10 (AI only) | 94.5 → 73.0 vs recruit (400) | 60–80 target met; recruit Molt 27% |
+| B-8 | 2026-11-13 | veteran: idle 0 → 0.2 of units per phase (AI only) | 3.0 → 24.0 vs veteran (400) | 20–40 target met; regular untouched at 42.8; ladder 73.0 / 42.8 / 24.0 |
 
-Rows B-0 to B-2 were first run by the engine build, whose notes were lost to a container restart; every row above was
+After B-8 no mission number or `rules.json` constant was changed: B-5's `melee.stalkerBonus` 0 stands, and the Warden win rate against the regular Molt (42.8%, 400 games) is inside 35–55%. Time-outs are 0.0% against recruit and regular, 0.3% against veteran, 0.0% against random.
+
+Rows B-0 to B-5 used the M3 scripted Wardens (`wardenPolicyV1`), which could not beat even a random Molt; B-6 on use the utility Wardens. Rows B-0 to B-2 were first run by the engine build, whose notes were lost to a container restart; every row above was
 re-run on 2026-11-13. The scripted policies are blunt; re-measure with the M4 AI before tuning further.
 
-### 13b. AI bench (2026-11-13, M4)
+### 13b. AI bench (2026-11-13, M4 and the Warden follow-up)
 
-`npm run bench:ai -- --games 400` (spec 40): scripted Wardens against each Molt, seeds 1..400, invariants on, no constant changed.
-The sides are fixed, so a Molt win is the Warden loss rate. Decision times are per Molt decision on the cloud container (4 cores, 4 games at once).
+`npm run bench:ai -- --games 400` (spec 40): the utility Wardens against each Molt, seeds 1..400, invariants on, no rule constant changed.
+Decision times are per decision on the cloud container (4 cores, 4 games at once).
 
-| Molt | Molt win % | Avg rounds | Reasons | Fallbacks | Avg / max decision | s per game |
-|---|---|---|---|---|---|---|
-| random | 85.0 | 15.8 | time 85%, core out 15% | 0 | 0.11 / 18 ms | 0.32 |
-| recruit | 49.0 | 14.5 | squad lost 2%, time 47%, core out 51% | 0 | 0.23 / 12 ms | 0.22 |
-| regular (scripted, unchanged) | 61.0 | 12.4 | squad lost 50%, time 11%, core out 39% | 0 | 0.40 / 17 ms | 0.28 |
-| veteran | 99.8 | 13.4 | squad lost 32%, time 68%, core out 0.2% | 0 | 0.73 / 24 ms | 0.52 |
+| Molt | Warden win % | Molt win % | Time-outs | Avg rounds | Molt avg / max ms | Warden avg / max ms | s per game |
+|---|---|---|---|---|---|---|---|
+| random | 100.0 | 0.0 | 0.0% | 13.8 | 0.10 / 12 | 1.43 / 25 | 0.42 |
+| recruit | 73.0 | 27.0 | 0.0% | 9.9 | 0.33 / 13 | 1.38 / 18 | 0.28 |
+| regular (scripted, unchanged) | 42.8 | 57.3 | 0.0% | 8.9 | 0.37 / 16 | 1.24 / 18 | 0.28 |
+| veteran | 24.0 | 76.0 | 0.3% | 9.5 | 0.51 / 31 | 1.42 / 30 | 0.44 |
 
-0 invariant violations and 0 stalls in 1,600 games. Gates: veteran >= regular + 10 pass; recruit <= regular - 10 pass; veteran
-fallbacks 0 and average decision <= 30 ms pass; **recruit >= random + 15 fails by construction** (it would need 100% while
-recruit <= 51%): the random Molt wins 85% by running the scripted Wardens out of clock, 24 points more than the scripted Molt.
-Against the Veteran the scripted Wardens win almost never, so the 35-55% target of section 13 does not hold for the Veteran
-tier; no rebalancing was done (the scripted Wardens are a blunt proxy for a person). The Veteran wins mostly on time: its
-pings wait out of sight along the squad's route and the scripted Wardens do not clear them.
+0 invariant violations, 0 stalls, 0 Molt fallbacks in 1,600 games. All bench gates pass: Wardens beat random 100% (>= 90) with 0% time-outs (<= 5);
+veteran Molt 76.0 >= regular 57.3 + 10; recruit Molt 27.0 <= regular - 10 and >= random 0.0 + 15; Warden average decision 1.4 ms.
+The ladder holds (73.0 / 42.8 / 24.0, steps of 30 and 19 points) and all three bands of the section 13 targets are met (recruit 60-80, regular 40-60, veteran 20-40).
+
+Before the Warden policy was replaced (same Molt code, M3 Wardens): random Molt 85% Molt wins, recruit 49%, regular 61%, veteran 99.8%, nearly all
+of them on the clock, and the recruit-vs-random gate could not hold. That was the measuring stick, not the Molt.
+
+**Corridor body-blocking.** Against the M3 Wardens, idle or hidden units parked in a one-wide corridor won most games on time (random 85%, veteran 68%).
+Against Wardens that clear blockers (shoot what stands in the route, scorch, bring contacts round a corner into sight) the clock is not a factor: 0.0-0.3%
+of results. Blocking by unseen pings is therefore not dominant for a competent squad; it only beats a squad that has no way through. If a person
+turns out to be stopped by it, a rule to answer it would be: a Warden adjacent to a ping may probe it (1 AP, forced reveal P-7), which lets a squad that
+cannot see round a corner clear a plugged corridor. Proposed only; not implemented.
 
 ## 14. Rulings
 

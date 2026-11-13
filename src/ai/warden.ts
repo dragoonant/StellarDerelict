@@ -92,9 +92,6 @@ export interface WardenTuning {
 }
 export const TUNING: WardenTuning = { rushSlack: 1.5, maxGap: 5, reserve: 0, escortGap: 4, reveal: true, pace: 2.5, carrierWait: true, flanks: true, arms: true, cohesion: true, watchScore: 1.0, guard: true }
 
-/** Last candidate list (for diagnostics only). */
-export const debug: { cands: { a: Action; s: number }[]; why: Record<string, string> } = { cands: [], why: {} }
-
 export const wardenPolicy: Policy = (b) => {
   const ws = b.units.filter((u): u is WardenUnit => u.kind === 'warden' && u.alive)
   if (ws.length === 0) return END
@@ -334,22 +331,14 @@ export const wardenPolicy: Policy = (b) => {
   }
 
   // ---- movement and jobs ----------------------------------------------------------------------------
-  debug.why = {}
   const seenNear = (p: Pos, d: number): boolean => stalkers.some((t) => manh(t.at, p) <= d)
   for (const w of ws) {
     if (w.watch || (guarding && guarding.id === w.id)) continue
     const g = goals.get(w.id)
-    if (!g) {
-      debug.why[w.id] = 'no goal'
-      continue
-    }
+    if (!g) continue
     // Molt units block the plan; walk the unblocked route anyway so the guns can clear it
     const p = planWarden(b, w, g.goal) ?? planWarden({ ...b, units: b.units.filter((u) => u.kind === 'warden') }, w, g.goal)
-    if (!p) {
-      debug.why[w.id] = 'no plan'
-      continue
-    }
-    debug.why[w.id] = `plan ${p.cost} ${JSON.stringify(p.action)}`
+    if (!p) continue
     if (p.cost === 0) {
       if (g.op === 'core') add({ type: 'takeCore', unit: w.id }, 20, true)
       else if (g.op === 'terminal') {
@@ -386,7 +375,6 @@ export const wardenPolicy: Policy = (b) => {
     }
   }
 
-  debug.cands = C
   let best: Cand | null = null
   for (const c of C) if (!best || c.s > best.s) best = c
   return best && best.s >= 0.3 ? best.a : END

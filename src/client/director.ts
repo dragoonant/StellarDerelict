@@ -106,7 +106,8 @@ export function patch(v: View, ev: Event): View {
     case 'watchEnded':
       return { ...v, units: mapUnits(v, (u) => (u.id === ev.unit && u.kind === 'warden' ? { ...u, watch: false } : u)) }
     case 'scorched':
-      return { ...v, burn: [...v.burn, ...ev.burst] }
+      // the charge is spent as the burst lands (SC-1)
+      return { ...v, burn: [...v.burn, ...ev.burst], units: mapUnits(v, (u) => (u.id === ev.unit && u.kind === 'warden' ? { ...u, charges: Math.max(0, u.charges - 1) } : u)) }
     case 'burnCleared':
       return { ...v, burn: [] }
     case 'breached':

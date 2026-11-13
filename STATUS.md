@@ -4,11 +4,11 @@
 (`src/ai/tiers.ts`), a Web Worker with a main-thread fallback (`src/ai/worker.ts`, `workerClient.ts`), a Difficulty choice on
 the Briefing (saved in `setup.options.difficulty`; `?bot=recruit|regular|veteran|random` overrides), and `npm run bench:ai`.
 
-- Gates: typecheck, unit tests, data validation, sim (0 violations), bench (see below), e2e, build.
-- Bench against the scripted Wardens (spec 10 §13b): the Veteran swarm wins about every game; Recruit is about 13 points
-  below Regular. The gate "recruit beats random by 15 points" cannot hold with "recruit 10 below regular" because the random
-  Molt out-wins the regular one by running the scripted Wardens out of clock; the bench reports it as a FAIL with a note.
-- Balance is not re-tuned: the scripted Wardens are the proxy and they lose to the Veteran. Needs a human playtest.
+- Follow-up: the M3 scripted Wardens lost to a random Molt (85% on the clock), so every earlier balance number was measured with a broken stick.
+  New utility Wardens (`src/ai/warden.ts`, spec 40; the old script is `wardenPolicyV1`). Against them: random Molt 0% Molt wins, recruit 27%,
+  regular 57%, veteran 76%; Warden win 100 / 73.0 / 42.8 / 24.0, time-outs under 0.5% everywhere. Recruit and Veteran were re-tuned (AI only, spec 10 B-7, B-8);
+  no rule or mission number changed. All bench gates pass. Still not played by a person.
+- Gates: typecheck, unit tests, data validation, sim (0 violations), bench, e2e, build.
 
 Earlier:
 

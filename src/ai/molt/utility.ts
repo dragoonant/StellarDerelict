@@ -31,8 +31,8 @@ export interface UtilityOpts {
   budgetMs?: number
 }
 
-export const VETERAN: Profile = { name: 'veteran', groupReveal: true, flankAware: true, gang: true, idleP: 0, cover: 1, revealNear: 0, wake: 0 }
-export const RECRUIT: Profile = { name: 'recruit', groupReveal: false, flankAware: false, gang: false, idleP: 0.35, cover: 0, revealNear: 5, wake: 8 }
+export const VETERAN: Profile = { name: 'veteran', groupReveal: true, flankAware: true, gang: true, idleP: 0.2, cover: 1, revealNear: 0, wake: 0 }
+export const RECRUIT: Profile = { name: 'recruit', groupReveal: false, flankAware: false, gang: false, idleP: 0.15, cover: 0, revealNear: 5, wake: 10 }
 
 const candKey = (a: Action): string => JSON.stringify(a)
 
