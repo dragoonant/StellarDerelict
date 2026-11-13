@@ -50,7 +50,7 @@ const stalkerGeo = (() => {
 })()
 
 // The arc of G-5 drawn as a wedge: forward is -z, so the far edge is 8 squares out and 8 either side.
-const FAN_R = 8
+const FAN_R = 6
 const fanGeo = new BufferGeometry().setAttribute('position', new Float32BufferAttribute([0, 0, 0, -FAN_R, 0, -FAN_R, FAN_R, 0, -FAN_R], 3))
 const fanEdge = new BufferGeometry().setAttribute('position', new Float32BufferAttribute([0, 0, 0, -FAN_R, 0, -FAN_R, 0, 0, 0, FAN_R, 0, -FAN_R], 3))
 
@@ -138,7 +138,7 @@ function WardenFigure({ dims, u, selected, carrier }: { dims: Dims; u: WardenUni
                 <meshBasicMaterial color={tokens.scan} transparent opacity={0.07} fog={false} blending={AdditiveBlending} depthWrite={false} side={DoubleSide} />
               </mesh>
               <lineSegments geometry={fanEdge} position={[0, 0.035, 0]}>
-                <lineBasicMaterial color={tokens.scan} transparent opacity={0.5} fog={false} />
+                <lineBasicMaterial color={tokens.scan} transparent opacity={0.3} fog={false} />
               </lineSegments>
             </>
           )}

@@ -108,3 +108,28 @@ test('KB rule 24 at 390x844: no text selection, no sideways scroll on title, bri
   expect(await fits()).toBe(true)
   expect(errors).toEqual([])
 })
+
+test.describe('touch', () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })
+
+  test('KB rule 25 on a phone: a finger tap selects the Warden, moves her, and opens the door ahead', async ({ page }) => {
+    await page.goto('./?speed=instant&seed=25')
+    await toMission(page)
+    const at = (x: number, y: number) => page.evaluate(([a, b]) => window.__sd!.project(a!, b!)!, [x, y])
+    const onBoard = (p: { x: number; y: number }) => page.evaluate(([x, y]) => document.elementFromPoint(x!, y!)?.tagName, [p.x, p.y])
+    const w = await at(3, 14)
+    expect(await onBoard(w)).toBe('CANVAS')
+    await page.touchscreen.tap(w.x, w.y)
+    await expect.poll(() => page.evaluate(() => window.__sd!.ui().selected)).toBe('brandt')
+    const f = await at(4, 14)
+    expect(await onBoard(f)).toBe('CANVAS')
+    await page.touchscreen.tap(f.x, f.y)
+    await expect
+      .poll(() => page.evaluate(() => (window.__sd!.state()!.units.find((u) => u.id === 'brandt') as { at: number[] }).at))
+      .toEqual([4, 14])
+    // a tap on the door square ahead is that square's action: it opens
+    const d = await at(5, 14)
+    await page.touchscreen.tap(d.x, d.y)
+    await expect.poll(() => page.evaluate(() => window.__sd!.state()!.doors['5,14']!.open)).toBe(true)
+  })
+})

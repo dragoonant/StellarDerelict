@@ -41,6 +41,9 @@ try {
   await desk.waitForTimeout(1500)
   await playTo(desk, 3)
   await desk.locator('.trace').first().click()
+  await desk.waitForTimeout(400)
+  // the whole deck from above: seen corridors, mapped deck, pings
+  await desk.evaluate(() => window.__sd.setView({ x: 0, z: 0, zoom: 0.02 }))
   await desk.waitForTimeout(1200)
   await desk.screenshot({ path: `${out}/m3-mission.png` })
   const ph = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, hasTouch: true, isMobile: true })
@@ -51,11 +54,16 @@ try {
   await ph.waitForTimeout(1500)
   await playTo(ph, 3)
   await ph.locator('.trace').nth(1).tap()
+  await ph.waitForTimeout(400)
+  await ph.evaluate(() => {
+    const u = window.__sd.state().units.find((x) => x.id === 'brandt')
+    window.__sd.setView({ x: u.at[0] - 14.5, z: u.at[1] - 9.5, zoom: 0.3 })
+  })
   await ph.waitForTimeout(1200)
   await ph.screenshot({ path: `${out}/m3-mission-phone.png` })
   // a finished mission for the debrief
   const deb = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 })
-  await deb.goto(`${url}?speed=instant&seed=3&bot=random`)
+  await deb.goto(`${url}?speed=instant&seed=4&bot=random`)
   await deb.getByRole('button', { name: /board the halcyon/i }).click()
   await deb.getByRole('button', { name: /cut in/i }).click()
   await deb.waitForFunction(() => window.__sd?.ui().screen === 'mission')

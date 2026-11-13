@@ -164,3 +164,23 @@ test('K-1 timer: Standard drains the bar and ends the phase at zero; Off has no 
   await page.getByRole('button', { name: /^resume/i }).click()
   await expect(page.getByTestId('timer')).toHaveCount(0)
 })
+
+test('director: at Fast speed a Molt phase animates, controls are disabled meanwhile, and the board ends on the engine state', async ({ page }) => {
+  const errors = watchErrors(page)
+  await page.goto('./?speed=fast&bot=random&seed=41')
+  await toMission(page)
+  expect(await page.evaluate(() => window.__sd!.dispatch({ type: 'endPhase' }))).toBe(true)
+  await expect(page.locator('.hud[data-animating="yes"]')).toBeVisible()
+  await expect(page.locator('.actions[data-busy="yes"]')).toBeVisible()
+  expect(await page.evaluate(() => window.__sd!.dispatch({ type: 'turn', unit: 'venn', facing: 'N' }))).toBe(false)
+  await page.evaluate(() => window.__sd!.idle())
+  await expect(page.locator('.hud[data-animating="no"]')).toBeVisible()
+  const same = await page.evaluate(() => {
+    const live = window.__sd!.view()!.units.map((u) => `${u.id}@${u.at}`).sort()
+    const shown = window.__sd!.presented()!.units.map((u) => `${u.id}@${u.at}`).sort()
+    return JSON.stringify(live) === JSON.stringify(shown)
+  })
+  expect(same).toBe(true)
+  expect(await page.evaluate(() => window.__sd!.state()!.round)).toBe(2)
+  expect(errors).toEqual([])
+})

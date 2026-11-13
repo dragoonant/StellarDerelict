@@ -91,6 +91,12 @@ export function patch(v: View, ev: Event): View {
       }
       return { ...v, doors: { ...v.doors, [key(ev.door)]: next } }
     }
+    case 'terminalUsed': {
+      // unsealing has no doorChanged event of its own: the terminal event carries it
+      const d = ev.door ? v.doors[key(ev.door)] : undefined
+      if (!ev.door || !d || ev.op !== 'unseal') return v
+      return { ...v, doors: { ...v.doors, [key(ev.door)]: { ...d, sealed: false } } }
+    }
     case 'fired':
       return { ...v, units: mapUnits(v, (u) => (u.id === ev.unit && u.kind === 'warden' ? { ...u, heat: ev.heat } : u)) }
     case 'vented':
