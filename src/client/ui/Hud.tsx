@@ -6,6 +6,7 @@ import { ahead } from '../../engine/grid'
 import { query } from '../../engine'
 import type { Action, Facing, Pos, View, WardenUnit } from '../../engine'
 import { viewApi } from '../board/viewApi'
+import { AudioControls } from './AudioControls'
 import { inspectSquare, nameOf, roundLabel } from '../describe'
 import {
   arm,
@@ -366,6 +367,7 @@ function MenuPanel() {
           ]}
           onPick={setTimerSetting}
         />
+        <AudioControls />
         <button type="button" onClick={() => viewApi.reset()}>
           Reset camera
         </button>

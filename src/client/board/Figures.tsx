@@ -5,6 +5,8 @@ import { useMemo, useRef } from 'react'
 import { BoxGeometry, BufferGeometry, Color, Group, Matrix4, Mesh, SphereGeometry, Sprite, DoubleSide, AdditiveBlending, CanvasTexture, Float32BufferAttribute } from 'three'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import type { Facing, View, ViewUnit, WardenUnit } from '../../engine'
+import { stalkerSlug, wardenSlug } from '../../data'
+import { ModelFigure } from '../models/Model'
 import { getStore, useStore } from '../store'
 import { tokens } from '../tokens'
 import { toWorldX, toWorldZ, type Dims } from './layout'
@@ -113,7 +115,7 @@ function useSmoothPlacement(dims: Dims, at: [number, number], unit: string, faci
   return ref
 }
 
-function WardenFigure({ dims, u, selected, carrier }: { dims: Dims; u: WardenUnit; selected: boolean; carrier: boolean }) {
+function WardenFigure({ dims, u, slug, selected, carrier }: { dims: Dims; u: WardenUnit; slug: string; selected: boolean; carrier: boolean }) {
   const ref = useSmoothPlacement(dims, u.at, u.id, u.facing)
   const body = u.breached ? new Color(tokens.read).lerp(new Color(tokens.alarm), 0.35) : new Color(tokens.read).lerp(new Color(tokens.scan), 0.3)
   const glyph = useRef<Mesh>(null)
@@ -124,9 +126,15 @@ function WardenFigure({ dims, u, selected, carrier }: { dims: Dims; u: WardenUni
     <group ref={ref}>
       {u.alive && (
         <>
-          <mesh geometry={wardenGeo}>
-            <meshLambertMaterial color={body} />
-          </mesh>
+          <ModelFigure
+            slug={slug}
+            tint={u.breached}
+            fallback={
+              <mesh geometry={wardenGeo}>
+                <meshLambertMaterial color={body} />
+              </mesh>
+            }
+          />
           <mesh geometry={wedgeGeo} position={[0, 0.04, 0]}>
             <meshBasicMaterial color={tokens.lit} fog={false} side={DoubleSide} />
           </mesh>
@@ -170,9 +178,14 @@ function StalkerFigure({ dims, u }: { dims: Dims; u: ViewUnit }) {
         <circleGeometry args={[0.46, 20]} />
         <meshBasicMaterial color={tokens.molt} transparent opacity={0.35} fog={false} depthWrite={false} />
       </mesh>
-      <mesh geometry={stalkerGeo} scale={1.35}>
-        <meshBasicMaterial color={tokens.molt} />
-      </mesh>
+      <ModelFigure
+        slug={stalkerSlug(u.id)}
+        fallback={
+          <mesh geometry={stalkerGeo} scale={1.35}>
+            <meshBasicMaterial color={tokens.molt} />
+          </mesh>
+        }
+      />
     </group>
   )
 }
@@ -211,25 +224,35 @@ function PingMarker({ dims, u }: { dims: Dims; u: ViewUnit }) {
 }
 
 function LooseCore({ dims, at }: { dims: Dims; at: [number, number] }) {
-  const ref = useRef<Mesh>(null)
+  const ref = useRef<Group>(null)
   useFrame((_, dt) => {
     if (ref.current) ref.current.rotation.y += dt * 1.6
   })
   return (
-    <mesh ref={ref} position={[toWorldX(dims, at[0]), 0.4, toWorldZ(dims, at[1])]}>
-      <octahedronGeometry args={[0.2]} />
-      <meshBasicMaterial color={tokens.lit} fog={false} />
-    </mesh>
+    <group ref={ref} position={[toWorldX(dims, at[0]), 0, toWorldZ(dims, at[1])]}>
+      <ModelFigure
+        slug="core"
+        fallback={
+          <mesh position={[0, 0.4, 0]}>
+            <octahedronGeometry args={[0.2]} />
+            <meshBasicMaterial color={tokens.lit} fog={false} />
+          </mesh>
+        }
+      />
+    </group>
   )
 }
 
 export function Units({ dims, v }: { dims: Dims; v: View }) {
   const selected = useStore((s) => s.selected)
+  // the `warden`-role squad members take rifle-a then rifle-b by squad order (the unit list is in squad order)
+  const rifle = new Map<string, number>()
+  for (const u of v.units) if (u.kind === 'warden' && u.role === 'warden') rifle.set(u.id, rifle.size)
   return (
     <group>
       {v.units.map((u) =>
         u.kind === 'warden' ? (
-          <WardenFigure key={u.id} dims={dims} u={u} selected={selected === u.id} carrier={v.core.carrier === u.id} />
+          <WardenFigure key={u.id} dims={dims} u={u} slug={wardenSlug(u.role, rifle.get(u.id) ?? 0)} selected={selected === u.id} carrier={v.core.carrier === u.id} />
         ) : u.kind === 'stalker' ? (
           <StalkerFigure key={u.id} dims={dims} u={u} />
         ) : (

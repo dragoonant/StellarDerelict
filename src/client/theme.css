@@ -198,3 +198,34 @@ button.primary { border-color: var(--scan); color: var(--scan); }
   .strip { }
 }
 @media (prefers-reduced-motion: reduce) { .beat__run, .caret { animation: none; } }
+
+/* ------------------------------------------------------------------ M5/M6: sound sliders, model loading, gallery */
+.mix { display: grid; gap: 6px; margin: 6px 0; }
+.mix__row { display: flex; align-items: center; gap: 8px; }
+.mix input[type="range"] { flex: 1; min-width: 120px; accent-color: var(--scan); }
+.mix button.on, .modal button.on { border-color: var(--alarm); color: var(--alarm); }
+.diag { margin: 4px 0; color: var(--alarm); font-size: 12px; }
+.gallery { position: fixed; inset: 0; background: var(--void); color: var(--read); font-family: var(--font-mono); overflow: hidden; }
+.gallery__bar { position: absolute; left: 0; right: 0; top: 0; z-index: 2; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 8px 16px; background: color-mix(in srgb, var(--deck) 90%, transparent); border-bottom: 1px solid var(--trace); }
+.gallery__bar h1 { margin: 0; font-family: var(--font-head); font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--scan); }
+.gallery__bar button { background: var(--deck); border: 1px solid var(--trace); padding: 5px 10px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px; }
+.gallery__bar button.on { border-color: var(--scan); color: var(--scan); }
+.gallery__label { color: var(--read); font-size: 11px; line-height: 1.5; text-align: center; white-space: nowrap; background: color-mix(in srgb, var(--void) 70%, transparent); padding: 2px 6px; border: 1px solid var(--trace); pointer-events: none; }
+.gallery__label b { color: var(--scan); font-weight: 600; }
+.gallery__label .miss { color: var(--alarm); }
+body.sounds { overflow: auto; }
+.sounds #root { height: auto; overflow: visible; padding: 16px; max-width: 980px; margin: 0 auto; }
+html:has(body.sounds), body.sounds { overflow: auto; height: auto; }
+.sx__title { font-family: var(--font-head); letter-spacing: 0.2em; text-transform: uppercase; color: var(--scan); }
+.sounds h2 { font-family: var(--font-head); letter-spacing: 0.16em; text-transform: uppercase; color: var(--scan); margin: 22px 0 8px; font-size: 16px; }
+.sx { border: 1px solid var(--trace); background: var(--deck); padding: 8px 12px; margin: 6px 0; }
+.sx__head { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.sx__head .dim { color: var(--scan-dim); font-size: 12px; flex: 1; }
+.sx__head button { background: var(--deck); border: 1px solid var(--trace); padding: 4px 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px; }
+.sx__head button:hover:not([disabled]) { border-color: var(--scan); color: var(--scan); }
+.sx__status { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--scan-dim); }
+.sx__status.ok { color: var(--scan); }
+.sx__status.miss { color: var(--alarm); }
+.sx__prompt { margin: 6px 0 0; color: var(--read); font-size: 12px; line-height: 1.5; }
+.sx__measure { margin: 4px 0 0; color: var(--scan-dim); font-size: 12px; }
+.sx__flag { margin: 4px 0 0; color: var(--alarm); font-size: 12px; }

@@ -3,6 +3,7 @@
 // Speed Normal / Fast / Instant scales every duration (instant shows the final state at once).
 import type { Event, Pos, View, ViewUnit } from '../engine'
 import { geoOf } from '../engine/grid'
+import { onPresented, onPresentedInstant } from './audio/director'
 import { getStore, setStore, type Fx, type Speed } from './store'
 
 export const SPEED_FACTOR: Record<Speed, number> = { normal: 1, fast: 0.4, instant: 0 }
@@ -194,10 +195,11 @@ async function run(): Promise<void> {
         const now = performance.now()
         const withIds: Fx[] = fxs.map((x) => ({ ...x, id: nextFx++, born: now }))
         setStore((s) => ({ presented: patch(before, ev), fx: [...s.fx.filter((x) => now - x.born < x.ms + 50), ...withIds] }))
+        onPresented(ev, before)
         const wait = (BEAT_MS[ev.type] ?? 0) * f
         if (wait > 0) await sleep(wait)
       }
-    }
+    } else onPresentedInstant(job.events, getStore().presented)
     if (mine !== epoch) return
     setStore({ presented: job.final })
   }
@@ -214,6 +216,7 @@ export function present(events: Event[], final: View): void {
   queue.push({ events, final })
   if (SPEED_FACTOR[getStore().settings.speed] === 0 && !running) {
     queue = []
+    onPresentedInstant(events, getStore().presented)
     setStore({ presented: final })
     return
   }

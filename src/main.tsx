@@ -1,6 +1,8 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './client/App'
+import { initAudio } from './client/audio/director'
+import { modelStore } from './client/models/store'
 import { initSession } from './client/session'
 import './client/theme.css'
 
@@ -10,10 +12,24 @@ const editable = (t: EventTarget | null) =>
 document.addEventListener('selectstart', (e) => { if (!editable(e.target)) e.preventDefault() })
 document.addEventListener('contextmenu', (e) => { if (!editable(e.target)) e.preventDefault() })
 
-initSession()
+const Gallery = lazy(() => import('./client/gallery/Gallery'))
+const gallery = new URLSearchParams(location.search).has('gallery')
+
+// KB rule 26: every enabled model starts downloading when the app opens.
+modelStore.preloadEnabled()
+if (!gallery) {
+  initSession()
+  initAudio()
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    {gallery ? (
+      <Suspense fallback={null}>
+        <Gallery />
+      </Suspense>
+    ) : (
+      <App />
+    )}
   </StrictMode>,
 )

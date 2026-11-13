@@ -12,6 +12,8 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1200,
     rollupOptions: {
+      // the game, and the sound audition page (sounds.html)
+      input: { main: fileURLToPath(new URL('./index.html', import.meta.url)), sounds: fileURLToPath(new URL('./sounds.html', import.meta.url)) },
       output: {
         manualChunks(id: string) {
           if (!id.includes('node_modules')) return undefined

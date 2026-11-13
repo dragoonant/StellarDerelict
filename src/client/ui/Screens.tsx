@@ -6,6 +6,8 @@ import { MISSION_ID, continueSave, discardSave, goto, setDifficulty, setSpeed, s
 import { TIER_LABEL, tierOfSetup, type Tier } from '../../ai/tiers'
 import { setStore, useStore, type Speed, type TimerSetting } from '../store'
 import { roundLabel } from '../describe'
+import { useModelProgress } from '../models/Model'
+import { AudioControls } from './AudioControls'
 
 function TitleMap() {
   const d = useMemo(() => {
@@ -34,6 +36,7 @@ export function Title() {
   const howTo = useStore((s) => s.howTo)
   const settingsOpen = useStore((s) => s.settingsOpen)
   const state = useStore((s) => s.state)
+  const models = useModelProgress()
 
   const summary = useMemo(() => {
     if (saveRead.kind !== 'ok') return ''
@@ -98,8 +101,8 @@ export function Title() {
               Board the Halcyon Drift
             </button>
             {saveRead.kind === 'ok' && (
-              <button type="button" onClick={() => continueSave()} data-act="continue" className="title__continue">
-                Continue
+              <button type="button" onClick={() => continueSave()} data-act="continue" className="title__continue" disabled={!models.ready}>
+                {models.ready ? 'Continue' : `Loading models ${models.loaded}/${models.total}`}
                 <small>{summary}</small>
               </button>
             )}
@@ -191,6 +194,7 @@ export function Segmented<T extends string>({ label, value, options, onPick }: {
 
 export function SettingsPanel({ onClose }: { onClose: () => void }) {
   const settings = useStore((s) => s.settings)
+  const models = useModelProgress()
   return (
     <section className="modal ticks" role="dialog" aria-label="Settings">
       <h2>Settings</h2>
@@ -200,6 +204,12 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         <p className="line line--dim">
           Standard gives {rules.timer.base} seconds plus {rules.timer.perWarden} per living Warden for the Warden phase. Relaxed doubles it. Off removes it.
         </p>
+        <AudioControls />
+        {models.failed.map((f) => (
+          <p key={f.slug} className="diag" role="status">
+            Model {f.slug} failed to load ({f.reason}); the procedural figure is used instead.
+          </p>
+        ))}
       </div>
       <button type="button" onClick={onClose}>
         Close
@@ -212,6 +222,7 @@ export function Briefing() {
   const m = getMission(MISSION_ID)
   const settings = useStore((s) => s.settings)
   const difficulty = useStore((s) => s.difficulty)
+  const models = useModelProgress()
   const [shown, setShown] = useState(0)
   const brief = m?.brief ?? ''
   useEffect(() => {
@@ -250,8 +261,8 @@ export function Briefing() {
       <Segmented label="Difficulty" value={difficulty} options={DIFFICULTIES} onPick={setDifficulty} />
       <p className="line line--dim">{DIFFICULTY_NOTE[difficulty]}</p>
       <div className="row">
-        <button type="button" className="primary" onClick={startMission} data-act="cut-in">
-          Cut in
+        <button type="button" className="primary" onClick={startMission} data-act="cut-in" disabled={!models.ready}>
+          {models.ready ? 'Cut in' : `Loading models ${models.loaded}/${models.total}`}
         </button>
         <button type="button" onClick={() => goto('title')}>
           Back

@@ -5,6 +5,8 @@ import { viewApi } from './board/viewApi'
 import { dimsOf, toWorldX, toWorldZ } from './board/layout'
 import { activeBot, botIdle, dispatchHuman, MISSION_ID, setSpeed, wardenSuggestion } from './session'
 import { botInfo } from './moltBot'
+import { modelStore } from './models/store'
+import { audioEngine } from './audio/engine'
 import { getStore, type Speed } from './store'
 
 export interface SdHooks {
@@ -22,6 +24,10 @@ export interface SdHooks {
   /** the Molt bot: its tier, whether decisions come from the worker or the main thread, and how many were asked for */
   bot(): { tier: string; mode: string; reason: string; decisions: number }
   idle(): Promise<void>
+  /** generated models: which are enabled, load progress, failures, and how many of each are in the scene */
+  models(): { enabled: string[]; loaded: number; total: number; failed: string[]; mounted: Record<string, number> }
+  /** audio: whether anything is enabled, ids played so far, files that failed to load */
+  audio(): { enabled: boolean; played: string[]; failed: string[] }
   ui(): { screen: string; selected: string | null; armed: string | null; actions: number; log: number; timerLeft: number; hover: [number, number] | null }
 }
 
@@ -53,6 +59,11 @@ export function installHooks(): void {
         }
         check()
       }),
+    models: () => {
+      const s = modelStore.snapshot()
+      return { enabled: modelStore.enabledSlugs(), loaded: s.loaded, total: s.total, failed: s.failed.map((f) => f.slug), mounted: modelStore.mountedCounts() }
+    },
+    audio: () => ({ enabled: audioEngine.anyEnabled(), played: [...audioEngine.played], failed: audioEngine.failures() }),
     ui: () => {
       const s = getStore()
       return { screen: s.screen, selected: s.selected, armed: s.armed?.kind ?? null, actions: s.actions.length, log: s.log.length, timerLeft: s.timerLeft, hover: s.hover }

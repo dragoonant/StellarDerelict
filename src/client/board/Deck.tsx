@@ -2,9 +2,11 @@
 // fixtures (doors, terminals, console, ducts). Nothing here has a pointer handler (KB rule 25).
 import { useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useMemo, useRef } from 'react'
+import type { Group } from 'three'
 import { BoxGeometry, BufferAttribute, BufferGeometry, Color, InstancedMesh, Matrix4, Mesh, PlaneGeometry } from 'three'
 import { geoOf } from '../../engine/grid'
 import type { View } from '../../engine'
+import { ModelFigure } from '../models/Model'
 import { getStore } from '../store'
 import { tokens } from '../tokens'
 import { WALL_H, toWorldX, toWorldZ, type Dims } from './layout'
@@ -193,35 +195,54 @@ function Cursor({ y = 0.45 }: { y?: number }) {
 function Terminal({ dims, at, used }: { dims: Dims; at: [number, number]; used: boolean }) {
   return (
     <group position={[toWorldX(dims, at[0]), 0, toWorldZ(dims, at[1])]}>
-      <mesh position={[0, 0.35, 0]}>
-        <boxGeometry args={[0.62, 0.7, 0.62]} />
-        <meshLambertMaterial color={tokens.trace} />
-      </mesh>
-      <mesh position={[0, 0.5, 0]}>
-        <boxGeometry args={[0.5, 0.18, 0.5]} />
-        <meshBasicMaterial color={used ? tokens.scanDim : tokens.scan} />
-      </mesh>
+      <ModelFigure
+        slug="terminal"
+        fallback={
+          <>
+            <mesh position={[0, 0.35, 0]}>
+              <boxGeometry args={[0.62, 0.7, 0.62]} />
+              <meshLambertMaterial color={tokens.trace} />
+            </mesh>
+            <mesh position={[0, 0.5, 0]}>
+              <boxGeometry args={[0.5, 0.18, 0.5]} />
+              <meshBasicMaterial color={used ? tokens.scanDim : tokens.scan} />
+            </mesh>
+          </>
+        }
+      />
       {!used && <Cursor />}
     </group>
   )
 }
 
 function Console({ dims, at, hasCore }: { dims: Dims; at: [number, number]; hasCore: boolean }) {
-  const glyph = useRef<Mesh>(null)
+  const glyph = useRef<Group>(null)
   useFrame((_, dt) => {
     if (glyph.current) glyph.current.rotation.y += dt * 1.4
   })
   return (
     <group position={[toWorldX(dims, at[0]), 0, toWorldZ(dims, at[1])]}>
-      <mesh position={[0, 0.5, 0]}>
-        <boxGeometry args={[0.8, 1, 0.8]} />
-        <meshLambertMaterial color={tokens.trace} />
-      </mesh>
+      <ModelFigure
+        slug="console"
+        fallback={
+          <mesh position={[0, 0.5, 0]}>
+            <boxGeometry args={[0.8, 1, 0.8]} />
+            <meshLambertMaterial color={tokens.trace} />
+          </mesh>
+        }
+      />
       {hasCore && (
-        <mesh ref={glyph} position={[0, 1.3, 0]}>
-          <octahedronGeometry args={[0.24]} />
-          <meshBasicMaterial color={tokens.lit} fog={false} />
-        </mesh>
+        <group ref={glyph} position={[0, 1, 0]}>
+          <ModelFigure
+            slug="core"
+            fallback={
+              <mesh position={[0, 0.3, 0]}>
+                <octahedronGeometry args={[0.24]} />
+                <meshBasicMaterial color={tokens.lit} fog={false} />
+              </mesh>
+            }
+          />
+        </group>
       )}
     </group>
   )
