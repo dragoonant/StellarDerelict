@@ -1,21 +1,30 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { BoardCanvas } from './board/Board'
+import { installHooks } from './hooks'
+import { pageHidden, tickTimer } from './session'
+import { useStore } from './store'
+import { Hud } from './ui/Hud'
+import { Briefing, Debrief, Title } from './ui/Screens'
 
-// M0 placeholder: the title screen only. The mission arrives with M3 (PLAN.md).
 export function App() {
-  const [status, setStatus] = useState('')
+  const screen = useStore((s) => s.screen)
+  useEffect(() => {
+    installHooks()
+    const t = setInterval(tickTimer, 250)
+    const hide = (): void => pageHidden()
+    window.addEventListener('pagehide', hide)
+    return () => {
+      clearInterval(t)
+      window.removeEventListener('pagehide', hide)
+    }
+  }, [])
   return (
-    <main className="title" data-screen="title">
-      <div className="title__rings" />
-      <div className="title__sweep" />
-      <h1 className="title__mark">Stellar<span>Derelict</span></h1>
-      <p className="title__sub">Lantern Squad // boarding channel</p>
-      <nav className="title__menu">
-        <button type="button" onClick={() => setStatus('Boarding party not ready: the mission lands with the first playable.')}>
-          Board the Halcyon Drift
-        </button>
-        <p className="title__status" role="status">{status}</p>
-      </nav>
-      <p className="title__note">An original game by evilgouki</p>
-    </main>
+    <>
+      <BoardCanvas />
+      {screen === 'title' && <Title />}
+      {screen === 'briefing' && <Briefing />}
+      {screen === 'mission' && <Hud />}
+      {screen === 'debrief' && <Debrief />}
+    </>
   )
 }
