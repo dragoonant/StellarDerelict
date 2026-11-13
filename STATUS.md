@@ -1,5 +1,8 @@
 # STATUS (rewritten at each stage; trust `git log` over this file)
 
+**2026-11-13 — live on Pages, first owner playtest approved.** Owner: "I'm super impressed with my playtest so far.
+This is how you get a working prototype." Below is the state as of M5/M6.
+
 **2026-11-12 — M5 figures and M6 audio done on the GPU PC.** Dead Reckoning is playable against the Molt AI
 (Recruit / Regular / Veteran) with generated figures and a full soundtrack: all 11 models, 38 effects (54 files),
 7 music states and 34 voice lines are enabled and load from `public/assets/`. The audio is **not verified by ear**:
@@ -23,5 +26,5 @@ the owner has not yet listened on `sounds.html` (KB rule 9).
   stalkers' base sizes in `units.json` were guesses that worked.
 - Pages: live at https://dragoonant.github.io/StellarDerelict/ (repo made public 2026-11-13; Pages source set to
   the `gh-pages` branch, which the workflow force-pushes after the gates).
-- KB: the entry draft is `docs/kb-entry-stellar-derelict.md` (the cloud session had no push access to the KB repo;
-  this PC session has not pushed it either: copy it across with the M5/M6 lessons).
+- KB: the living entry is `docs/knowledge-base/stellar-derelict.md` (pushed to tabletop-kb 2026-11-13 with the M5/M6
+  lessons); `docs/kb-entry-stellar-derelict.md` is now only a pointer and a fallback for sessions without KB push access.

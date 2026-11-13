@@ -21,7 +21,7 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 - One mission first; more missions and a boarding-run layer are M7+.
 - Sonnet implementers, one or two per milestone, exact file lists; the session model writes specs and verifies.
 - Save key `stellar-derelict-save`; one slot.
-- KB linked as a submodule at `docs/knowledge-base`; the game's KB entry is updated each milestone.
+- KB linked as a submodule at `docs/knowledge-base`; the game's KB entry is updated each milestone. The entry lives in the KB (`stellar-derelict.md`) since 2026-11-13.
 
 ## Milestones
 
