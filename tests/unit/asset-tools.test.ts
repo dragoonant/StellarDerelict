@@ -1,5 +1,6 @@
 // The pure parts of the GPU-PC scripts: prompt lint, concept jobs, idempotent plans, ffmpeg arguments, measurement.
 // Nothing here needs a studio, ffmpeg, sharp or a generated file.
+import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { assets } from '../../src/data'
 import { bannedWords, lintManifest, lintPrompt } from '../../tools/figures/lint-prompts.mjs'
@@ -62,7 +63,8 @@ describe('FIG-2 concept jobs and plan', () => {
     expect(Object.keys(u)).toHaveLength(11)
     expect(u['warden-sergeant']).toMatchObject({ height: 1.6 })
     expect(u['warden-sergeant']!.prompt).toBe(assets.models[0]!.prompt)
-    expect(makePicks({ a: 5, b: 'art/x.png', c: '/abs/y.png' }, '/root')).toEqual({ a: 5, b: '/root/art/x.png', c: '/abs/y.png' })
+    // path.resolve is platform-specific ('/root/art/x.png' on POSIX, 'C:\\root\\art\\x.png' on Windows)
+    expect(makePicks({ a: 5, b: 'art/x.png', c: '/abs/y.png' }, '/root')).toEqual({ a: 5, b: path.resolve('/root', 'art/x.png'), c: '/abs/y.png' })
   })
   it('builds an HTML contact sheet with labels and escapes', () => {
     const h = contactSheetHtml('Wardens <x>', [{ slug: 'warden-tech', images: ['warden-tech/1.png'] }])

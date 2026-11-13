@@ -1,0 +1,13 @@
+{
+  "warden-sergeant": "art/concepts/warden-sergeant/4.png",
+  "warden-rifle-a": "art/concepts/warden-rifle-a/1.png",
+  "warden-rifle-b": "art/concepts/warden-rifle-b/1.png",
+  "warden-scorcher": "art/concepts/warden-scorcher/1.png",
+  "warden-tech": "art/concepts/warden-tech/4.png",
+  "stalker-a": "art/concepts/stalker-a/4.png",
+  "stalker-b": "art/concepts/stalker-b/2.png",
+  "stalker-c": "art/concepts/stalker-c/4.png",
+  "terminal": "art/concepts/terminal/3.png",
+  "console": "art/concepts/console/2.png",
+  "core": "art/concepts/core/4.png"
+}

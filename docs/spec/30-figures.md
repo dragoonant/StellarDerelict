@@ -34,7 +34,7 @@ Shared prompt body (append the per-figure line):
 
 | Slug | Role | Per-figure line | Height (in) |
 |---|---|---|---|
-| `warden-sergeant` | Sergeant | a raised ridge along the helmet crown and one pauldron painted teal; a heavy shock maul with a ribbed head held low in the right fist, a short twin-barrel repeater in the left | 1.6 |
+| `warden-sergeant` | Sergeant | in the right fist a tall two-handed shock maul with a thick ribbed cylindrical steel head on a long haft, its head resting on the base beside the right boot; in the left fist a compact twin-barrel repeater pistol; the left pauldron painted teal and the right pauldron bone-grey; a raised ridge along the helmet crown | 1.6 |
 | `warden-rifle-a` | Warden | an oversized twin-barrel repeater with a boxy heat shroud held across the chest in both fists, muzzle to the figure's left | 1.6 |
 | `warden-rifle-b` | Warden | the same twin-barrel repeater braced at the hip and pointing forward, left foot leading | 1.6 |
 | `warden-scorcher` | Scorcher | a wide-nozzle scorcher with a blackened flared muzzle held in both fists, a fat fuel cylinder on the back pack with a braided hose to the weapon | 1.6 |
