@@ -21,6 +21,7 @@ the owner has not yet listened on `sounds.html` (KB rule 9).
 - Not done: the owner's listen on `sounds.html` (then any re-rolls), a fuller debrief, more missions, the playable
   Molt side, a run layer. Open: Venn's "command points spent" line keys to `phaseStarted` (no CP-spent event);
   stalkers' base sizes in `units.json` were guesses that worked.
-- Pages: the workflow publishes to `gh-pages`; the repo is private, so the link serves only once it is public.
+- Pages: live at https://dragoonant.github.io/StellarDerelict/ (repo made public 2026-11-13; Pages source set to
+  the `gh-pages` branch, which the workflow force-pushes after the gates).
 - KB: the entry draft is `docs/kb-entry-stellar-derelict.md` (the cloud session had no push access to the KB repo;
   this PC session has not pushed it either: copy it across with the M5/M6 lessons).

@@ -6,7 +6,8 @@
 
 Index row: `| [stellar-derelict.md](stellar-derelict.md) | Stellar Derelict, an original 3D corridor-tactics game (armoured squad vs alien swarm on a derelict ship; same family as the classic boarding-action board games, not a port), 1 human vs AI, started 2026-11-12 in a cloud session; **living entry** | The series' third original ruleset; a two-phase asymmetric engine with hidden contacts and `view(state, seat)`; deterministic weapon heat in place of random jams; a balance table where the obvious levers did nothing. |`
 
-Repo `dragoonant/StellarDerelict` (private as of 2026-11-13), started 2026-11-12 from a **claude.ai cloud session**.
+Repo `dragoonant/StellarDerelict` (public since 2026-11-13; live at https://dragoonant.github.io/StellarDerelict/),
+started 2026-11-12 from a **claude.ai cloud session**.
 Decisions: `PLAN.md` (D1–D8). Rules: `docs/spec/10-rules.md` (rule ids, balance B-0..B-5, rulings). Look:
 `docs/spec/50-presentation.md`. State: `STATUS.md`.
 
@@ -46,6 +47,11 @@ Decisions: `PLAN.md` (D1–D8). Rules: `docs/spec/10-rules.md` (rule ids, balanc
 | M6 audio (GPU PC) | 2026-11-12 | session model only | 79 Audio Studio jobs (Stable Audio Open 5 s each, ACE-Step 10 s a track, Qwen voice design 8 s a line), about 20 min of GPU; three takes for two effects, one layered transient; levelled by kind; enabled, not verified by ear |
 
 ## 4. Lessons for the series
+- *(added 2026-11-13, stellar-derelict)* **The gh-pages push route still needs one Pages setting.** The workflow
+  force-pushed `dist/` to `gh-pages` four times with green runs, and the site was a 404: the repo's Pages source was
+  the "GitHub Actions" build type (set when the repo was created), which only serves artifacts from
+  `actions/deploy-pages`. After making a repo public, check `gh api repos/<o>/<r>/pages` shows `build_type: legacy`
+  and `source.branch: gh-pages`; one `PUT` fixes it and the first build follows within a minute.
 - *(added 2026-11-12, stellar-derelict M5)* **Check the facing convention of the gallery against the loader before
   trusting a "face the arrow" gate.** The cloud-written gallery said "+Z", the loader turned every model to -Z (the
   board's facing N), so a correct figure showed its back in "Front view". The wide grid is also too small to see a

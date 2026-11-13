@@ -12,7 +12,7 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 | D3 | 2026-11-12 | **3D board** (owner picked "3D board"). Procedural stand-in figures until a GPU PC session makes GLBs. |
 | D4 | 2026-11-12 | **Wardens vs AI Molt first; playable Molt later** (owner picked "Marines first, aliens later"). The engine is built two-sided from the start (`view(state, seat)`, Molt decisions as actions). |
 | D5 | 2026-11-12 | **Presentation concept: scanner ghost-map** (owner picked it). The board is what the squad's sensors have mapped; contacts are sonar pings; the HUD is a squad biometric strip with a boarding clock; cold teal on black, amber alarms. Spec `docs/spec/50-presentation.md`. |
-| D6 | 2026-11-12 | **Push to `main` and Pages after every stage** (owner picked "Main + Pages each stage"). Route: gates, then force-push `dist/` to `gh-pages` (`.github/workflows/deploy.yml`). The repo is private, so Pages serves only once it is public or the plan allows private Pages. |
+| D6 | 2026-11-12 | **Push to `main` and Pages after every stage** (owner picked "Main + Pages each stage"). Route: gates, then force-push `dist/` to `gh-pages` (`.github/workflows/deploy.yml`). Repo public and Pages source set to `gh-pages` on 2026-11-13: live at https://dragoonant.github.io/StellarDerelict/. |
 | D7 | 2026-11-12 | Names (ours): the **Wardens** of Lantern Squad in Bastion hardsuits; the **Molt** (stalkers, shown as pings until seen); first wreck the *Halcyon Drift*; first mission **Dead Reckoning**. |
 | D8 | 2026-11-12 | Signature rules of our own: repeater **heat** instead of random jams, hardsuit **plating** (first lethal hit breaches), **ship systems** at terminals (bulkheads, lights, purge), and a timed Warden phase (setting, default on). |
 
@@ -37,4 +37,4 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 
 ## Open questions for the owner
 
-1. The repo is private: make it public (or confirm private Pages) for the playable link to serve.
+1. (closed 2026-11-13) The repo is public and the Pages link serves.

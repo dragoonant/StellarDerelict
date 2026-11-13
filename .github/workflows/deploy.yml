@@ -1,6 +1,7 @@
 # Gates, then publish dist/ to the gh-pages branch.
 # This is the Pages route that needs no settings change (KB gotchas, "Deploy, Pages and cloud sessions";
-# bossforge 11640e4). On a private repo, Pages also needs a plan that allows private Pages.
+# bossforge 11640e4). Pages must be set to serve the gh-pages branch (not the "GitHub Actions" build type):
+# with the Actions type selected the site is a 404 even though this branch exists.
 name: Deploy to GitHub Pages
 
 on:
