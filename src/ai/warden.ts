@@ -78,6 +78,7 @@ export interface WardenTuning {
   rushSlack: number
   /** how far (path squares) the point may get ahead of the third Warden */
   maxGap: number
+  reserve: number
   escortGap: number
   reveal: boolean
   /** squares per round the schedule assumes */
@@ -89,7 +90,7 @@ export interface WardenTuning {
   watchScore: number
   guard: boolean
 }
-export const TUNING: WardenTuning = { rushSlack: 1.5, maxGap: 5, escortGap: 99, reveal: true, pace: 2.5, carrierWait: true, flanks: true, arms: true, cohesion: true, watchScore: 1.0, guard: true }
+export const TUNING: WardenTuning = { rushSlack: 1.5, maxGap: 5, reserve: 0, escortGap: 4, reveal: true, pace: 2.5, carrierWait: true, flanks: true, arms: true, cohesion: true, watchScore: 1.0, guard: true }
 
 /** Last candidate list (for diagnostics only). */
 export const debug: { cands: { a: Action; s: number }[]; why: Record<string, string> } = { cands: [], why: {} }
@@ -135,7 +136,7 @@ export const wardenPolicy: Policy = (b) => {
   const need = remaining / TUNING.pace + (stage === 'unlock' ? 1.5 : 0) + (stage === 'unlock' || stage === 'core' ? 1 : 0)
   const slack = roundsLeft - need
   const rushing = slack <= TUNING.rushSlack
-  const spare = Math.max(0, b.cp - (rushing ? 0 : 2))
+  const spare = Math.max(0, b.cp - (rushing ? 0 : TUNING.reserve))
 
   const ok = (a: Action, emergency = false): boolean => {
     if (query.why(b, a) !== null) return false
