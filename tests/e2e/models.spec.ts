@@ -6,7 +6,7 @@ import { toBriefing, toMission, watchErrors } from './helpers'
 
 const FIXTURE = readFileSync(new URL('../fixtures/fixture-figure.glb', import.meta.url))
 
-test('nothing enabled: no model or audio request, procedural figures, silence', async ({ page }) => {
+test('?models=none&audio=none: no model or audio request, procedural figures, silence', async ({ page }) => {
   const errors = watchErrors(page)
   const asked: string[] = []
   page.on('request', (r) => {
@@ -16,7 +16,7 @@ test('nothing enabled: no model or audio request, procedural figures, silence', 
   page.on('console', (m) => {
     if (m.type() === 'warning' || m.type() === 'error') logs.push(m.text())
   })
-  await page.goto('/')
+  await page.goto('/?models=none&audio=none')
   await toMission(page)
   const m = await page.evaluate(() => window.__sd!.models())
   expect(m).toMatchObject({ total: 0, loaded: 0, enabled: [], failed: [], mounted: {} })

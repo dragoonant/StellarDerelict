@@ -11,6 +11,8 @@ import { smoothNormals } from './smoothNormals'
 export const WORLD_PER_INCH = 0.7
 /** A model is never allowed to be wider than this many squares, whatever its height says. */
 export const MAX_FOOTPRINT = 0.95
+/** Stalkers are long and low (spec 30): their tail and forelimbs may overhang the square a little. */
+export const STALKER_FOOTPRINT = 1.25
 
 export type ModelStatus = 'loading' | 'ready' | 'failed'
 
@@ -35,7 +37,7 @@ export interface ModelSnapshot {
 export const modelUrl = (file: string): string => import.meta.env.BASE_URL + 'assets/' + file
 
 /** Scale a loaded scene to `heightIn`, stand it on y = 0 over its own centre and turn it to face -z (generated models face +z). */
-export function fitModel(scene: Object3D, heightIn: number, yawDeg: number): { proto: Group; tris: number; height: number } {
+export function fitModel(scene: Object3D, heightIn: number, yawDeg: number, maxFootprint = MAX_FOOTPRINT): { proto: Group; tris: number; height: number } {
   scene.updateMatrixWorld(true)
   const box = new Box3().setFromObject(scene)
   const size = box.getSize(new Vector3())
@@ -43,7 +45,7 @@ export function fitModel(scene: Object3D, heightIn: number, yawDeg: number): { p
   const want = heightIn * WORLD_PER_INCH
   let k = size.y > 0 ? want / size.y : 1
   const wide = Math.max(size.x, size.z)
-  if (wide > 0) k = Math.min(k, MAX_FOOTPRINT / wide)
+  if (wide > 0) k = Math.min(k, maxFootprint / wide)
   const inner = new Group()
   inner.add(scene)
   scene.position.set(-centre.x, -box.min.y, -centre.z)
@@ -113,7 +115,7 @@ export class ModelStore {
         const bytes = await this.fetchBytes(modelUrl(entry.file))
         const gltf = await this.loader.parseAsync(bytes, '')
         smoothNormals(gltf.scene)
-        const f = fitModel(gltf.scene, entry.heightIn, entry.yaw)
+        const f = fitModel(gltf.scene, entry.heightIn, entry.yaw, entry.kind === 'stalker' ? STALKER_FOOTPRINT : MAX_FOOTPRINT)
         rec = { slug, status: 'ready', proto: f.proto, tris: f.tris, height: f.height }
       } catch (e) {
         const reason = e instanceof Error ? e.message : String(e)
@@ -167,13 +169,17 @@ export class ModelStore {
   }
 }
 
-/** `?models=fixture` enables every model (the e2e test serves a fixture GLB for each); `?models=a,b` enables just those. */
+/**
+ * `?models=fixture` enables every model (the e2e test serves a fixture GLB for each); `?models=a,b` enables just those;
+ * `?models=none` disables them all (the procedural figures, whatever the manifest says).
+ */
 function overrideFrom(search: string): Set<string> | 'all' | null {
   const v = new URLSearchParams(search).get('models')
   if (!v) return null
   if (v === 'fixture') return 'all'
+  if (v === 'none') return new Set()
   return new Set(v.split(',').filter(Boolean))
 }
 
 const ov = typeof location === 'undefined' ? null : overrideFrom(location.search)
-export const modelStore = new ModelStore(undefined, (m) => m.enabled || ov === 'all' || (ov !== null && ov.has(m.slug)))
+export const modelStore = new ModelStore(undefined, (m) => (ov === null ? m.enabled : ov === 'all' || ov.has(m.slug)))

@@ -31,7 +31,8 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 | M1–M2 | Data, pure engine, tests by rule id, sim with invariants, balance table B-0..B-5 | done 2026-11-13 |
 | M3 | First playable Dead Reckoning: board, HUD, random Molt bot, director, autosave + Continue, phone rules (KB 22, 24–27) with e2e gates | done 2026-11-13 |
 | M4 | Utility Molt AI in a worker, three tiers, utility Warden policy, bench gates; balance B-6..B-8 | done 2026-11-13 |
-| M5–M6 | Figures and audio (GPU PC session) | prepared 2026-11-13 (specs 30/60, manifest, loaders, generators, `HANDOFF-GPU.md`); generation not run |
+| M5 | Figures and props (GPU PC session) | done 2026-11-12: 11 GLBs (Flux klein concepts, Hunyuan 2.1 shape / 2.0 paint), all enabled; gallery gate passed |
+| M6 | Audio (GPU PC session) | in progress 2026-11-12 (Audio Studio: Stable Audio Open, ACE-Step, Qwen voice design) |
 | M7 | Polish, more missions, playable Molt, run layer | |
 
 ## Open questions for the owner

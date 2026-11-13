@@ -1,5 +1,5 @@
 // M5 plumbing: the model store, the fit, and the procedural fallback rules (KB rule 26).
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { Box3, Vector3 } from 'three'
@@ -15,11 +15,12 @@ const only = (...slugs: string[]) => (m: { slug: string }) => slugs.includes(m.s
 const stand = createElement('b', { 'data-standin': '1' })
 
 describe('manifest defaults', () => {
-  it('has every model, sound, music and voice entry disabled', () => {
-    expect(assets.models.every((m) => !m.enabled)).toBe(true)
-    expect(assets.sounds.every((s) => !s.enabled)).toBe(true)
-    expect(assets.music.every((s) => !s.enabled)).toBe(true)
-    expect(assets.voice.every((s) => !s.enabled)).toBe(true)
+  it('every enabled model, sound, music and voice entry has its file under public/assets', () => {
+    const onDisk = (file: string): boolean => existsSync(new URL(`../../public/assets/${file}`, import.meta.url))
+    for (const m of assets.models.filter((m) => m.enabled)) expect(onDisk(m.file), m.slug).toBe(true)
+    for (const s of assets.sounds.filter((s) => s.enabled)) for (const f of s.files) expect(onDisk(f), s.id).toBe(true)
+    for (const m of assets.music.filter((m) => m.enabled)) expect(onDisk(m.file), m.state).toBe(true)
+    for (const v of assets.voice.filter((v) => v.enabled)) expect(onDisk(v.file), v.id).toBe(true)
   })
   it('maps roles and stalker ids to stable slugs', () => {
     expect(wardenSlug('sergeant', 0)).toBe('warden-sergeant')

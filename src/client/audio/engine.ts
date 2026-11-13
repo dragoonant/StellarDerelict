@@ -14,7 +14,9 @@ const FADE_S = 1.5
 const STALE_MS = 1200
 
 const params = typeof location === 'undefined' ? new URLSearchParams() : new URLSearchParams(location.search)
+/** `?audio=all` plays every manifest entry whose file exists (sounds.html); `?audio=none` keeps the game silent whatever the manifest says. */
 const ALL = params.get('audio') === 'all'
+const NONE = params.get('audio') === 'none'
 const url = (file: string): string => import.meta.env.BASE_URL + 'assets/' + file
 
 const soundById = new Map(assets.sounds.map((s) => [s.id, s]))
@@ -42,9 +44,11 @@ class Engine {
 
   /** Any enabled entry at all? With none, the engine never touches Web Audio. */
   anyEnabled(): boolean {
+    if (NONE) return false
     return ALL || assets.sounds.some((s) => s.enabled) || assets.music.some((m) => m.enabled) || assets.voice.some((v) => v.enabled)
   }
   private on(e: { enabled: boolean }): boolean {
+    if (NONE) return false
     return ALL || e.enabled
   }
 

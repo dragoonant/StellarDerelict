@@ -15,6 +15,8 @@ export interface ModelEntry {
   heightIn: number
   /** extra rotation about Y in degrees to make a generated model face +Z */
   yaw: number
+  /** triangle budget (spec 30); tools/models/optimize.mjs simplifies a GLB above it */
+  maxTris?: number
   /** the full generation prompt: shared body plus the per-figure line */
   prompt: string
 }

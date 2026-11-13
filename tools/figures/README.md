@@ -62,7 +62,9 @@ $P = "terminal,console,core"
 python stage_cutout.py                                        # picks.json images to cutouts
 python stage_shape.py --only $W                               # 2.1 venv, about 90 s; auto-cuts the display base
 python stage_shape.py --only $M
-python stage_shape.py --only $P --nocut terminal              # props have no base: add --nocut for any slug without one
+python stage_shape.py --only terminal --nocut terminal --faces 4000   # props: no display base, and decimate here to the spec 30 budget
+python stage_shape.py --only console --nocut console --faces 6000     # (a textured Hunyuan mesh is a triangle soup: a simplifier
+python stage_shape.py --only core --nocut core --faces 2000           #  cannot reduce it afterwards, so --faces is the only lever)
 python stage_paint.py --only $W                               # 2.0 venv, about 20 s
 python stage_paint.py --only $M
 python stage_paint.py --only $P
@@ -83,16 +85,20 @@ minutes per five units. Hunyuan3D is under Tencent's non-commercial community li
 npm i -D @gltf-transform/core @gltf-transform/functions @gltf-transform/extensions meshoptimizer sharp   # once
 npm run models:optimize -- --dry-run
 npm run models:optimize            # dedup, prune, weld, WebP textures at most 1024, meshopt; originals in tools/out/models/raw
+npm run models:optimize -- --force # redo already compressed files from their raw copies (after an optimiser change)
 ```
 
-The client loader already sets the meshopt decoder. Budgets: terminal under 4k triangles, console under 6k, core under 2k;
-figures under about 20k.
+The client loader already sets the meshopt decoder. Budgets (`maxTris` on the manifest entry, met with `--faces` at the shape
+stage; the optimiser only warns): terminal under 4k triangles, console under 6k, core under 2k; figures about 10k. The optimiser
+also drops the degenerate 0 mm base disc the finalize stage leaves on props.
 
 ## 5. Gallery check, then enable
 
 `npm run dev`, open `/?gallery`. Every manifest model is on a turntable with its slug, enabled state, triangle count and height.
-The cyan arrow is +Z: a figure must face it in "Front view". If it does not, set `yaw` (degrees) on that model in
-`src/data/assets.json` (quadrupeds and side-view concepts usually need 90 or -90). The amber ruler line is 35% from the top:
+The cyan arrow is -Z, the game's forward (a unit facing N; `fitModel` turns a +Z Hunyuan model to -Z): a figure must face it in
+"Front view", which looks from the -Z side so a correct figure faces the camera. If it does not, set `yaw` (degrees) on that
+model in `src/data/assets.json` (side-view concepts need 90 or -90; one facing +Z needs 180). `/?gallery=stalker-b` shows one
+model close up (up to two slugs, comma-separated), which is the only way to judge facing: the full grid is too small. The amber ruler line is 35% from the top:
 it should sit at the chin of the helmet. A missing file shows "not generated".
 
 When a model passes, set `"enabled": true` for that slug in `src/data/assets.json` and commit the GLB with it

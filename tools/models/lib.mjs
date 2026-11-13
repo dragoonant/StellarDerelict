@@ -21,6 +21,12 @@ export function isOptimized(buf) {
   return !!j && Array.isArray(j.extensionsUsed) && j.extensionsUsed.includes('EXT_meshopt_compression')
 }
 
+/** The simplify ratio that brings `tris` under `budget` with a little slack; 1 when no budget applies or it already fits. */
+export function simplifyRatio(tris, budget) {
+  if (!(budget > 0) || !(tris > budget)) return 1
+  return Math.max(0.02, Math.min(1, (budget * 0.9) / tris))
+}
+
 export function triCount(json) {
   let n = 0
   for (const m of json?.meshes ?? []) for (const p of m.primitives ?? []) {

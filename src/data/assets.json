@@ -5,7 +5,7 @@
       "kind": "warden",
       "role": "sergeant",
       "file": "models/warden-sergeant.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.6,
       "yaw": 0,
       "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, in the right fist a tall two-handed shock maul with a thick ribbed cylindrical steel head on a long haft, its head resting on the base beside the right boot; in the left fist a compact twin-barrel repeater pistol; the left pauldron painted teal and the right pauldron bone-grey; a raised ridge along the helmet crown"
@@ -15,7 +15,7 @@
       "kind": "warden",
       "role": "warden",
       "file": "models/warden-rifle-a.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.6,
       "yaw": 0,
       "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, an oversized twin-barrel repeater with a boxy heat shroud held across the chest in both fists, muzzle to the figure's left"
@@ -25,7 +25,7 @@
       "kind": "warden",
       "role": "warden",
       "file": "models/warden-rifle-b.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.6,
       "yaw": 0,
       "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, the same twin-barrel repeater braced at the hip and pointing forward, left foot leading"
@@ -35,7 +35,7 @@
       "kind": "warden",
       "role": "scorcher",
       "file": "models/warden-scorcher.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.6,
       "yaw": 0,
       "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, a wide-nozzle scorcher with a blackened flared muzzle held in both fists, a fat fuel cylinder on the back pack with a braided hose to the weapon"
@@ -45,7 +45,7 @@
       "kind": "warden",
       "role": "tech",
       "file": "models/warden-tech.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.6,
       "yaw": 0,
       "prompt": "a highly detailed painted miniature figure of an armoured boarding trooper in a heavy sealed hardsuit, about 2.8 head-heights tall: a large smooth helmet about a third of its height with one wide amber visor band, very broad armoured shoulders almost twice the helmet's width with heavy rounded pauldrons, a deep armoured chest (chin to belt about three quarters of a head), short thick legs about one head long with big magnetic boots in a wide planted stance, gloved fists about a third of the helmet's height, matte bone-grey ceramic plates over a dark gunmetal undersuit, thin teal status strips at the collar and forearms, a squat life-support pack, crisp panel lines, rivets, hoses and pouches, scuffs and scorch marks, matte realistic paint with edge highlights, standing on a plain black round base, white background, full figure in view, wordless and unmarked armour, a twin-barrel repeater in the right fist, the left forearm carrying a folding interface arm with a data spike, a short antenna mast and a cable reel on the pack"
@@ -54,7 +54,7 @@
       "slug": "stalker-a",
       "kind": "stalker",
       "file": "models/stalker-a.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.3,
       "yaw": 0,
       "prompt": "a highly detailed painted miniature of a low, long-limbed alien predator in mid-moult, crouched and about as long as it is tall: a wedge-shaped eyeless skull about a third of its body length with a split lower jaw and needle teeth, two long scything forelimbs raised, a narrow ribbed body, two bent digitigrade hind legs, a short whip tail, dark red-black new chitin showing through flaking translucent pale old shell with torn edges, wet highlights only on the new chitin, matte old shell, crisp segment lines, standing on a plain black round base, white background, full creature in view, wordless, lunging forward, both forelimbs reaching, jaw open"
@@ -63,45 +63,48 @@
       "slug": "stalker-b",
       "kind": "stalker",
       "file": "models/stalker-b.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.3,
-      "yaw": 0,
+      "yaw": -90,
       "prompt": "a highly detailed painted miniature of a low, long-limbed alien predator in mid-moult, crouched and about as long as it is tall: a wedge-shaped eyeless skull about a third of its body length with a split lower jaw and needle teeth, two long scything forelimbs raised, a narrow ribbed body, two bent digitigrade hind legs, a short whip tail, dark red-black new chitin showing through flaking translucent pale old shell with torn edges, wet highlights only on the new chitin, matte old shell, crisp segment lines, standing on a plain black round base, white background, full creature in view, wordless, crouched low and coiled, one forelimb planted, head turned to its right"
     },
     {
       "slug": "stalker-c",
       "kind": "stalker",
       "file": "models/stalker-c.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.5,
-      "yaw": 0,
+      "yaw": 180,
       "prompt": "a highly detailed painted miniature of a low, long-limbed alien predator in mid-moult, crouched and about as long as it is tall: a wedge-shaped eyeless skull about a third of its body length with a split lower jaw and needle teeth, two long scything forelimbs raised, a narrow ribbed body, two bent digitigrade hind legs, a short whip tail, dark red-black new chitin showing through flaking translucent pale old shell with torn edges, wet highlights only on the new chitin, matte old shell, crisp segment lines, standing on a plain black round base, white background, full creature in view, wordless, reared up on its hind legs, forelimbs spread wide, most of the old shell already shed"
     },
     {
       "slug": "terminal",
       "kind": "prop",
       "file": "models/terminal.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 0.9,
       "yaw": 0,
+      "maxTris": 4000,
       "prompt": "a waist-high wall-mounted ship control pedestal with a cracked teal screen, exposed conduit and a hand bar, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 4k triangles"
     },
     {
       "slug": "console",
       "kind": "prop",
       "file": "models/console.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 1.5,
       "yaw": 0,
+      "maxTris": 6000,
       "prompt": "a chest-high archive console with a cylindrical glass core socket glowing teal in its centre, heavy clamps, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 6k triangles"
     },
     {
       "slug": "core",
       "kind": "prop",
       "file": "models/core.glb",
-      "enabled": false,
+      "enabled": true,
       "heightIn": 0.5,
       "yaw": 0,
+      "maxTris": 2000,
       "prompt": "a short armoured data cylinder with a carry handle and a teal light band, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 2k triangles"
     }
   ],

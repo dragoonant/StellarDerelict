@@ -42,8 +42,21 @@ Decisions: `PLAN.md` (D1–D8). Rules: `docs/spec/10-rules.md` (rule ids, balanc
 | M1–M2 data + engine | 2026-11-13 | 1 Sonnet | 97 tests by rule id, golden round, sim with invariants. A container restart killed the agent after the code was written; the coordinator finished balance and the golden fixture |
 | M3 first playable | 2026-11-13 | 1 Sonnet (~23 min, ~0.3M tokens) | Screens, board, HUD, director, scripted Molt bot, autosave + Continue; 14 e2e tests covering rules 8, 22, 24, 25, 27 and the timer |
 | M4 Molt AI + Warden policy | 2026-11-13 | 1 Sonnet, two runs (~0.9M tokens) | Utility Molt AI in a worker, tiers, bench gates; then a utility Warden policy and re-tune (B-6..B-8). 130 unit tests, 16 e2e |
+| M5 figures (GPU PC) | 2026-11-12 | session model only | 44 Flux klein concepts (image edit with the style reference, about 26 s per 4), one re-roll (the sergeant's maul never appeared until the weapon line led the prompt); Hunyuan 2.1 shape / 2.0 paint / finalize for 11 models in about 25 min of GPU; props decimated at the shape stage; gallery gate on close-ups |
 
 ## 4. Lessons for the series
+- *(added 2026-11-12, stellar-derelict M5)* **Check the facing convention of the gallery against the loader before
+  trusting a "face the arrow" gate.** The cloud-written gallery said "+Z", the loader turned every model to -Z (the
+  board's facing N), so a correct figure showed its back in "Front view". The wide grid is also too small to see a
+  face at all: judge facing one model at a time (`?gallery=<slug>`), and write the arrow from the board's facing table.
+- *(added 2026-11-12, stellar-derelict M5)* **A textured Hunyuan mesh cannot be simplified afterwards.** Paint
+  exports a triangle soup (30k vertices for 10k faces, every edge a UV seam), so meshopt's simplifier returns it
+  unchanged. Prop budgets are met with `stage_shape.py --faces N` before painting; the optimiser only warns.
+- *(added 2026-11-12, stellar-derelict M5)* **FLUX.2 klein image-edit copies the reference's props.** Handcuffs, a
+  hose and a skull buckle from the style photo kept appearing; a long shared prompt body pushed the per-figure weapon
+  line out of the picture (no maul in 4 of 4). Put the weapon line first in the per-figure text and name both hands.
+- *(added 2026-11-12, stellar-derelict M5)* **Long creatures need their own footprint cap.** A 0.95-square cap sized
+  the stalkers at half a Warden; 1.25 squares (tail overhang) brought them back to about 0.7 of one.
 - *(added 2026-11-13, stellar-derelict)* **A container restart kills background agents but keeps their files.** The
   engine agent's code survived on disk, uncommitted; its hand-back report and its balance notes did not. Tell every
   agent to commit locally at checkpoints and to overwrite a progress report file after each one, and have the
