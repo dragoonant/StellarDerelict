@@ -9,13 +9,14 @@ export const ZOOM_MAX = 1
 /** Elevation (radians above the horizon) of the overview and of the closest view. */
 export const EL_FAR = 0.97
 export const EL_NEAR = 0.85
-export const EL_MAX = 1.32
+/** Steepest pitch: nearly straight down (the TOP DOWN view); not quite vertical, so the north-up heading stays defined. */
+export const EL_MAX = 1.5
 /** How far above the sand the orbit target sits at full zoom (chest height of a figure). */
 export const EYE_HEIGHT = 0.75
 /** The camera never goes nearer than this above the surface under it (sand, hill or wall top). */
 export const FLOOR_CLEARANCE = 0.32
 export const TILT_MIN = -0.9
-export const TILT_MAX = 0.6
+export const TILT_MAX = 0.7
 /** A press that moves less than this many pixels is a tap, whatever the time it takes (card-games §5). */
 export const TAP_SLOP = 8
 
@@ -76,6 +77,12 @@ export function cameraPosition(v: View, overview: number, ground: number, floorA
 /** Keep the orbit target over the board (and inside the allowed window). */
 export function clampView(v: View, lim: { x: number; z: number }): View {
   return { x: clamp(v.x, -lim.x, lim.x), z: clamp(v.z, -lim.z, lim.z), az: v.az, zoom: clamp(v.zoom, ZOOM_MIN, ZOOM_MAX), tilt: clamp(v.tilt, TILT_MIN, TILT_MAX) }
+}
+
+/** The azimuth equal to `goal` (modulo a full turn) nearest to `from`, so a glide back to north-up never spins more than half a turn. */
+export function nearestTurn(from: number, goal: number): number {
+  const t = Math.PI * 2
+  return goal + Math.round((from - goal) / t) * t
 }
 
 /** Rotate the point (x, z) about (px, pz) so that an azimuth measured as in View grows by `d`. */

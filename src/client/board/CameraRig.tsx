@@ -8,7 +8,7 @@ import { viewApi } from './viewApi'
 import { figurePose, visorRt } from './visor'
 import { VisorLook } from './visorController'
 import { ease, FACING_YAW, MAP_FOV, stepBlend, VISOR_FOG, VISOR_FOV, visorPose } from './visorModel'
-import { getStore } from '../store'
+import { getStore, setStore } from '../store'
 import type { Dims } from './layout'
 
 /** Fog distances on the map: far past the board, so the map never fogs (the fog object exists from the start so no material recompiles). */
@@ -25,7 +25,7 @@ interface Insets {
 /** Pixels of the window the HUD leaves for the board. */
 function insetsFor(width: number, height: number): Insets {
   if (width >= 900) return { left: 24, right: 330, top: 64, bottom: 190 }
-  return { left: 6, right: 6, top: 96, bottom: Math.min(210, Math.round(height * 0.3)) }
+  return { left: 6, right: 6, top: 126, bottom: Math.min(210, Math.round(height * 0.3)) }
 }
 
 const POLAR = 0.97
@@ -140,9 +140,18 @@ export function CameraRig({ dims, home }: { dims: Dims; home: { x: number; z: nu
     return () => look.detach()
   }, [look])
   const vis = useMemo(
-    () => ({ mapPos: new Vector3(), mapQ: new Quaternion(), goalPos: new Vector3(), goalQ: new Quaternion(), pos: new Vector3(), q: new Quaternion(), m: new Matrix4(), has: false, unit: '', facing: '', swoop: false, recentre: false, was: false, wasOn: false }),
+    () => ({ mapPos: new Vector3(), mapQ: new Quaternion(), goalPos: new Vector3(), goalQ: new Quaternion(), pos: new Vector3(), q: new Quaternion(), m: new Matrix4(), has: false, unit: '', facing: '', swoop: false, recentre: false, was: false, wasOn: false, topDown: false }),
     [],
   )
+
+  useEffect(() => {
+    viewApi.topDown = () => {
+      if (getStore().visor) {
+        vis.topDown = true
+        setStore({ visor: false })
+      } else ctl.flyTopDown(ctl.view.x, ctl.view.z)
+    }
+  }, [ctl, vis])
 
   useFrame((state, dt0) => {
     const dt = Math.min(dt0, 0.1)
@@ -152,7 +161,12 @@ export function CameraRig({ dims, home }: { dims: Dims; home: { x: number; z: nu
     const unit = visorRt.unit
     const fig = unit ? figurePose.get(unit) : undefined
     // leaving the visor: put the map over the Warden, so the swing back lands where the player was looking from
-    if (vis.wasOn && !on && fig) ctl.setView({ x: fig.x, z: fig.z, zoom: Math.max(ctl.view.zoom, 0.5) })
+    if (vis.wasOn && !on && fig) {
+      const zoom = Math.max(ctl.view.zoom, 0.5)
+      if (vis.topDown) ctl.setTopDown(fig.x, fig.z, zoom)
+      else ctl.setView({ x: fig.x, z: fig.z, zoom })
+    }
+    if (!on) vis.topDown = false
     vis.wasOn = on
     const goal = on && fig ? 1 : 0
     visorRt.blend = s.settings.speed === 'instant' ? goal : stepBlend(visorRt.blend, goal, dt)
@@ -235,6 +249,7 @@ export function CameraRig({ dims, home }: { dims: Dims; home: { x: number; z: nu
     const onKey = (e: KeyboardEvent): void => {
       if (e.target instanceof HTMLElement && /input|textarea/i.test(e.target.tagName)) return
       if (e.key === 'r' || e.key === 'R' || e.key === 'Home') viewApi.reset()
+      if ((e.key === 'h' || e.key === 'H') && !e.ctrlKey && !e.metaKey && !e.altKey) viewApi.topDown()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)

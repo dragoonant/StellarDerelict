@@ -116,3 +116,35 @@ test('VISOR-5: with Fire armed in the visor the nearest bracket locks, shows the
   expect(await page.evaluate(() => window.__sd!.ui().armed)).toBeNull()
   expect(errors).toEqual([])
 })
+
+test('TOP DOWN: the button and H bring the camera back to north up, looking straight down, from the map and from the visor', async ({ page }) => {
+  const errors = watchErrors(page)
+  await page.goto('./?speed=instant&seed=22')
+  await toMission(page)
+  // turned two and a bit turns round and tipped low
+  await page.evaluate(() => window.__sd!.setView({ az: 2.3 + Math.PI * 4, tilt: -0.6 }))
+  const before = await page.evaluate(() => window.__sd!.camera()!)
+  await page.locator('[data-act="top-down"]').click()
+  await expect.poll(() => page.evaluate(() => window.__sd!.camera()!.tilt)).toBeCloseTo(0.7, 2)
+  const c = await page.evaluate(() => window.__sd!.camera()!)
+  // north up by the nearest whole turn (no spinning), same spot and zoom, camera nearly overhead
+  expect(Math.abs(c.az - Math.PI * 4)).toBeLessThan(0.01)
+  expect(c.tx).toBeCloseTo(before.tx, 3)
+  expect(c.tz).toBeCloseTo(before.tz, 3)
+  expect(c.zoom).toBeCloseTo(before.zoom, 3)
+  expect(Math.hypot(c.x - c.tx, c.z - c.tz)).toBeLessThan(c.y * 0.1)
+
+  // from the visor: H leaves it and lands overhead above that Warden
+  await page.locator('.trace').first().click()
+  await page.keyboard.press('c')
+  await expect.poll(() => page.evaluate(() => window.__sd!.visor().blend)).toBe(1)
+  await page.evaluate(() => window.__sd!.setView({ az: 1.1 }))
+  await page.keyboard.press('h')
+  await expect(page.getByTestId('visor')).toHaveCount(0)
+  await expect.poll(() => page.evaluate(() => window.__sd!.visor().blend)).toBe(0)
+  const v = await page.evaluate(() => window.__sd!.camera()!)
+  expect(v.tilt).toBeCloseTo(0.7, 2)
+  expect(Math.abs(Math.sin(v.az))).toBeLessThan(0.01)
+  expect(Math.cos(v.az)).toBeGreaterThan(0.99)
+  expect(errors).toEqual([])
+})

@@ -459,6 +459,10 @@ export function Hud() {
         <span className="eyebrow">Objective</span> {obj}
       </div>
       <div className="topright">
+        <button type="button" className="panel" onClick={() => viewApi.topDown()} data-act="top-down">
+          Top<span className="long"> down</span>
+          <small>H</small>
+        </button>
         <button type="button" className="panel visorbtn" onClick={toggleVisor} data-act="visor" aria-pressed={visor}>
           {visor ? 'Map' : 'Visor'}
           <small>C</small>

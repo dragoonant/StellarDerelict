@@ -69,6 +69,11 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
 - **Camera** (KB rule 27): starts above the airlock at about 55° pitch. Wheel zooms toward the cursor, right-drag
   rotates and tilts, middle-drag pans, left picks; left-drag pans until the first middle press, remembered under
   `stellar-derelict-mouse`. Touch: one finger pans, two twist and pinch; 8 px tap threshold.
+- **TOP DOWN** (owner request 2026-11-14: "a button that brings the view back to top down"): a `TOP DOWN` button at the
+  top right (`TOP` on phones) and the `H` key glide the camera to north up (the nearest whole turn, never spinning more
+  than half a turn) and as steep as it goes (86°, pitch limit `EL_MAX` 1.5 rad), keeping the spot it looks at and the
+  zoom. From the visor it leaves the visor and lands in that view over the Warden. `R` / `Home` still return to the
+  opening view above the airlock. On phones the button row sits under the clock.
 - **Effects** from engine events only: repeater tracers (hit: `--lit` flash, miss: spark past the target), scorch
   burst, melee lunge, ping-to-stalker reveal (the ring collapses into figures), purge sweep, door slide.
   Additive materials set `fog: false`.

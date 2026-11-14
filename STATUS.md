@@ -1,5 +1,11 @@
 # STATUS (rewritten at each stage; trust `git log` over this file)
 
+**2026-11-14: TOP DOWN button (owner request).** "A button that brings the view back to top down." `TOP DOWN` at the
+top right (`TOP` on phones) and `H` glide the camera to north up, looking nearly straight down (pitch limit raised to
+86°), keeping the spot and zoom; from the visor it lands overhead above that Warden. On phones the button row moved
+under the clock (four buttons overlapped it). Gates: typecheck, 193 unit tests, data validation, sim (1000 games,
+0 violations), 22 e2e tests, build. Visor mode went live the same day; the owner: "It works great."
+
 **2026-11-14: visor mode (owner request).** "A marine visor mode where the view shifts to the marine selected, and you
 can control directly from the marine." `C` or the `VISOR` button puts the camera in the selected Warden's helmet:
 first-person at 72°, walls raised to 1.6 with `--scan` sensor outlines, a deckhead, fog; W/S/Q/E and the arrow keys act,

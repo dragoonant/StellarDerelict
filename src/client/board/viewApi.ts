@@ -16,6 +16,8 @@ export interface CameraReadout {
 export const viewApi = {
   reset: (): void => {},
   setView: (_p: Partial<View>): void => {},
+  /** North up, looking straight down, over the current spot (from the visor: over that Warden, leaving the visor). */
+  topDown: (): void => {},
   /** Glide the camera target to a world point. */
   flyTo: (_x: number, _z: number, _zoom?: number): void => {},
   camera: (): CameraReadout | null => null,

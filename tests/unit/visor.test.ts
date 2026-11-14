@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { EL_MAX, elevationFor, nearestTurn, TILT_MAX, ZOOM_MIN } from '../../src/client/board/cameraModel'
 import {
   bearingOf,
   dragLook,
@@ -85,5 +86,21 @@ describe('visor camera maths (spec 50 "Visor")', () => {
     expect(frames).toBeLessThan(40)
     expect(stepBlend(0.5, 0, 10)).toBe(0)
     expect(stepBlend(1, 1, 0.1)).toBe(1)
+  })
+})
+
+describe('TOP DOWN view (spec 50 "TOP DOWN")', () => {
+  it('the glide back to north up takes the nearest whole turn, never more than half a turn', () => {
+    const t = Math.PI * 2
+    expect(nearestTurn(0.3, 0)).toBe(0)
+    expect(nearestTurn(2 * t + 0.4, 0)).toBeCloseTo(2 * t, 9)
+    expect(nearestTurn(-t - 0.2, 0)).toBeCloseTo(-t, 9)
+    for (const from of [-20, -3.5, -0.1, 0, 1, 3.2, 9.9, 40]) expect(Math.abs(nearestTurn(from, 0) - from)).toBeLessThanOrEqual(Math.PI + 1e-9)
+  })
+
+  it('at full tilt the camera looks down at the steepest pitch at every zoom (about 86 degrees)', () => {
+    for (const zoom of [ZOOM_MIN, 0, 0.5, 1]) expect(elevationFor(zoom, TILT_MAX)).toBe(EL_MAX)
+    expect(EL_MAX).toBeGreaterThan(1.45)
+    expect(EL_MAX).toBeLessThan(Math.PI / 2)
   })
 })

@@ -6,6 +6,7 @@
 // A press that moves less than 8 px is a tap (see gesture.ts); a drag or a second finger is never a tap.
 import { PerspectiveCamera, Raycaster, Vector2 } from 'three'
 import {
+  TILT_MAX,
   ZOOM_MAX,
   ZOOM_MIN,
   cameraPosition,
@@ -13,6 +14,7 @@ import {
   clampView,
   distFor,
   isDrag,
+  nearestTurn,
   releaseVelocity,
   rotateAbout,
   twoFingerDelta,
@@ -160,6 +162,19 @@ export class MapController {
     this.anchor = null
     this.goalPan = { x: clamp(x, -this.lim.x, this.lim.x), z: clamp(z, -this.lim.z, this.lim.z), tilt: this.view.tilt }
     this.vel = { x: 0, z: 0 }
+  }
+
+  /** Glide to the TOP DOWN view over a table point: north up (the home azimuth) and as steep as the camera goes; the zoom stays. */
+  flyTopDown(x: number, z: number): void {
+    this.goalAz = nearestTurn(this.view.az, this.homeAz)
+    this.anchor = null
+    this.goalPan = { x: clamp(x, -this.lim.x, this.lim.x), z: clamp(z, -this.lim.z, this.lim.z), tilt: TILT_MAX }
+    this.vel = { x: 0, z: 0 }
+  }
+
+  /** The TOP DOWN view at once (leaving the visor, where the swing itself is the motion). */
+  setTopDown(x: number, z: number, zoom: number): void {
+    this.setView({ x, z, zoom, az: nearestTurn(this.view.az, this.homeAz), tilt: TILT_MAX })
   }
 
   /** Turn the table by eighth-turns (Q / E and the rotate buttons). */

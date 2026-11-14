@@ -228,11 +228,13 @@ button.primary { border-color: var(--scan); color: var(--scan); }
   .clock__round { font-size: 12px; letter-spacing: 0.1em; }
   .hud-objective { left: 182px; right: 6px; top: 6px; transform: none; max-width: none; font-size: 11px; padding: 4px 6px; }
   .hud-objective .eyebrow { display: none; }
-  .topright { top: auto; right: 6px; bottom: auto; top: 58px; }
+  /* the camera and menu buttons get their own row under the clock (four buttons do not fit beside it at 390 px) */
+  .topright { top: 90px; right: 6px; left: 6px; bottom: auto; justify-content: flex-end; }
+  .topright .long { display: none; }
   .logbtn { display: block; }
   .logtoggle { display: none; }
   .log:not(.log--sheet) { display: none; }
-  .inspector { left: auto; right: 6px; top: 96px; width: min(240px, 56vw); font-size: 11px; }
+  .inspector { left: auto; right: 6px; top: 128px; width: min(240px, 56vw); font-size: 11px; }
   .alertline { top: 52px; font-size: 11px; }
   .bottom { padding: 0 6px 6px; gap: 4px; }
   .actions { padding: 4px 6px; }
@@ -245,7 +247,7 @@ button.primary { border-color: var(--scan); color: var(--scan); }
   .beat { height: 8px; }
   .modal { padding: 12px; }
   .seg__label { min-width: 0; width: 100%; }
-  .visor__heading { top: 96px; width: 180px; margin-left: -90px; }
+  .visor__heading { top: 130px; width: 180px; margin-left: -90px; }
   .visor__hint { display: none; }
   .visor__frame::before { inset: 14vh 4vw 34vh; }
   .visor__tag { left: calc(4vw + 8px); bottom: calc(34vh + 8px); font-size: 10px; }
