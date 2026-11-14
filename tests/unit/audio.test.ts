@@ -21,6 +21,7 @@ const SAMPLES: { [K in Event['type']]: Extract<Event, { type: K }> } = {
   doorChanged: { type: 'doorChanged', door: [1, 1], state: 'open' },
   fired: { type: 'fired', unit: 'venn', target: 's1', dice: [4, 4], need: 4, hit: true, heat: 1, watch: false },
   locked: { type: 'locked', unit: 'brandt' },
+  cpSpent: { type: 'cpSpent', unit: 'venn', cp: 1, left: 2 },
   vented: { type: 'vented', unit: 'okafor', heldCp: false },
   watchSet: { type: 'watchSet', unit: 'sato' },
   watchEnded: { type: 'watchEnded', unit: 'sato', why: 'phase' },
@@ -53,7 +54,7 @@ describe('AUD-1 every engine event is mapped or explicitly silent', () => {
     for (const ev of Object.values(SAMPLES)) for (const id of soundsFor(ev, v)) expect(soundIds.has(id), `${ev.type} -> ${id}`).toBe(true)
   })
   it('the silent list is the documented one', () => {
-    expect(silentEvents().sort()).toEqual(['burnCleared', 'pingHeld', 'roundEnded', 'turned', 'watchEnded'])
+    expect(silentEvents().sort()).toEqual(['burnCleared', 'cpSpent', 'pingHeld', 'roundEnded', 'turned', 'watchEnded'])
   })
   it('every manifest sound is reachable from an event, the interface, the timer or the ambience', () => {
     const v = base()
@@ -106,6 +107,8 @@ describe('AUD-2 voice lines', () => {
     expect(voiceFor(SAMPLES.scorched, v)).toBe('riedel-scorched')
     expect(voiceFor(SAMPLES.terminalUsed, v)).toBe('sato-terminal-used')
     expect(voiceFor(SAMPLES.coreTaken, v)).toBe('carrier-core-taken')
+    expect(voiceFor(SAMPLES.cpSpent, v)).toBe('venn-cp-spent')
+    expect(voiceFor(SAMPLES.phaseStarted, v)).toBeNull()
     expect(voiceFor(SAMPLES.fired, v)).toBeNull()
     expect(voiceFor({ ...SAMPLES.moved, unit: 'ghost' }, v)).toBeNull()
   })

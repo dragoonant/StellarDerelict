@@ -2,9 +2,9 @@
 // the pick plane below is the only object in the scene with pointer handlers.
 import { Canvas } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
-import { query } from '../../engine'
+import { legalActions, query } from '../../engine'
 import type { Pos, View } from '../../engine'
-import { MISSION_ID, canAct, legalOf, setHover, strikeTarget, tapTile, wardenOf } from '../session'
+import { MISSION_ID, canAct, legalOf, ownUnit, setHover, strikeTarget, tapTile } from '../session'
 import { getStore, useStore } from '../store'
 import { visorRt } from './visor'
 import { nearestOnScreen, PICK_RADIUS_PX } from './visorModel'
@@ -84,6 +84,7 @@ function Marks({ dims, v }: { dims: Dims; v: View }) {
   const inspect = useStore((s) => s.inspect)
   const animating = useStore((s) => s.animating)
   const toAct = useStore((s) => s.state?.toAct)
+  const seat = useStore((s) => s.seat)
   const g = geoOf(v.mission)
 
   const lit = useMemo(() => {
@@ -96,26 +97,34 @@ function Marks({ dims, v }: { dims: Dims; v: View }) {
   }, [v.lit, g])
 
   const m = useMemo(() => {
-    const out = { moves: [] as Pos[], targets: [] as Pos[], scorch: [] as Pos[], burst: [] as Pos[] }
-    const w = wardenOf(v, selected)
-    if (!w || animating || toAct !== 'warden' || !canAct()) return out
-    const legal = legalOf(v, w.id)
+    const out = { moves: [] as Pos[], targets: [] as Pos[], scorch: [] as Pos[], burst: [] as Pos[], ducts: [] as Pos[] }
+    if (animating || toAct !== seat || !canAct()) return out
+    // P-2: the Molt player's open ducts for an arriving contact
+    if (v.pending && seat === 'molt') {
+      for (const a of legalActions(v)) if (a.type === 'arrive') out.ducts.push(a.duct)
+      return out
+    }
+    const u = ownUnit(v, selected)
+    if (!u) return out
+    const legal = legalOf(v, u.id)
     if (!armed) {
       for (const a of legal) if (a.type === 'move') out.moves.push(a.to)
       return out
     }
     if (armed.kind === 'scorch') {
       for (const a of legal) if (a.type === 'scorch') out.scorch.push(a.at)
-      if (hover && out.scorch.some((p) => key(p) === key(hover))) out.burst = query.burst(v, w.id, hover)
+      if (hover && out.scorch.some((p) => key(p) === key(hover))) out.burst = query.burst(v, u.id, hover)
+    } else if (armed.kind === 'tear' || armed.kind === 'door') {
+      for (const a of legal) if (a.type === armed.kind) out.targets.push(a.door)
     } else {
       for (const a of legal)
         if (a.type === armed.kind && 'target' in a) {
-          const t = v.units.find((u) => u.id === a.target)
+          const t = v.units.find((x) => x.id === a.target)
           if (t) out.targets.push(t.at)
         }
     }
     return out
-  }, [v, selected, armed, hover, animating, toAct])
+  }, [v, selected, armed, hover, animating, toAct, seat])
 
   const marks = useMemo(() => {
     const out: Pos[] = []
@@ -127,8 +136,9 @@ function Marks({ dims, v }: { dims: Dims; v: View }) {
     <group>
       <TileLayer dims={dims} squares={lit} color={tokens.lit} opacity={0.09} y={0.025} />
       <TileLayer dims={dims} squares={v.burn} color={tokens.alarm} opacity={0.38} y={0.04} flicker={0.14} />
-      <TileLayer dims={dims} squares={m.moves} color={tokens.scan} opacity={0.4} y={0.05} />
-      <TileLayer dims={dims} squares={m.targets} color={tokens.molt} opacity={0.55} y={0.05} />
+      <TileLayer dims={dims} squares={m.moves} color={seat === 'molt' ? tokens.molt : tokens.scan} opacity={0.4} y={0.05} />
+      <TileLayer dims={dims} squares={m.ducts} color={tokens.molt} opacity={0.5} y={0.05} flicker={0.12} />
+      <TileLayer dims={dims} squares={m.targets} color={seat === 'molt' ? tokens.lit : tokens.molt} opacity={0.55} y={0.05} />
       <TileLayer dims={dims} squares={m.scorch} color={tokens.alarm} opacity={0.18} y={0.05} />
       <TileLayer dims={dims} squares={m.burst} color={tokens.alarm} opacity={0.5} y={0.06} />
       <TileLayer dims={dims} squares={marks} color={tokens.read} opacity={0.14} y={0.07} />

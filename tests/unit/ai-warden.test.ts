@@ -46,11 +46,17 @@ const roomX = [
 ]
 
 describe('Warden policy', () => {
-  it('AIW-1 shoots a stalker that blocks the route instead of waiting for it', () => {
-    let s = start({ grid: corridorX, squad: [['a', 'warden', 1, 1, 'E']] })
-    s = addStalkers(s, [[7, 1]])
+  it('AIW-1 shoots a stalker that blocks the route instead of walking into it', () => {
+    // a corridor with a way out, so the squad is not behind the clock: the shot at close range outranks the step forward
+    let s = start({ grid: ['###############', '#A...........X#', '###############'], squad: [['a', 'warden', 2, 1, 'E']] })
+    s = addStalkers(s, [[5, 1]])
     const a = act(s)
     expect(a).toEqual({ type: 'fire', unit: 'a', target: 't1' })
+  })
+
+  it('AIW-1b on a map with no formation hints the squad still advances on the console', () => {
+    const s = start({ grid: corridorX, squad: [['a', 'warden', 1, 1, 'E']] })
+    expect(act(s)).toEqual({ type: 'move', unit: 'a', to: [2, 1] })
   })
 
   it('AIW-2 turns to bring a contact round a corner into sight when the guns are ready, forcing its reveal', () => {

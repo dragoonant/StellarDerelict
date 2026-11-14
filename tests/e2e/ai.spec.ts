@@ -24,6 +24,7 @@ test('M4: the Briefing Difficulty reaches the bot; Continue and the Debrief name
   expect((await bot(page)).tier).toBe('veteran')
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('stellar-derelict-save') ?? '{}').setup)
   expect(saved.options).toEqual({ difficulty: 'veteran' })
+  expect(await page.evaluate(() => window.__sd!.ui().seat)).toBe('warden')
 
   // a few full rounds: the Warden side by the scripted policy, the Molt side by the AI
   await page.evaluate(async () => {

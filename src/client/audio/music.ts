@@ -9,7 +9,7 @@ export const PING_NEAR = 8
 export const TENSE_TIMER_S = 30
 
 export interface MusicInput {
-  screen: 'title' | 'briefing' | 'mission' | 'debrief'
+  screen: 'title' | 'missions' | 'briefing' | 'mission' | 'debrief'
   view: View | null
   /** seconds left on the boarding clock (0 with the clock off) */
   timerLeft: number
@@ -19,7 +19,7 @@ export interface MusicInput {
 }
 
 export function musicState(i: MusicInput): MusicState {
-  if (i.screen === 'title' || i.screen === 'briefing') return 'title'
+  if (i.screen === 'title' || i.screen === 'missions' || i.screen === 'briefing') return 'title'
   const v = i.view
   if (i.screen === 'debrief') return v?.result?.winner === 'warden' ? 'victory' : 'defeat'
   if (!v) return 'calm'

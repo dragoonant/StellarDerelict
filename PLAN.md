@@ -18,7 +18,7 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 
 ## Defaults taken (say so if any is wrong)
 
-- One mission first; more missions and a boarding-run layer are M7+.
+- One mission first; more missions and a boarding-run layer are M7+. (M7: three missions, one run of all three, in order; a run is Wardens-only; a single mission is either seat.)
 - Sonnet implementers, one or two per milestone, exact file lists; the session model writes specs and verifies.
 - Save key `stellar-derelict-save`; one slot.
 - KB linked as a submodule at `docs/knowledge-base`; the game's KB entry is updated each milestone. The entry lives in the KB (`stellar-derelict.md`) since 2026-11-13.
@@ -33,8 +33,10 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 | M4 | Utility Molt AI in a worker, three tiers, utility Warden policy, bench gates; balance B-6..B-8 | done 2026-11-13 |
 | M5 | Figures and props (GPU PC session) | done 2026-11-12: 11 GLBs (Flux klein concepts, Hunyuan 2.1 shape / 2.0 paint), all enabled; gallery gate passed |
 | M6 | Audio (GPU PC session) | done 2026-11-12: 38 effects (54 files), 7 music states, 34 voice lines from the Audio Studio, levelled and enabled; not verified by ear |
-| M7 | Polish, more missions, playable Molt, run layer | |
+| M7 | Polish, more missions, playable Molt, run layer | done 2026-11-14: Cold Berth and Last Light (specs 12, 13, balance rows CB-4, LL-4), the Molt seat (spec 50 MOLT-1..5) against the utility squad AI, the boarding run (spec 10 §15, R-1..R-5), a fuller debrief tallied from events, mission-generic Warden policy, `cpSpent` event; 204 unit tests, 27 e2e |
 
 ## Open questions for the owner
 
 1. (closed 2026-11-13) The repo is public and the Pages link serves.
+2. (open 2026-11-14) The M6 audio is still not verified by ear: the owner's listen on `sounds.html`, then any re-rolls.
+3. (open 2026-11-14) The Molt seat, the Missions screen, the boarding run and the two new missions have only been seen in SwiftShader screenshots, not on a real GPU.

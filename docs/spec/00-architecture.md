@@ -4,7 +4,7 @@ Layers, each importing only from the ones above it:
 
 | Folder | What | May import |
 |---|---|---|
-| `src/data` | `rules.json`, `missions/*.json`, `units.json`, typed loaders | nothing |
+| `src/data` | `rules.json`, `missions/*.json`, `run.json`, `units.json`, typed loaders | nothing |
 | `src/engine` | Pure rules. No DOM, no clock, no `Math.random` | `src/data` |
 | `src/ai` | Bots: `(view, seat) -> Action` | `src/engine`, `src/data` |
 | `src/client` | React 19 + React Three Fiber board, HUD, store, director, save storage | all |
@@ -13,7 +13,7 @@ Layers, each importing only from the ones above it:
 ## Engine contract (`src/engine/index.ts` exports exactly this surface)
 
 ```ts
-createGame(setup: Setup): State                    // Setup = { mission: string; seed: number; options?: {...} }
+createGame(setup: Setup): State                    // Setup = { mission: string; seed: number; options?: SetupOptions }
 step(state: State, action: Action): StepResult     // { ok: true, state, events } | { ok: false, state, error }
 legalActions(state: State): Action[]               // for the seat to act; never empty until state.result is set
 view(state: State, seat: Seat): View               // what that seat may know
@@ -21,6 +21,10 @@ query                                              // every number the UI or AI 
 replay(setup: Setup, actions: Action[]): State
 ```
 
+- **E-0 Setup options** (`SetupOptions`, all optional): `difficulty` (the Molt AI tier the client plays, spec 40),
+  `seat` (`'molt'` when the person plays the Molt; the Wardens when absent, spec 50 "The Molt seat"), `roster` (the ids of
+  the squad members who board; the whole squad when absent or when no id matches; squad order is kept: the boarding run,
+  spec 10 R-2). The engine reads only `roster`; the others ride in the setup so a save reopens on the same side and tier.
 - **E-1 Pure.** `step` never mutates its input and never throws. A rejected action returns `ok: false`, the *same*
   state object and a reason string in our own words.
 - **E-2 Plain JSON state.** No classes, Maps, Sets, functions or `undefined` holes: `JSON.parse(JSON.stringify(state))`
@@ -38,6 +42,14 @@ replay(setup: Setup, actions: Action[]): State
 - **E-7 `view(state, 'warden')`** removes each ping's stalker count, the ping bag and the RNG state, and nothing else
   (the map, doors and every unit position are open information). `view(state, 'molt')` removes only the RNG state.
   A leak test asserts the Warden view's JSON contains none of the hidden values' fields.
+
+### Mission data (`src/data/missions/*.json`, type `Mission` in `src/data/types.ts`)
+
+Besides the grid, legend, terminals, sections, squad, start pings, arrivals, round limit and ping bag (spec 11), every
+mission carries `objective: { item, place, exit }`, its own words for the core, the console's room and the way out (the
+UI never says "core" unless the mission does), and may carry `aiHints` (`staging`, `arms`, `core`, `deep`: formation slots
+for the Warden policy only, spec 40 "Any mission"; no rule reads them). `src/data/run.json` lists the boarding run's
+missions in order; `runDef` exports it.
 
 ### Actions
 
@@ -61,7 +73,8 @@ replay(setup: Setup, actions: Action[]): State
 ### Events (returned by `step`, in the order things happened; the client animates and logs from these only)
 
 `phaseStarted {seat, round, cp?}` · `moved {unit, from, to}` · `turned {unit, facing}` · `doorChanged {door, state}` ·
-`fired {unit, target, dice, need, hit, heat, watch: boolean}` · `locked {unit}` · `vented {unit, heldCp: boolean}` ·
+`fired {unit, target, dice, need, hit, heat, watch: boolean}` · `locked {unit}` · `cpSpent {unit, cp, left}` (C-2: the CP a
+Warden action drew, after `phaseStarted`'s roll; AP-only actions emit none) · `vented {unit, heldCp: boolean}` ·
 `watchSet {unit}` · `watchEnded {unit, why}` · `scorched {unit, at, burst}` · `burnCleared {}` ·
 `meleeFought {attacker, defender, attackerRoll, defenderRoll, outcome}` · `breached {unit}` ·
 `destroyed {unit, by}` · `pingArrived {unit, duct}` · `pingHeld {}` · `revealed {ping, at, stalkers, lost, forced}` ·
@@ -82,13 +95,18 @@ Every event carries what the log line needs, so the client never re-derives an o
   action accepted, state round-trips through JSON, stall cap of 3,000 actions per game. Prints the win table for spec 10 §13.
 - `tools/validate-data.ts`: mission grid rectangular, every legend char known, all floor reachable from the airlock,
   terminals and console have a floor neighbour, listed doors are bulkheads, section rects inside the grid, squad on
-  airlock squares, bag non-empty.
+  airlock squares, bag non-empty, `objective` words present, `aiHints` slots on walkable squares, and the run
+  (`run.json`) names known missions once each, all fielding the same squad (R-2).
+- `tests/unit/run.test.ts`: the boarding run (R-1..R-5), the `roster` option, `cpSpent`, every mission played through by
+  the sim policies with the invariants on, and the mission plan the Warden policy reads from any mission (spec 40).
 - `tests/unit/save.test.ts`: the save envelope round-trips (see below).
 
 ## Save (KB rule 22) — `src/engine/save.ts`, storage in the client
 
 Envelope `{ game: 'stellar-derelict', version: 1, savedAt, setup, actions, snapshot, ui }`; `snapshot` is what reopens,
-`actions` rides along so a bug report replays from the seed. `readSave(json)` returns `{ ok, save } | { ok: false, reason }`
+`actions` rides along so a bug report replays from the seed. `setup.options` carries the seat, the difficulty and the
+roster, so Continue reopens on the same side with the same squad; `ui.run` carries the boarding run in progress, and a
+run parked between missions (the Debrief's **Next** not yet taken) lives under `stellar-derelict-run` (spec 10 §15). `readSave(json)` returns `{ ok, save } | { ok: false, reason }`
 for bad JSON, a foreign game id, an unknown version, a mission no longer in the game, and a finished game.
 Storage key `stellar-derelict-save` (all Pages games share one origin). Autosave after every accepted action and at
 mission start, written before the first render.

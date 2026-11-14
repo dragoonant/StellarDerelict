@@ -50,6 +50,7 @@ factor of at least 8: measure, and layer a transient if a single prompt cannot g
 | `alarm` | `alarm` | a slow ship-wide warning klaxon, three pulses | 4 |
 | `core-dropped`, `core-picked` | `coreDropped`, `corePicked` | a metal cylinder hitting deck / being grabbed and locked to a suit | 1.2 |
 | `phase-warden`, `phase-molt` | `phaseStarted` | a short clean two-note console chime / a low reversed swell with clicks | 1.5 |
+| (silent) | `cpSpent` | no effect of its own; the Sergeant's command-point voice line keys to it (once per phase) | |
 | `timer-warn` | timer under 15 s | a dry metronome tick, urgent | 1 |
 | `ui-select`, `ui-arm`, `ui-deny`, `ui-confirm` | interface | small dry instrument clicks and beeps | 0.4 |
 | `sting-win`, `sting-loss` | `gameOver` | an airlock cycling and a rising relieved tone / radio static collapsing to a flat tone | 5 |
@@ -70,7 +71,7 @@ factor of at least 8: measure, and layer a transient if a single prompt cannot g
 
 Six short lines each for Venn, Brandt, Okafor, Riedel and Sato, in our own words, keyed to events: move
 acknowledged, contact seen, weapon locked, plating breached, on watch, and one role line (Venn: command points
-spent; Riedel: scorcher fired; Sato: terminal used). Plus four for whoever carries the core ("Core is mine. Moving.").
+spent, keyed to `cpSpent` since M7 and said once per phase; Riedel: scorcher fired; Sato: terminal used). Plus four for whoever carries the core ("Core is mine. Moving.").
 Lines live in the manifest; at most one voice line plays per two seconds, and never over another.
 
 ## Mix and playback

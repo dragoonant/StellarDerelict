@@ -28,6 +28,7 @@ export function start(spec: Spec, opts: { seed?: number; cp?: number } = {}): St
     name: id,
     wreck: 'test hulk',
     brief: 'test',
+    objective: { item: 'core', place: 'vault', exit: 'airlock' },
     legend: { '#': 'wall', '.': 'floor', A: 'airlock', V: 'duct', D: 'door', B: 'bulkhead', T: 'terminal', X: 'console' },
     grid: spec.grid.map((row) => row.replace(/[a-z]/g, '.')),
     sealed: spec.sealed ?? [],

@@ -1,0 +1,120 @@
+{
+  "id": "cold-berth",
+  "name": "Cold Berth",
+  "wreck": "the survey tender Halcyon Drift",
+  "brief": "The berth deck is where the Drift's crew went to sleep and never woke. The manifest drive in the berth control room says who they were and what they carried. Cut in at the west airlock, work the lanes between the berth blocks, and bring the drive out before the Molt close the galleries.",
+  "objective": { "item": "manifest drive", "place": "berth control room", "exit": "west airlock" },
+  "aiHints": {
+    "staging": [[12, 3, "W"], [14, 3, "E"], [13, 4, "S"], [11, 3, "W"]],
+    "arms": [[21, 6, "N"], [20, 9, "W"], [21, 10, "S"], [19, 9, "W"]],
+    "deep": [[1, 8, "E"], [1, 10, "E"], [1, 9, "E"], [2, 8, "E"], [2, 10, "E"]]
+  },
+  "legend": {
+    "#": "wall",
+    ".": "floor",
+    "A": "airlock",
+    "V": "duct",
+    "D": "door",
+    "B": "bulkhead",
+    "T": "terminal",
+    "X": "console"
+  },
+  "grid": [
+    "#############################",
+    "#V.........................V#",
+    "######B######T#####B#######.#",
+    "#####.................#####.#",
+    "#####.###.###.###.###.#####.#",
+    "#####.###.###.###.###.#####.#",
+    "#####.................#####.#",
+    "#####.###.###.###.###.T####.#",
+    "#AAA#.###.###.###.###.#...#.#",
+    "#AAAD.................B..X#V#",
+    "#AAA#.###.###.###.###.#...#.#",
+    "#####.###.###.###.###.#####.#",
+    "#####.###.###.###.###.#####.#",
+    "#####.###.###.###.###.T####.#",
+    "#####.###.###.###.###.#####.#",
+    "#####.................#####.#",
+    "######B######T#####B#######.#",
+    "#V.........................V#",
+    "#############################"
+  ],
+  "sealed": [[22, 9]],
+  "terminals": [
+    {
+      "id": "gallery-doors",
+      "name": "Gallery bulkheads",
+      "at": [13, 2],
+      "system": "bulkheads",
+      "doors": [[6, 2], [19, 2], [6, 16], [19, 16]]
+    },
+    {
+      "id": "berth-lock",
+      "name": "Berth lock",
+      "at": [22, 7],
+      "system": "bulkheads",
+      "doors": [[22, 9]]
+    },
+    {
+      "id": "east-purge",
+      "name": "East corridor purge",
+      "at": [22, 13],
+      "system": "purge",
+      "section": "east-corridor",
+      "ducts": [[27, 1], [27, 9], [27, 17]]
+    },
+    {
+      "id": "hall-lights",
+      "name": "Lane lights",
+      "at": [13, 16],
+      "system": "lights",
+      "section": "lanes"
+    }
+  ],
+  "sections": {
+    "east-corridor": [[27, 1, 27, 17]],
+    "lanes": [[5, 3, 21, 3], [5, 6, 21, 6], [5, 9, 21, 9], [5, 15, 21, 15], [5, 3, 5, 15], [9, 3, 9, 15], [13, 3, 13, 15], [17, 3, 17, 15], [21, 3, 21, 15]]
+  },
+  "squad": [
+    {
+      "id": "venn",
+      "name": "Sgt. Maro Venn",
+      "role": "sergeant",
+      "at": [2, 9],
+      "facing": "E"
+    },
+    {
+      "id": "brandt",
+      "name": "Ilse Brandt",
+      "role": "warden",
+      "at": [3, 9],
+      "facing": "E"
+    },
+    {
+      "id": "okafor",
+      "name": "Teo Okafor",
+      "role": "warden",
+      "at": [3, 8],
+      "facing": "E"
+    },
+    {
+      "id": "riedel",
+      "name": "Kass Riedel",
+      "role": "scorcher",
+      "at": [2, 8],
+      "facing": "E"
+    },
+    {
+      "id": "sato",
+      "name": "Juno Sato",
+      "role": "tech",
+      "at": [3, 10],
+      "facing": "E"
+    }
+  ],
+  "startPings": [[1, 1], [27, 17]],
+  "arrivals": { "normal": 2, "alarm": 3 },
+  "roundLimit": 18,
+  "pingBag": [1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3]
+}

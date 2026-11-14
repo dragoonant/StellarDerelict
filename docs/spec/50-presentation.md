@@ -37,15 +37,28 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
 
 ## Screens
 
-- **Title.** Black field; a slow radar sweep (CSS conic gradient, 8 s) over a faint line drawing of the mission map
-  (generated from the mission grid, not an image). Wordmark `STELLAR DERELICT` in spaced caps with a thin scanline
-  flicker. Menu as a plain instrument list, left-aligned at the lower left: `BOARD THE HALCYON DRIFT`, `CONTINUE`
-  (only when a save exists; it names what it reopens, KB rule 22), `HOW TO PLAY`, `SETTINGS`. Footer line:
-  "An original game by evilgouki".
-- **Briefing.** The mission's brief text typed out as a transmission; the squad roster as five trace cards; the
-  objective line; timer setting (Standard / Relaxed / Off); `CUT IN` starts the mission.
+- **Title.** Black field; a slow radar sweep (CSS conic gradient, 8 s) over a faint line drawing of the picked mission's
+  map (generated from the mission grid, not an image). Wordmark `STELLAR DERELICT` in spaced caps with a thin scanline
+  flicker. Menu as a plain instrument list, left-aligned at the lower left: `CONTINUE` (only when a save exists; it names
+  what it reopens, KB rule 22: mission, run progress, round, phase, Wardens alive, where the item is, which side you play,
+  difficulty, when), `CONTINUE THE BOARDING RUN` (a run parked between missions: missions done, Wardens left, the next
+  cut), `BOARDING RUN` (spec 10 §15), `SINGLE MISSION` (the Missions screen), `HOW TO PLAY`, `SETTINGS`. Footer line:
+  "An original game by evilgouki". Starting either kind of game over a save asks once (Replace it / Keep it).
+- **Missions** (M7). One card per mission in run order: number, name, a line drawing of its deck, size, rounds and
+  arrival rates, and its objective in the mission's own words. A `PLAY AS` choice (Wardens / Molt) with one line on what
+  the seat means. `BRIEF` opens the Briefing of the picked mission; `BACK`.
+- **Briefing.** The mission's brief text typed out as a transmission; the squad roster as trace cards (in a run, only the
+  survivors who board, with a line on missions done and plating patched); the objective line in the mission's words (for
+  the Molt seat, inverted: no Warden leaves with the item); timer setting and Difficulty for the Warden seat, a note on the
+  squad AI for the Molt seat; `CUT IN` (`LET THEM IN` on the Molt seat) starts the mission; `BACK` (`ABANDON THE RUN` in a run).
 - **Mission.** Full-screen 3D board with the HUD around it (below).
-- **Debrief.** `CORE RECOVERED` or `SIGNAL LOST`, rounds used, Wardens alive, kills; `AGAIN` and `TITLE`.
+- **Debrief** (M7, fuller). Headline in the mission's words: `<ITEM> RECOVERED` or `SIGNAL LOST` for the Wardens, `THE
+  HULL KEEPS ITS OWN` or `PREY ESCAPED` for the Molt; why it ended; the run line when in a run (missions done and who
+  boards the next cut, or how the run ended); a stats table (mission, rounds, Wardens alive, Molt destroyed with the
+  purge's share, repeater shots and hits, contacts resolved and how many were exposed by sight, command points spent,
+  doors torn, side, difficulty); one card per Warden (state, shots and hits or bursts, kills, melee record, terminal
+  operations, CP drawn); `NEXT: <mission>` in a run with missions left, else `AGAIN`; `TITLE`. Every count is tallied from
+  engine events in the client (`stats` in the store, saved with the mission); none is re-derived from state.
 
 ## The board (React Three Fiber, one persistent `<Canvas>` for the session)
 
@@ -83,8 +96,10 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
 - **Boarding clock** (top left): `ROUND 03 / 16`, phase name, and the Warden-phase timer as a draining bar that turns
   `--alarm` under 15 s. With the timer off, the bar is absent.
 - **Command points** (under the clock): pips, with held CP shown hollow in the Molt phase.
-- **Objective line** (top centre): the current step in plain words ("Unseal the archive at the lock terminal",
-  "Take the core", "Carry the core to the airlock").
+- **Objective line** (top centre): the current step in plain words, in the mission's own vocabulary (`objective` in the
+  mission data: "Unseal the archive at the archive lock terminal", "Take the navigation core from the archive console",
+  "Carry the manifest drive to the west airlock"; on the Molt seat, the arrival prompt or "Stop the carrier before the
+  forward airlock").
 - **Squad strip** (bottom): one trace card per Warden, about 150 × 64: name and role, a scrolling heartbeat trace
   (flat line when destroyed), AP pips, heat bar with the lock mark, plating state (`INTACT` / `BREACHED` in `--alarm`),
   watch and carrier marks. Tapping a card selects that Warden and centres the camera.
@@ -127,6 +142,29 @@ the actions and their costs are the same as on the map, and every number shown s
   reticle at the centre; the Warden's name, role, AP pips, heat or charges, `BREACHED` and `WATCH` at the frame's lower left;
   one line of key hints (hidden on phones). The comms log folds behind the `COMMS` button as on a phone. The clock, objective,
   action bar and squad strip stay where they are.
+
+## The Molt seat (M7, PLAN D4 "playable Molt later")
+
+The Missions screen's `PLAY AS: MOLT` puts the person on the `molt` seat of a single mission; the utility Warden policy
+(spec 40) runs Lantern Squad on the main thread. Same board, same HUD frame, the engine untouched (`view(state, 'molt')`,
+E-7: the person sees each contact's stalker count, the squad does not).
+
+- **MOLT-1 Turns.** The Warden phase is the AI's: it plays out like a Molt phase does on the other seat (the director
+  animates, controls are disabled). The Molt phase is the person's. No boarding clock on this seat (K-1 is a rule for a
+  person playing the Wardens); the Settings and Menu hide it.
+- **MOLT-2 Arrivals.** While `state.pending` is set the objective line says "Place the arriving contact: tap an open duct
+  (N to place)", the open ducts flicker in `--molt` on the board, a tap on one is the `arrive` action, and `END PHASE` is
+  disabled until every arrival is placed (P-2, P-3).
+- **MOLT-3 Units.** The squad strip becomes the **contact strip**: one card per contact (its id, `hides N`, AP pips,
+  square) and stalker (AP, square), in `--molt`. Tapping a card or a tile selects it (a `--lit` ring on the tile) and
+  flies the camera to it; `1`–`9` select by order. Tapping a Warden's tile inspects it.
+- **MOLT-4 Actions.** The action bar lists what is legal for the selected unit: `MOVE` (tap a lit square; contacts' lit
+  squares exclude seen squares, P-4), `DOOR` and `TEAR` (one adjacent door acts at once, several arm a tap on the door),
+  `STRIKE <name>` with the engine's win odds (one adjacent Warden) or an armed tap, `REVEAL` with the count it will place.
+  Keys: `M`, `D`, `T`, `G`, `R`, `Space`. Costs come from `query.cost`, odds from `query.meleeOdds`.
+- **MOLT-5 Words.** The log, the inspector and the Debrief read the same on both seats (radio traffic is the squad's);
+  the clock panel says `// YOU ARE THE MOLT`, the opening log line says the hull stirs, and the Debrief's headline speaks
+  for the hull. The visor is a Warden-seat view and its button is absent.
 
 ## Director
 

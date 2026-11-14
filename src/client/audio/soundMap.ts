@@ -19,6 +19,7 @@ export const EVENT_SOUNDS: Table = {
   doorChanged: (ev) => (ev.state === 'open' ? ['door-open'] : ev.state === 'closed' ? ['door-close'] : ev.state === 'sealed' ? ['door-seal'] : []),
   fired: (ev) => (ev.hit ? ['repeater-shot', 'repeater-hit'] : ['repeater-shot']),
   locked: () => ['repeater-lock'],
+  cpSpent: 'silent',
   vented: () => ['vent'],
   watchSet: () => ['watch-set'],
   watchEnded: 'silent',
@@ -109,8 +110,9 @@ export function voiceFor(ev: Event, view: View | null): string | null {
       return own(ev.unit, 'scorched')
     case 'terminalUsed':
       return own(ev.unit, 'terminalUsed')
-    case 'phaseStarted':
-      return ev.seat === 'warden' && ev.cp !== undefined && ev.cp > 0 ? own('venn', 'phaseStarted') : null
+    case 'cpSpent':
+      // the Sergeant's command-point line: the first time command points are spent in a phase (the director rate-limits it)
+      return own('venn', 'cpSpent')
     case 'coreTaken':
       return 'carrier-core-taken'
     case 'coreDropped':

@@ -745,9 +745,9 @@
       "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
     },
     {
-      "id": "venn-phase-started",
+      "id": "venn-cp-spent",
       "speaker": "venn",
-      "event": "phaseStarted",
+      "event": "cpSpent",
       "enabled": true,
       "text": "Command points are mine. Make them count.",
       "file": "audio/voice/venn-phase-started.mp3",

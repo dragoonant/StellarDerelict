@@ -19,10 +19,12 @@ function bump(ev: Event): void {
 
 function play(ev: Event, view: View | null): void {
   for (const id of soundsFor(ev, view)) audioEngine.playSfx(id)
-  if (ev.type === 'moved' && acked.has(ev.unit)) return
+  // one movement acknowledgement per Warden per phase, and one command-point line per phase
+  const ackKey = ev.type === 'moved' ? ev.unit : ev.type === 'cpSpent' ? 'cp' : null
+  if (ackKey && acked.has(ackKey)) return
   const v = voiceFor(ev, view)
   if (v) {
-    if (ev.type === 'moved') acked.add(ev.unit)
+    if (ackKey) acked.add(ackKey)
     audioEngine.playVoice(v)
   }
 }

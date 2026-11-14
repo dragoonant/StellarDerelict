@@ -1,6 +1,9 @@
 import rulesJson from './rules.json'
 import unitsJson from './units.json'
 import deadReckoning from './missions/dead-reckoning.json'
+import coldBerth from './missions/cold-berth.json'
+import lastLight from './missions/last-light.json'
+import runJson from './run.json'
 import type { Mission, Role, RoleDef, Rules } from './types'
 
 export * from './types'
@@ -25,5 +28,15 @@ export function listMissions(): Mission[] {
 }
 
 registerMission(deadReckoning as unknown as Mission)
+registerMission(coldBerth as unknown as Mission)
+registerMission(lastLight as unknown as Mission)
+
+/** The boarding run (spec 10 section 15): the missions in order, played by one squad. */
+export interface RunDef {
+  id: string
+  name: string
+  missions: string[]
+}
+export const runDef = runJson as RunDef
 
 export * from './assets'

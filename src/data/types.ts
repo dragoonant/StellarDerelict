@@ -45,6 +45,8 @@ export interface Rules {
   ductWatchRadius: number
   revealRadius: number
   timer: { base: number; perWarden: number }
+  /** the boarding run (spec 10 section 15): the squad pulls out below this many living Wardens (R-3) */
+  run: { minSquad: number }
 }
 
 export type RoleFlag = 'cpBonus' | 'meleeBonus' | 'noWatch' | 'freeTerminal'
@@ -73,11 +75,38 @@ export interface SquadDef {
   facing: Facing
 }
 
+/** A square and the facing to hold on it: a formation slot the Warden policy may be given (spec 40). */
+export type Slot = [number, number, Facing]
+
+/** Hints for the Warden policy only; no rule reads them. Missing lists fall back to the policy's generic goals. */
+export interface AiHints {
+  /** where the escorts stand while the flank bulkheads are sealed */
+  staging?: Slot[]
+  /** where the escorts stand while the lock terminal is worked (and the console, unless `core` is given) */
+  arms?: Slot[]
+  /** where the escorts stand while the console is worked; an empty list means: follow the operator in file */
+  core?: Slot[]
+  /** deep airlock squares the escorts clear into when the carrier comes home */
+  deep?: Slot[]
+}
+
+export interface Objective {
+  /** what the console holds, in the mission's words ("navigation core") */
+  item: string
+  /** where the console is ("archive") */
+  place: string
+  /** the squad's way out ("aft airlock") */
+  exit: string
+}
+
 export interface Mission {
   id: string
   name: string
   wreck: string
   brief: string
+  /** the mission's words for the core, the console's room and the exit (the engine's names stay core, console, airlock) */
+  objective: Objective
+  aiHints?: AiHints
   legend: Record<string, string>
   grid: string[]
   sealed: Pos[]

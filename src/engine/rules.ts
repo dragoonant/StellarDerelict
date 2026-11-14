@@ -556,6 +556,7 @@ function pay(c: Ctx, w: WardenUnit, a: Action): void {
   const p = payment(w, c.s.cp, bc.base, bc.extraCp) as Pay
   w.ap -= p.ap
   c.s.cp -= p.cp
+  if (p.cp > 0) emit(c, { type: 'cpSpent', unit: w.id, cp: p.cp, left: c.s.cp })
 }
 
 function toggleDoor(c: Ctx, p: Pos): void {
@@ -755,7 +756,15 @@ function applyMolt(c: Ctx, u: Unit, a: Action): void {
   }
 }
 
-export function newGameState(mission: string, seed: number): Ctx {
+/** R-2: the squad that boards is the mission's squad, or the listed members of it (unknown ids ignored; never empty). */
+export function boardingSquad(m: { squad: { id: string }[] }, roster?: string[]): string[] {
+  const ids = m.squad.map((q) => q.id)
+  if (!roster) return ids
+  const picked = ids.filter((id) => roster.includes(id))
+  return picked.length > 0 ? picked : ids
+}
+
+export function newGameState(mission: string, seed: number, roster?: string[]): Ctx {
   const g = geoOf(mission)
   const m = g.mission
   const rng = seedRng(seed)
@@ -763,7 +772,8 @@ export function newGameState(mission: string, seed: number): Ctx {
   const doors: State['doors'] = {}
   for (const d of g.doorSquares) doors[posKey(d)] = { open: false, sealed: false, torn: false }
   for (const d of m.sealed) if (doors[posKey(d)]) (doors[posKey(d)] as { sealed: boolean }).sealed = true
-  const units: Unit[] = m.squad.map((q) => ({
+  const boarding = boardingSquad(m, roster)
+  const units: Unit[] = m.squad.filter((q) => boarding.includes(q.id)).map((q) => ({
     id: q.id,
     kind: 'warden',
     name: q.name,

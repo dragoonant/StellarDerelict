@@ -1,0 +1,113 @@
+{
+  "id": "last-light",
+  "name": "Last Light",
+  "wreck": "the survey tender Halcyon Drift",
+  "brief": "The reactor deck is the last of the Drift still warm, and the Molt nest closest to it. The reactor's black box holds the final hours of the ship. Cut in at the forward airlock, run the spine through two sealed bulkheads, and get the box out before the swarm wakes in force.",
+  "objective": { "item": "black box", "place": "reactor room", "exit": "forward airlock" },
+  "aiHints": {
+    "arms": [[13, 2, "W"], [15, 2, "E"], [12, 2, "W"], [16, 2, "E"]],
+    "core": [],
+    "deep": [[1, 1, "E"], [1, 3, "E"], [1, 2, "E"], [2, 1, "E"], [2, 3, "E"]]
+  },
+  "legend": {
+    "#": "wall",
+    ".": "floor",
+    "A": "airlock",
+    "V": "duct",
+    "D": "door",
+    "B": "bulkhead",
+    "T": "terminal",
+    "X": "console"
+  },
+  "grid": [
+    "#########################",
+    "#AAA#####################",
+    "#AAAD..................##",
+    "#AAA#.#######T.T######.##",
+    "#####.########.#######.##",
+    "#####.########B#######.##",
+    "#####.########.#######.##",
+    "#####.########.#######.##",
+    "#####.V......#.#......V.#",
+    "#####.########.#######.##",
+    "#####.########B#######.##",
+    "#####.########.#######.##",
+    "#####.####.......#####.##",
+    "#####.####.......#####.##",
+    "#####.####.......#####.##",
+    "#####.####....X..#####.##",
+    "####T.####.......#####.##",
+    "#####V........V.......V##",
+    "#########################"
+  ],
+  "sealed": [[14, 5], [14, 10]],
+  "terminals": [
+    {
+      "id": "reactor-lock",
+      "name": "Reactor lock",
+      "at": [13, 3],
+      "system": "bulkheads",
+      "doors": [[14, 5], [14, 10]]
+    },
+    {
+      "id": "spine-lights",
+      "name": "Spine lights",
+      "at": [15, 3],
+      "system": "lights",
+      "section": "spine"
+    },
+    {
+      "id": "south-purge",
+      "name": "South corridor purge",
+      "at": [4, 16],
+      "system": "purge",
+      "section": "south-corridor",
+      "ducts": [[5, 17], [14, 17], [22, 17]]
+    }
+  ],
+  "sections": {
+    "spine": [[14, 4, 14, 11], [10, 12, 16, 16]],
+    "south-corridor": [[5, 17, 22, 17]]
+  },
+  "squad": [
+    {
+      "id": "venn",
+      "name": "Sgt. Maro Venn",
+      "role": "sergeant",
+      "at": [2, 2],
+      "facing": "E"
+    },
+    {
+      "id": "brandt",
+      "name": "Ilse Brandt",
+      "role": "warden",
+      "at": [3, 2],
+      "facing": "E"
+    },
+    {
+      "id": "okafor",
+      "name": "Teo Okafor",
+      "role": "warden",
+      "at": [3, 1],
+      "facing": "E"
+    },
+    {
+      "id": "riedel",
+      "name": "Kass Riedel",
+      "role": "scorcher",
+      "at": [2, 1],
+      "facing": "E"
+    },
+    {
+      "id": "sato",
+      "name": "Juno Sato",
+      "role": "tech",
+      "at": [3, 3],
+      "facing": "E"
+    }
+  ],
+  "startPings": [[6, 8], [22, 8]],
+  "arrivals": { "normal": 2, "alarm": 4 },
+  "roundLimit": 18,
+  "pingBag": [1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3]
+}

@@ -4,8 +4,8 @@ An original 3D corridor-tactics browser game: five armoured Wardens against the 
 Credit the owner as **evilgouki**; never write a real name, email or home path anywhere in this repo.
 
 - **Read first:** `PLAN.md` (decisions D1–D8, do not re-ask), `STATUS.md` (current state), then only the spec a task needs:
-  `docs/spec/00-architecture.md` (frozen contracts), `10-rules.md` (rules with ids and constants),
-  `11-mission-dead-reckoning.md`, `50-presentation.md`.
+  `docs/spec/00-architecture.md` (frozen contracts), `10-rules.md` (rules with ids and constants; §15 the boarding run),
+  `11-mission-dead-reckoning.md`, `12-mission-cold-berth.md`, `13-mission-last-light.md`, `40-ai.md`, `50-presentation.md`.
 - **Knowledge base:** `docs/knowledge-base/` (submodule; `git submodule update --init`). `rules.md` holds the owner's
   standing rules 1–27; `gotchas.md` the cross-project traps. Apply them without re-asking.
 - **This is an original game.** No names, designs, missions, art or rules text from any published game.
@@ -23,7 +23,7 @@ Credit the owner as **evilgouki**; never write a real name, email or home path a
 | `npm test` | Vitest unit tests |
 | `npm run e2e` | Playwright (builds, previews on `PW_PORT`, default 5347; SwiftShader, 1 worker) |
 | `npm run validate:data` | Mission and rules data checks |
-| `npm run sim -- --games 1000` | Scripted self-play with invariants; prints the balance table |
+| `npm run sim -- --games 1000` | Scripted self-play with invariants; prints the balance table (`--mission`, `--roster a,b`, `--override '<json>'`, `--override-file`) |
 | `npm run bench:ai` | AI gate (M4) |
 
 Gates before every push: typecheck, test, validate:data, sim (0 violations), e2e, build.

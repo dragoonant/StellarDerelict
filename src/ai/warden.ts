@@ -3,20 +3,17 @@
  * candidates of all Wardens on one scale and plays the best: fight what blocks the way (fire, melee, scorch, turn to an
  * adjacent contact), look round corners when the guns are ready, advance in file with the lead first, keep a rear guard,
  * run the clock (rush when behind schedule, watch and vent when ahead), work the archive lock and the core, then escort the
- * carrier home. Pure and deterministic given the board. Written for Dead Reckoning (terminal ids come from scripted.ts).
+ * carrier home. Pure and deterministic given the board. Plays any mission: terminals, sealed doors and formation slots come
+ * from `missionPlan` (the mission data), not from constants.
  */
 import { getMission } from '../data'
 import { query } from '../engine'
 import type { Action, Board, Facing, Pos, StalkerUnit, WardenUnit } from '../engine'
 import {
-  ARCHIVE_DOOR,
-  ARMS,
-  FLANK_DOORS,
-  FLANK_TERMINAL,
-  STAGING,
   slotGoal,
   stageOf,
-  LOCK_TERMINAL,
+  lockSealed,
+  missionPlan,
   adjacentGoal,
   airDistances,
   consolePos,
@@ -103,10 +100,11 @@ export const wardenPolicy: Policy = (b) => {
   const conPos = consolePos(b)
   const carrier = query.carrier(b)
   const airD = airDistances(b)
+  const P = missionPlan(b)
 
   // ---- stage and schedule --------------------------------------------------------------------------
   type Stage = 'flanks' | 'unlock' | 'core' | 'carry' | 'pickup'
-  const stage: Stage = TUNING.flanks ? stageOf(b) : stageOf(b) === 'flanks' ? (b.doors[key(ARCHIVE_DOOR)]?.sealed ? 'unlock' : 'core') : stageOf(b)
+  const stage: Stage = TUNING.flanks ? stageOf(b) : stageOf(b) === 'flanks' ? (lockSealed(b) ? 'unlock' : 'core') : stageOf(b)
   const conAdj: Pos[] = []
   if (conPos)
     for (const o of ORTHO) {
@@ -114,7 +112,7 @@ export const wardenPolicy: Policy = (b) => {
       if (squareKind(b, n[0], n[1]) !== 'wall') conAdj.push(n)
     }
   const conD = bfs(b, conAdj)
-  const lockPos = terminalPos(b, LOCK_TERMINAL)
+  const lockPos = P.lockTerminal ? terminalPos(b, P.lockTerminal) : null
   const stand: Pos[] = []
   if (lockPos)
     for (const o of ORTHO) {
@@ -262,7 +260,7 @@ export const wardenPolicy: Policy = (b) => {
   let operator: WardenUnit | null = null
   const tech = ws.find((w) => w.role === 'tech')
   if (stage === 'flanks') {
-    const t = terminalPos(b, FLANK_TERMINAL)
+    const t = P.flankTerminal ? terminalPos(b, P.flankTerminal) : null
     if (t) {
       let bc = Infinity
       for (const w of ws) {
@@ -276,7 +274,7 @@ export const wardenPolicy: Policy = (b) => {
       if (operator) goals.set(operator.id, { goal: adjacentGoal(t, b), op: 'terminal' })
     }
   } else if (stage === 'unlock') {
-    const t = terminalPos(b, LOCK_TERMINAL)
+    const t = lockPos
     if (t) {
       operator = byDist[0] ?? null
       if (operator) goals.set(operator.id, { goal: adjacentGoal(t, b), op: 'terminal' })
@@ -302,8 +300,9 @@ export const wardenPolicy: Policy = (b) => {
   }
   ws.filter((w) => !operator || w.id !== operator.id).forEach((w, i) => {
     let g: GoalFn
-    if (stage === 'flanks') g = slotGoal(STAGING[i % STAGING.length] as [number, number, Facing])
-    else if ((stage === 'unlock' || stage === 'core') && TUNING.arms) g = slotGoal(ARMS[i % ARMS.length] as [number, number, Facing])
+    if (stage === 'flanks' && P.staging.length) g = slotGoal(P.staging[i % P.staging.length] as [number, number, Facing])
+    else if (stage === 'unlock' && TUNING.arms && P.arms.length) g = slotGoal(P.arms[i % P.arms.length] as [number, number, Facing])
+    else if (stage === 'core' && TUNING.arms && P.core.length) g = slotGoal(P.core[i % P.core.length] as [number, number, Facing])
     else if (stage === 'unlock' || stage === 'core') {
       const lim = stage === 'unlock' ? 1 + i : 2 + 2 * i
       g = (x, y, f) => (objD.get(`${x},${y}`) ?? 999) <= lim && faceDown(x, y, f)
@@ -342,7 +341,7 @@ export const wardenPolicy: Policy = (b) => {
     if (p.cost === 0) {
       if (g.op === 'core') add({ type: 'takeCore', unit: w.id }, 20, true)
       else if (g.op === 'terminal') {
-        const opts = query.terminalOps(b, w.id).filter((o) => o.available && (stage === 'flanks' ? o.op === 'seal' && o.door && FLANK_DOORS.some((d) => eq(d, o.door as Pos)) : o.op === 'unseal' && o.door && eq(o.door, ARCHIVE_DOOR)))
+        const opts = query.terminalOps(b, w.id).filter((o) => o.available && (stage === 'flanks' ? o.op === 'seal' && o.door && P.flankDoors.some((d) => eq(d, o.door as Pos)) : o.op === 'unseal' && o.door && P.sealedDoors.some((d) => eq(d, o.door as Pos))))
         const o = opts[0]
         if (o && o.door) add({ type: 'terminal', unit: w.id, terminal: o.terminal, op: o.op, door: o.door }, 15, true)
       }

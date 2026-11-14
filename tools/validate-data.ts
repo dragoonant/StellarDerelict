@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs'
-import { listMissions, rules, roles, assets, getMission } from '../src/data'
+import { listMissions, rules, roles, assets, getMission, runDef } from '../src/data'
 import { EVENT_SOUNDS } from '../src/client/audio/soundMap'
 import type { Mission } from '../src/data'
 
@@ -103,6 +103,34 @@ function checkMission(m: Mission): void {
   if (!Number.isInteger(m.roundLimit) || m.roundLimit < 1) err(id, 'bad round limit')
   if (m.arrivals.normal < 0 || m.arrivals.alarm < 0) err(id, 'bad arrivals')
   if (m.grid.join('').split('').some((c) => c === 'D' || c === 'B') === false && m.terminals.length) err(id, 'terminals but no doors')
+  // the mission's words for the core, its room and the exit (the UI never says "core" to the player unless the mission does)
+  if (!m.objective || !m.objective.item?.trim() || !m.objective.place?.trim() || !m.objective.exit?.trim()) err(id, 'objective needs item, place and exit')
+  // formation hints for the Warden policy stand on walkable squares with a real facing
+  for (const [name, slots] of Object.entries(m.aiHints ?? {}))
+    for (const s of slots ?? []) {
+      if (!walkable(at(s[0], s[1]))) err(id, `aiHints.${name} slot (${s[0]},${s[1]}) is not walkable`)
+      if (!['N', 'E', 'S', 'W'].includes(s[2])) err(id, `aiHints.${name} slot (${s[0]},${s[1]}) has a bad facing`)
+    }
+  if (!m.squad.every((q, i) => m.squad.findIndex((o) => o.id === q.id) === i)) err(id, 'duplicate squad ids')
+}
+
+function checkRun(): void {
+  const seen = new Set<string>()
+  for (const id of runDef.missions) {
+    if (!getMission(id)) err('run', `names unknown mission ${id}`)
+    if (seen.has(id)) err('run', `lists ${id} twice`)
+    seen.add(id)
+  }
+  if (runDef.missions.length < 2) err('run', 'a run needs at least two missions')
+  // R-2: one squad plays the whole run, so every mission must field the same five members
+  const first = getMission(runDef.missions[0] ?? '')
+  for (const id of runDef.missions) {
+    const m = getMission(id)
+    if (!m || !first) continue
+    const a = first.squad.map((q) => `${q.id}:${q.role}`).sort().join(' ')
+    const b = m.squad.map((q) => `${q.id}:${q.role}`).sort().join(' ')
+    if (a !== b) err('run', `${id} fields a different squad from ${first.id}`)
+  }
 }
 
 const SPEC_SLUGS = ['warden-sergeant', 'warden-rifle-a', 'warden-rifle-b', 'warden-scorcher', 'warden-tech', 'stalker-a', 'stalker-b', 'stalker-c', 'terminal', 'console', 'core']
@@ -162,6 +190,7 @@ checkRules()
 checkAssets()
 const missions = listMissions()
 for (const m of missions) checkMission(m)
+checkRun()
 if (errors.length) {
   for (const e of errors) console.error('FAIL', e)
   process.exit(1)

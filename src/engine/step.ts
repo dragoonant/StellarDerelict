@@ -3,7 +3,8 @@ import { geoOf } from './grid'
 import type { Action, Setup, State, StepResult } from './types'
 
 export function createGame(setup: Setup): State {
-  return newGameState(setup.mission, setup.seed).s
+  const roster = setup.options?.roster
+  return newGameState(setup.mission, setup.seed, Array.isArray(roster) ? roster.filter((x): x is string => typeof x === 'string') : undefined).s
 }
 
 export function step(state: State, action: Action): StepResult {

@@ -103,6 +103,28 @@ button.primary { border-color: var(--scan); color: var(--scan); }
 .card strong { color: var(--scan); font-weight: 600; }
 .card .dim, .card.down span { color: var(--scan-dim); }
 .debrief h2.win { color: var(--scan); font-size: clamp(24px, 6vw, 44px); }
+.debrief .runline { color: var(--lit); }
+.roster--debrief .card { font-size: 11px; }
+/* ------------------------------------------------------------------ M7: missions screen, the Molt seat, the run */
+.missions { position: fixed; inset: 0; z-index: 5; overflow-y: auto; overflow-x: hidden; background: var(--void); padding: 5vh 6vw; display: grid; align-content: start; gap: 14px; }
+.missions h2 { margin: 0; font-family: var(--font-head); font-weight: 700; text-transform: uppercase; letter-spacing: 0.22em; color: var(--scan); font-size: 20px; }
+.mlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.mcard { display: grid; gap: 6px; width: 100%; text-align: left; padding: 10px 12px; background: var(--deck); border: 1px solid var(--trace); color: var(--read); font-family: var(--font-mono); font-size: 12px; cursor: pointer; border-radius: 0; }
+.mcard:hover, .mcard:focus-visible { border-color: var(--scan); }
+.mcard.on { border-color: var(--scan); box-shadow: inset 0 0 0 1px var(--scan-dim); }
+.mcard.on::before, .mcard.on::after { border-color: var(--scan); }
+.mcard:not(.on)::before, .mcard:not(.on)::after { display: none; }
+.mcard strong { color: var(--scan); font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.14em; font-size: 14px; }
+.mcard__n { color: var(--scan-dim); letter-spacing: 0.2em; font-size: 11px; }
+.mcard__map { width: 100%; height: 90px; color: var(--scan-dim); }
+.mcard .dim { color: var(--scan-dim); }
+.clock__seat { color: var(--molt); }
+.hud--molt .actions__who b { color: var(--molt); }
+.trace--molt { flex-basis: 132px; border-color: color-mix(in srgb, var(--molt) 45%, var(--trace)); }
+.trace--molt .trace__name { color: var(--molt); }
+.trace--molt.sel { border-color: var(--lit); box-shadow: inset 0 0 0 1px var(--molt); }
+.strip__empty { padding: 8px 4px; font-size: 12px; }
+.title__menu button[data-act="run"] small, .title__menu button[data-act="board"] small { max-width: 44ch; }
 .debrief h2.lose { color: var(--molt); font-size: clamp(24px, 6vw, 44px); }
 .stats { display: grid; grid-template-columns: max-content max-content; gap: 4px 18px; margin: 0; }
 .stats dt { color: var(--scan-dim); text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px; }
@@ -247,6 +269,10 @@ button.primary { border-color: var(--scan); color: var(--scan); }
   .beat { height: 8px; }
   .modal { padding: 12px; }
   .seg__label { min-width: 0; width: 100%; }
+  .missions { padding: 3vh 4vw; gap: 10px; }
+  .mlist { grid-template-columns: 1fr; }
+  .mcard__map { height: 60px; }
+  .trace--molt { flex-basis: 108px; }
   .visor__heading { top: 130px; width: 180px; margin-left: -90px; }
   .visor__hint { display: none; }
   .visor__frame::before { inset: 14vh 4vw 34vh; }
