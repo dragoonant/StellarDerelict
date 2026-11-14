@@ -1,0 +1,861 @@
+{
+  "generatedAt": "2026-11-13T07:30:18.708Z",
+  "flags": [],
+  "files": {
+    "audio/sfx/repeater-shot-1.mp3": {
+      "peakDb": -0.6,
+      "rmsDb": -19.5,
+      "lufs": -19.4,
+      "crest": 8.8,
+      "seconds": 1.42,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/repeater-shot-2.mp3": {
+      "peakDb": -0.7,
+      "rmsDb": -19.9,
+      "lufs": -18.6,
+      "crest": 9.1,
+      "seconds": 1.39,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/repeater-shot-3.mp3": {
+      "peakDb": -0.6,
+      "rmsDb": -21.5,
+      "lufs": -19,
+      "crest": 11.1,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/repeater-hit-1.mp3": {
+      "peakDb": -0.5,
+      "rmsDb": -23.5,
+      "lufs": -26.2,
+      "crest": 14.1,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/repeater-hit-2.mp3": {
+      "peakDb": -0.8,
+      "rmsDb": -23.9,
+      "lufs": -26.4,
+      "crest": 14.4,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/repeater-lock.mp3": {
+      "peakDb": -6.9,
+      "rmsDb": -20.5,
+      "lufs": -17.8,
+      "crest": 4.8,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/vent.mp3": {
+      "peakDb": -7.6,
+      "rmsDb": -21.3,
+      "lufs": -18,
+      "crest": 4.8,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/watch-set.mp3": {
+      "peakDb": 0.8,
+      "rmsDb": -20.9,
+      "lufs": -18.7,
+      "crest": 12.2,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/scorch-1.mp3": {
+      "peakDb": -2.9,
+      "rmsDb": -14.5,
+      "lufs": -18,
+      "crest": 3.8,
+      "seconds": 2.97,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/scorch-2.mp3": {
+      "peakDb": -4.2,
+      "rmsDb": -16,
+      "lufs": -17.9,
+      "crest": 3.9,
+      "seconds": 1.95,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/melee-hit-1.mp3": {
+      "peakDb": -2.5,
+      "rmsDb": -13.2,
+      "lufs": -18,
+      "crest": 3.4,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/melee-hit-2.mp3": {
+      "peakDb": -2.3,
+      "rmsDb": -18.1,
+      "lufs": -18,
+      "crest": 6.2,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/melee-hit-3.mp3": {
+      "peakDb": 0,
+      "rmsDb": -18.6,
+      "lufs": -19,
+      "crest": 8.4,
+      "seconds": 2.01,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/maul.mp3": {
+      "peakDb": -6.2,
+      "rmsDb": -21,
+      "lufs": -18,
+      "crest": 5.5,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/breach.mp3": {
+      "peakDb": -2.8,
+      "rmsDb": -20.2,
+      "lufs": -17.9,
+      "crest": 7.4,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/warden-down.mp3": {
+      "peakDb": -2.7,
+      "rmsDb": -16,
+      "lufs": -18,
+      "crest": 4.7,
+      "seconds": 2.97,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/stalker-screech-1.mp3": {
+      "peakDb": -6.6,
+      "rmsDb": -21.4,
+      "lufs": -18,
+      "crest": 5.4,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/stalker-screech-2.mp3": {
+      "peakDb": -7.1,
+      "rmsDb": -20.1,
+      "lufs": -17.9,
+      "crest": 4.5,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/stalker-screech-3.mp3": {
+      "peakDb": -7.5,
+      "rmsDb": -21.3,
+      "lufs": -18,
+      "crest": 4.9,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/stalker-death-1.mp3": {
+      "peakDb": -4.5,
+      "rmsDb": -21.1,
+      "lufs": -18,
+      "crest": 6.7,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/stalker-death-2.mp3": {
+      "peakDb": -1.7,
+      "rmsDb": -18.4,
+      "lufs": -18,
+      "crest": 6.9,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/stalker-death-3.mp3": {
+      "peakDb": -4.9,
+      "rmsDb": -12.5,
+      "lufs": -18,
+      "crest": 2.4,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/skitter-1.mp3": {
+      "peakDb": -1.4,
+      "rmsDb": -19.2,
+      "lufs": -18,
+      "crest": 7.8,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/skitter-2.mp3": {
+      "peakDb": 0.8,
+      "rmsDb": -20.9,
+      "lufs": -18.1,
+      "crest": 12.1,
+      "seconds": 1.83,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/skitter-3.mp3": {
+      "peakDb": -0.6,
+      "rmsDb": -21.2,
+      "lufs": -18.5,
+      "crest": 10.7,
+      "seconds": 1.72,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/footstep-1.mp3": {
+      "peakDb": -2.1,
+      "rmsDb": -13,
+      "lufs": -18,
+      "crest": 3.5,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/footstep-2.mp3": {
+      "peakDb": -3.3,
+      "rmsDb": -12.6,
+      "lufs": -18.1,
+      "crest": 2.9,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/footstep-3.mp3": {
+      "peakDb": -2.3,
+      "rmsDb": -17.3,
+      "lufs": -18,
+      "crest": 5.6,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/ping-1.mp3": {
+      "peakDb": -2.6,
+      "rmsDb": -16.8,
+      "lufs": -18,
+      "crest": 5.2,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/ping-2.mp3": {
+      "peakDb": -3.3,
+      "rmsDb": -15.8,
+      "lufs": -18,
+      "crest": 4.2,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/duct-rattle.mp3": {
+      "peakDb": -4.6,
+      "rmsDb": -19.7,
+      "lufs": -18,
+      "crest": 5.7,
+      "seconds": 2.97,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/door-open.mp3": {
+      "peakDb": -3.2,
+      "rmsDb": -17.9,
+      "lufs": -18,
+      "crest": 5.4,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/door-close.mp3": {
+      "peakDb": -5,
+      "rmsDb": -17.4,
+      "lufs": -18,
+      "crest": 4.2,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/door-seal.mp3": {
+      "peakDb": -1.3,
+      "rmsDb": -20.9,
+      "lufs": -18,
+      "crest": 9.5,
+      "seconds": 1.93,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/door-unseal.mp3": {
+      "peakDb": -1.4,
+      "rmsDb": -18.8,
+      "lufs": -18.1,
+      "crest": 7.4,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/door-tear-1.mp3": {
+      "peakDb": -1.3,
+      "rmsDb": -19,
+      "lufs": -17.9,
+      "crest": 7.7,
+      "seconds": 1.12,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/door-tear-2.mp3": {
+      "peakDb": -1.1,
+      "rmsDb": -19.3,
+      "lufs": -18,
+      "crest": 8.1,
+      "seconds": 1.71,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/terminal.mp3": {
+      "peakDb": -3.3,
+      "rmsDb": -16.9,
+      "lufs": -18,
+      "crest": 4.8,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/lights-on.mp3": {
+      "peakDb": -3.7,
+      "rmsDb": -14.5,
+      "lufs": -18,
+      "crest": 3.4,
+      "seconds": 2.97,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/purge.mp3": {
+      "peakDb": -3.7,
+      "rmsDb": -15.4,
+      "lufs": -18,
+      "crest": 3.9,
+      "seconds": 5.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/core-taken.mp3": {
+      "peakDb": -5,
+      "rmsDb": -16.7,
+      "lufs": -17.9,
+      "crest": 3.8,
+      "seconds": 2.97,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/alarm.mp3": {
+      "peakDb": -7.1,
+      "rmsDb": -20,
+      "lufs": -18,
+      "crest": 4.4,
+      "seconds": 2.56,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/core-dropped.mp3": {
+      "peakDb": -0.1,
+      "rmsDb": -21.1,
+      "lufs": -18.2,
+      "crest": 11.3,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/core-picked.mp3": {
+      "peakDb": -6.7,
+      "rmsDb": -21.3,
+      "lufs": -18,
+      "crest": 5.4,
+      "seconds": 1.97,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/phase-warden.mp3": {
+      "peakDb": -0.8,
+      "rmsDb": -21.3,
+      "lufs": -18,
+      "crest": 10.5,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/phase-molt.mp3": {
+      "peakDb": -8.8,
+      "rmsDb": -19.6,
+      "lufs": -18,
+      "crest": 3.5,
+      "seconds": 2.04,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/timer-warn.mp3": {
+      "peakDb": -7.1,
+      "rmsDb": -20.4,
+      "lufs": -18,
+      "crest": 4.7,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/ui-select.mp3": {
+      "peakDb": -5.2,
+      "rmsDb": -21.3,
+      "lufs": -18,
+      "crest": 6.4,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/ui-arm.mp3": {
+      "peakDb": -5,
+      "rmsDb": -14.4,
+      "lufs": -18,
+      "crest": 3,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/ui-deny.mp3": {
+      "peakDb": -3.2,
+      "rmsDb": -15.6,
+      "lufs": -18,
+      "crest": 4.2,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/ui-confirm.mp3": {
+      "peakDb": -1,
+      "rmsDb": -14.4,
+      "lufs": -17.6,
+      "crest": 4.7,
+      "seconds": 1.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/sting-win.mp3": {
+      "peakDb": -5.1,
+      "rmsDb": -21.1,
+      "lufs": -18,
+      "crest": 6.3,
+      "seconds": 5.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/sting-loss.mp3": {
+      "peakDb": -3.7,
+      "rmsDb": -17.7,
+      "lufs": -18,
+      "crest": 5,
+      "seconds": 5.02,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/sfx/ambience.mp3": {
+      "peakDb": -8.2,
+      "rmsDb": -20.9,
+      "lufs": -24,
+      "crest": 4.3,
+      "seconds": 40.03,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/music/calm.mp3": {
+      "peakDb": -0.4,
+      "rmsDb": -13.6,
+      "lufs": -16.5,
+      "crest": 4.6,
+      "seconds": 120,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/music/tense.mp3": {
+      "peakDb": -0.2,
+      "rmsDb": -14,
+      "lufs": -16.3,
+      "crest": 4.9,
+      "seconds": 120,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/music/battle.mp3": {
+      "peakDb": -0.1,
+      "rmsDb": -13,
+      "lufs": -16,
+      "crest": 4.5,
+      "seconds": 120,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/music/alarm.mp3": {
+      "peakDb": -0.6,
+      "rmsDb": -14.1,
+      "lufs": -16,
+      "crest": 4.7,
+      "seconds": 120,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/music/victory.mp3": {
+      "peakDb": -0.6,
+      "rmsDb": -15.8,
+      "lufs": -16.9,
+      "crest": 5.7,
+      "seconds": 30,
+      "trimmedMs": 0,
+      "gainDb": 1.7
+    },
+    "audio/music/defeat.mp3": {
+      "peakDb": -1,
+      "rmsDb": -14.2,
+      "lufs": -16.4,
+      "crest": 4.6,
+      "seconds": 30,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/music/title.mp3": {
+      "peakDb": -0.9,
+      "rmsDb": -15.3,
+      "lufs": -16.7,
+      "crest": 5.3,
+      "seconds": 90,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/voice/venn-moved.mp3": {
+      "peakDb": -2.1,
+      "rmsDb": -15.4,
+      "lufs": -16,
+      "crest": 4.6,
+      "seconds": 0.98,
+      "trimmedMs": 0,
+      "gainDb": -1.4
+    },
+    "audio/voice/venn-revealed.mp3": {
+      "peakDb": -2.4,
+      "rmsDb": -16.2,
+      "lufs": -16,
+      "crest": 4.9,
+      "seconds": 2.73,
+      "trimmedMs": 0,
+      "gainDb": -1.7
+    },
+    "audio/voice/venn-locked.mp3": {
+      "peakDb": -2.5,
+      "rmsDb": -16.9,
+      "lufs": -16,
+      "crest": 5.2,
+      "seconds": 2.75,
+      "trimmedMs": 0,
+      "gainDb": -2.1
+    },
+    "audio/voice/venn-breached.mp3": {
+      "peakDb": -2.2,
+      "rmsDb": -16.5,
+      "lufs": -16,
+      "crest": 5.2,
+      "seconds": 2.15,
+      "trimmedMs": 0,
+      "gainDb": -1.5
+    },
+    "audio/voice/venn-watch-set.mp3": {
+      "peakDb": -2.4,
+      "rmsDb": -15.8,
+      "lufs": -16,
+      "crest": 4.7,
+      "seconds": 2.57,
+      "trimmedMs": 0,
+      "gainDb": -2
+    },
+    "audio/voice/venn-phase-started.mp3": {
+      "peakDb": -2.2,
+      "rmsDb": -16,
+      "lufs": -16,
+      "crest": 4.9,
+      "seconds": 3.06,
+      "trimmedMs": 0,
+      "gainDb": -1.5
+    },
+    "audio/voice/brandt-moved.mp3": {
+      "peakDb": -2.5,
+      "rmsDb": -17.5,
+      "lufs": -16,
+      "crest": 5.6,
+      "seconds": 1.68,
+      "trimmedMs": 0,
+      "gainDb": -1.9
+    },
+    "audio/voice/brandt-revealed.mp3": {
+      "peakDb": -2.9,
+      "rmsDb": -15.9,
+      "lufs": -16,
+      "crest": 4.5,
+      "seconds": 3.37,
+      "trimmedMs": 0,
+      "gainDb": -2.2
+    },
+    "audio/voice/brandt-locked.mp3": {
+      "peakDb": -3.2,
+      "rmsDb": -15.8,
+      "lufs": -16,
+      "crest": 4.2,
+      "seconds": 1.19,
+      "trimmedMs": 0,
+      "gainDb": -2.3
+    },
+    "audio/voice/brandt-breached.mp3": {
+      "peakDb": -2,
+      "rmsDb": -16,
+      "lufs": -16,
+      "crest": 5,
+      "seconds": 1.8,
+      "trimmedMs": 0,
+      "gainDb": -1.1
+    },
+    "audio/voice/brandt-watch-set.mp3": {
+      "peakDb": -3.9,
+      "rmsDb": -15.8,
+      "lufs": -16,
+      "crest": 3.9,
+      "seconds": 0.96,
+      "trimmedMs": 0,
+      "gainDb": -2.9
+    },
+    "audio/voice/brandt-vented.mp3": {
+      "peakDb": -3.2,
+      "rmsDb": -15.5,
+      "lufs": -16,
+      "crest": 4.1,
+      "seconds": 2.14,
+      "trimmedMs": 0,
+      "gainDb": -2.4
+    },
+    "audio/voice/okafor-moved.mp3": {
+      "peakDb": -2.9,
+      "rmsDb": -15.2,
+      "lufs": -16,
+      "crest": 4.1,
+      "seconds": 0.67,
+      "trimmedMs": 0,
+      "gainDb": -2
+    },
+    "audio/voice/okafor-revealed.mp3": {
+      "peakDb": -2.5,
+      "rmsDb": -16.2,
+      "lufs": -16,
+      "crest": 4.8,
+      "seconds": 2.44,
+      "trimmedMs": 0,
+      "gainDb": -1.7
+    },
+    "audio/voice/okafor-locked.mp3": {
+      "peakDb": -2.3,
+      "rmsDb": -15.9,
+      "lufs": -16,
+      "crest": 4.8,
+      "seconds": 1.76,
+      "trimmedMs": 0,
+      "gainDb": -1.6
+    },
+    "audio/voice/okafor-breached.mp3": {
+      "peakDb": -2.5,
+      "rmsDb": -16.7,
+      "lufs": -16,
+      "crest": 5.1,
+      "seconds": 2.09,
+      "trimmedMs": 0,
+      "gainDb": -1.9
+    },
+    "audio/voice/okafor-watch-set.mp3": {
+      "peakDb": -3.7,
+      "rmsDb": -15.8,
+      "lufs": -16,
+      "crest": 4.1,
+      "seconds": 1.07,
+      "trimmedMs": 0,
+      "gainDb": -2.7
+    },
+    "audio/voice/okafor-vented.mp3": {
+      "peakDb": -0.8,
+      "rmsDb": -14.9,
+      "lufs": -15.1,
+      "crest": 5.1,
+      "seconds": 1.6,
+      "trimmedMs": 0,
+      "gainDb": 0
+    },
+    "audio/voice/riedel-moved.mp3": {
+      "peakDb": -3.1,
+      "rmsDb": -15.7,
+      "lufs": -16,
+      "crest": 4.3,
+      "seconds": 0.61,
+      "trimmedMs": 0,
+      "gainDb": -2.3
+    },
+    "audio/voice/riedel-revealed.mp3": {
+      "peakDb": -2.6,
+      "rmsDb": -16,
+      "lufs": -16,
+      "crest": 4.7,
+      "seconds": 0.82,
+      "trimmedMs": 0,
+      "gainDb": -1.6
+    },
+    "audio/voice/riedel-locked.mp3": {
+      "peakDb": -3.2,
+      "rmsDb": -15.7,
+      "lufs": -16,
+      "crest": 4.2,
+      "seconds": 2.69,
+      "trimmedMs": 0,
+      "gainDb": -2.4
+    },
+    "audio/voice/riedel-breached.mp3": {
+      "peakDb": -1.8,
+      "rmsDb": -15.6,
+      "lufs": -16,
+      "crest": 4.9,
+      "seconds": 4.57,
+      "trimmedMs": 0,
+      "gainDb": -1.1
+    },
+    "audio/voice/riedel-watch-set.mp3": {
+      "peakDb": -2.8,
+      "rmsDb": -15.9,
+      "lufs": -16,
+      "crest": 4.5,
+      "seconds": 2.56,
+      "trimmedMs": 0,
+      "gainDb": -2
+    },
+    "audio/voice/riedel-scorched.mp3": {
+      "peakDb": -2.8,
+      "rmsDb": -15.5,
+      "lufs": -16,
+      "crest": 4.3,
+      "seconds": 2.24,
+      "trimmedMs": 0,
+      "gainDb": -2.1
+    },
+    "audio/voice/sato-moved.mp3": {
+      "peakDb": -2.8,
+      "rmsDb": -15.8,
+      "lufs": -16,
+      "crest": 4.5,
+      "seconds": 1.6,
+      "trimmedMs": 0,
+      "gainDb": -2.3
+    },
+    "audio/voice/sato-revealed.mp3": {
+      "peakDb": -5.3,
+      "rmsDb": -15.6,
+      "lufs": -16,
+      "crest": 3.3,
+      "seconds": 1.17,
+      "trimmedMs": 0,
+      "gainDb": -3
+    },
+    "audio/voice/sato-locked.mp3": {
+      "peakDb": -3,
+      "rmsDb": -15.5,
+      "lufs": -16,
+      "crest": 4.2,
+      "seconds": 2.27,
+      "trimmedMs": 0,
+      "gainDb": -2.3
+    },
+    "audio/voice/sato-breached.mp3": {
+      "peakDb": -3.7,
+      "rmsDb": -15.6,
+      "lufs": -16,
+      "crest": 3.9,
+      "seconds": 1.7,
+      "trimmedMs": 0,
+      "gainDb": -2.9
+    },
+    "audio/voice/sato-watch-set.mp3": {
+      "peakDb": -3,
+      "rmsDb": -15.8,
+      "lufs": -16,
+      "crest": 4.3,
+      "seconds": 2.2,
+      "trimmedMs": 0,
+      "gainDb": -2.4
+    },
+    "audio/voice/sato-terminal-used.mp3": {
+      "peakDb": -2.9,
+      "rmsDb": -15.6,
+      "lufs": -16,
+      "crest": 4.3,
+      "seconds": 2.48,
+      "trimmedMs": 0,
+      "gainDb": -2.2
+    },
+    "audio/voice/carrier-core-taken.mp3": {
+      "peakDb": -2.1,
+      "rmsDb": -15.7,
+      "lufs": -16,
+      "crest": 4.8,
+      "seconds": 2.67,
+      "trimmedMs": 0,
+      "gainDb": -1.4
+    },
+    "audio/voice/carrier-core-dropped.mp3": {
+      "peakDb": -3,
+      "rmsDb": -15.8,
+      "lufs": -16,
+      "crest": 4.4,
+      "seconds": 2.62,
+      "trimmedMs": 0,
+      "gainDb": -2.2
+    },
+    "audio/voice/carrier-core-picked.mp3": {
+      "peakDb": -3.3,
+      "rmsDb": -15.7,
+      "lufs": -16,
+      "crest": 4.1,
+      "seconds": 2.17,
+      "trimmedMs": 0,
+      "gainDb": -2.6
+    },
+    "audio/voice/carrier-breached.mp3": {
+      "peakDb": -3.2,
+      "rmsDb": -15.6,
+      "lufs": -16,
+      "crest": 4.2,
+      "seconds": 2.94,
+      "trimmedMs": 0,
+      "gainDb": -2.3
+    }
+  }
+}
