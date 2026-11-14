@@ -4,8 +4,10 @@ import { Canvas } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import { query } from '../../engine'
 import type { Pos, View } from '../../engine'
-import { MISSION_ID, canAct, legalOf, setHover, tapTile, wardenOf } from '../session'
-import { useStore } from '../store'
+import { MISSION_ID, canAct, legalOf, setHover, strikeTarget, tapTile, wardenOf } from '../session'
+import { getStore, useStore } from '../store'
+import { visorRt } from './visor'
+import { nearestOnScreen, PICK_RADIUS_PX } from './visorModel'
 import { tokens } from '../tokens'
 import { CameraRig } from './CameraRig'
 import { Deck, Fixtures } from './Deck'
@@ -59,6 +61,12 @@ function PickPlane({ dims }: { dims: Dims }) {
           return
         }
         if (!isTap()) return
+        // in the visor a figure stands up out of its tile, so an armed Fire or Melee takes the target bracket nearest the tap
+        const s = getStore()
+        if (s.visor && s.armed && s.armed.kind !== 'scorch') {
+          const m = nearestOnScreen(visorRt.marks, { x: ne.clientX, y: ne.clientY }, PICK_RADIUS_PX)
+          if (m && strikeTarget(m.id)) return
+        }
         const t = tile(e.point.x, e.point.z)
         if (t) tapTile(t)
       }}
@@ -144,6 +152,8 @@ function Scene() {
   return (
     <>
       <color attach="background" args={[tokens.void]} />
+      {/* visor mode pulls the fog in (CameraRig); on the map it sits far past the board */}
+      <fog attach="fog" args={[tokens.void, 1000, 2000]} />
       <ambientLight intensity={1.5} />
       <directionalLight position={[4, 8, 5]} intensity={1.8} />
       <CameraRig dims={dims} home={home} />

@@ -93,6 +93,36 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
   No `title=` attributes and no SVG `<title>` anywhere.
 - **Prompts name what they decide** ("Seal which door?"), and every number shown comes from the engine.
 
+## Visor (owner request 2026-11-14: "a marine visor mode where the view shifts to the marine selected, and you can control directly from the marine")
+
+A second camera for the same board: the screen becomes the selected Warden's helmet feed. Presentation only: the rules,
+the actions and their costs are the same as on the map, and every number shown still comes from `query.*`.
+
+- **VISOR-1 Toggle.** `C`, or the `VISOR` / `MAP` button at the top right, switches. On, it rides the selected Warden (the
+  first one standing if none is selected); `Esc` (with nothing armed or inspected) or `C` returns to the map, which lands
+  centred over that Warden. It can be on in either phase (watching the Molt move through a Warden's eyes). The camera
+  swings between the two views in about 0.4 s (at once at `Instant` speed).
+- **VISOR-2 Whose eyes.** Selecting another Warden (card, `1`–`5`, or a tap on its tile) glides the visor to that helmet
+  with a short scanline flash. A tap on an empty square in the visor keeps the selection (on the map it clears it). If the
+  Warden is destroyed, `SIGNAL LOST: <NAME>` holds for 1.4 s and the view returns to the map.
+- **VISOR-3 The view.** Eye at 0.92 above the deck, 0.2 behind the figure's centre, looking along the facing; 72° field of
+  view; the Warden's own figure, ring and marks are not drawn. Walls and door leaves rise to 1.6 (the map's 0.6 walls would
+  be waist high), with `--scan` sensor outlines on each wall face that meets the deck (foot, half-height rib, top, uprights)
+  and a dark deckhead with the floor grid echoed on it. Fog in `--void` from 3.5 to 15 squares. The deck's seen / mapped
+  states, the move and target highlights, pings, effects and the fire arc fan all draw as on the map.
+- **VISOR-4 Looking and moving.** Any drag (mouse button, finger, pen) looks around: up to 1.25 rad either side of the
+  facing, 0.7 down and 0.4 up. Looking is free; the facing is a rule and costs AP. When the facing changes the look eases
+  back to centre. `R` / `Home` recentres. The wheel does nothing. W / S (and ↑ / ↓) step forward and back, Q / E (and ← / →)
+  turn, as on the map; a tap on a lit square still moves there; every other action key and button works unchanged.
+- **VISOR-5 Shooting.** With Fire or Melee armed, every legal target carries a bracket over its figure with the engine's odds
+  (`query.hitChance` as `% KILL`, `query.meleeOdds` as `% WIN`); the bracket nearest the reticle is locked (solid `--lit`).
+  Pressing Fire / Melee again (key or button) attacks the locked target; a tap within 90 px of a bracket attacks that one;
+  `Esc` disarms. Scorch keeps tile targeting (its burst squares show on the deck).
+- **VISOR-6 Helmet HUD.** Corner brackets and faint scanlines; a heading tape and bearing (`090 E`) under the objective; a
+  reticle at the centre; the Warden's name, role, AP pips, heat or charges, `BREACHED` and `WATCH` at the frame's lower left;
+  one line of key hints (hidden on phones). The comms log folds behind the `COMMS` button as on a phone. The clock, objective,
+  action bar and squad strip stay where they are.
+
 ## Director
 
 Events play in order with a presented-state cursor: the board shows the state as of the last animated event, the bot

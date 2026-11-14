@@ -9,6 +9,7 @@ import { wardenPolicy } from '../ai/warden'
 import { isTier, tierOfSetup, type Tier } from '../ai/tiers'
 import { chooseInWorker } from './moltBot'
 import { viewApi } from './board/viewApi'
+import { visorRt } from './board/visor'
 import { toWorldX, toWorldZ, dimsOf } from './board/layout'
 import { describeEvent, foldMoveLine } from './describe'
 import { directorBusy, present, resetDirector, SPEED_FACTOR, whenDirectorIdle } from './director'
@@ -101,7 +102,7 @@ export function discardSave(): void {
 
 // ------------------------------------------------------------------ starting and reopening
 function freshUi(): Partial<ReturnType<typeof getStore>> {
-  return { selected: null, armed: null, hover: null, inspect: null, prompt: null, confirm: null, menu: false, notice: '' }
+  return { selected: null, armed: null, hover: null, inspect: null, prompt: null, confirm: null, menu: false, notice: '', visor: false }
 }
 
 export function startMission(): void {
@@ -230,7 +231,7 @@ function accept(a: Action): boolean {
   if (next.result) {
     void whenDirectorIdle().then(() => {
       const cur = getStore()
-      if (cur.state === next) setStore({ screen: 'debrief', ...{ armed: null, prompt: null, confirm: null } })
+      if (cur.state === next) setStore({ screen: 'debrief', ...{ armed: null, prompt: null, confirm: null, visor: false } })
     })
   } else if (next.toAct === 'molt') void runBot()
   return true
@@ -346,6 +347,41 @@ export function arm(kind: 'fire' | 'scorch' | 'melee'): void {
   setStore({ armed: s.armed && s.armed.kind === kind ? null : { kind, unit: s.selected }, hover: null })
 }
 
+/** Fire or Melee pressed while it is already armed: in the visor that shoots what the reticle is on, else it disarms. */
+export function armOrStrike(kind: 'fire' | 'scorch' | 'melee'): void {
+  const s = getStore()
+  if (s.visor && kind !== 'scorch' && s.armed?.kind === kind && visorRt.lock && s.selected && strikeTarget(visorRt.lock)) return
+  arm(kind)
+}
+
+/** The armed Fire or Melee at one target, if that is a legal action for the selected Warden (the visor's brackets). */
+export function strikeTarget(target: string): boolean {
+  const s = getStore()
+  const v = s.presented
+  const kind = s.armed?.kind
+  if (!v || !s.selected || !kind || kind === 'scorch' || !canAct()) return false
+  const a = legalOf(v, s.selected).find((x) => x.type === kind && 'target' in x && x.target === target)
+  return a ? dispatchHuman(a) : false
+}
+
+/** Visor mode on or off (spec 50 "Visor"). On rides the selected Warden, or the first one standing when none is selected. */
+export function setVisor(on: boolean): void {
+  const s = getStore()
+  if (!on) {
+    setStore({ visor: false })
+    return
+  }
+  const v = s.presented
+  if (!v || s.screen !== 'mission') return
+  const id = wardenOf(v, s.selected)?.id ?? v.units.find((u) => u.kind === 'warden' && u.alive)?.id
+  if (!id) return
+  setStore({ visor: true, selected: id, inspect: null, hover: null })
+}
+
+export function toggleVisor(): void {
+  setVisor(!getStore().visor)
+}
+
 export function wardenOf(v: View, id: string | null): WardenUnit | undefined {
   const u = id ? v.units.find((x) => x.id === id) : undefined
   return u && u.kind === 'warden' && u.alive ? u : undefined
@@ -411,6 +447,8 @@ export function tapTile(p: Pos): void {
   const here = v.units.some((u) => (u.kind !== 'warden' || u.alive) && same(u.at, p))
   const interesting = here || (t !== 'wall' && t !== 'floor' && t !== 'airlock') || v.burn.some((b) => same(b, p)) || (v.core.at !== null && same(v.core.at, p))
   if (interesting) setStore({ inspect: p })
+  // in the visor an empty square keeps the Warden: losing the selection would leave the player looking through no one's eyes
+  else if (s.visor) setStore({ inspect: null, armed: null })
   else setStore({ selected: null, inspect: null, armed: null })
 }
 

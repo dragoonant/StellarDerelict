@@ -1,5 +1,13 @@
 # STATUS (rewritten at each stage; trust `git log` over this file)
 
+**2026-11-14: visor mode (owner request).** "A marine visor mode where the view shifts to the marine selected, and you
+can control directly from the marine." `C` or the `VISOR` button puts the camera in the selected Warden's helmet:
+first-person at 72°, walls raised to 1.6 with `--scan` sensor outlines, a deckhead, fog; W/S/Q/E and the arrow keys act,
+drag looks around, Fire or Melee armed shows a bracket with the engine odds on each target and pressing it again shoots
+the locked one. Spec 50 "Visor" (VISOR-1..6), `tests/unit/visor.test.ts`, `tests/e2e/visor.spec.ts`. Presentation only:
+no rule, data or balance change. Gates: typecheck, 191 unit tests, data validation, sim (1000 games, 0 violations),
+21 e2e tests, build. Not yet seen by the owner on a real GPU (SwiftShader screenshots only).
+
 **2026-11-13 — live on Pages, first owner playtest approved.** Owner: "I'm super impressed with my playtest so far.
 This is how you get a working prototype." Below is the state as of M5/M6.
 

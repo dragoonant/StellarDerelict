@@ -170,6 +170,58 @@ button.primary { border-color: var(--scan); color: var(--scan); }
 .beat--flat .beat__run { animation: none; }
 @keyframes beat { to { transform: translateX(-60px); } }
 
+/* visor mode (spec 50 "Visor"): the helmet frame over the first-person board */
+.visor { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.visor__frame { position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(to bottom, color-mix(in srgb, var(--scan) 4%, transparent) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at center, transparent 58%, color-mix(in srgb, var(--void) 88%, transparent) 100%);
+}
+.visor__frame::before { content: ''; position: absolute; inset: 11vh 7vw 24vh; --c: color-mix(in srgb, var(--scan) 55%, transparent);
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 44px 1px, linear-gradient(var(--c), var(--c)) top left / 1px 44px,
+    linear-gradient(var(--c), var(--c)) top right / 44px 1px, linear-gradient(var(--c), var(--c)) top right / 1px 44px,
+    linear-gradient(var(--c), var(--c)) bottom left / 44px 1px, linear-gradient(var(--c), var(--c)) bottom left / 1px 44px,
+    linear-gradient(var(--c), var(--c)) bottom right / 44px 1px, linear-gradient(var(--c), var(--c)) bottom right / 1px 44px;
+  background-repeat: no-repeat;
+}
+.visor__heading { position: absolute; left: 50%; top: 50px; width: 240px; margin-left: -120px; display: grid; justify-items: center; gap: 2px; }
+.visor__tape { width: 100%; height: 9px; border-bottom: 1px solid var(--scan-dim);
+  background: repeating-linear-gradient(90deg, var(--scan-dim) 0 1px, transparent 1px 20px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent); mask-image: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+}
+.visor__heading::after { content: ''; position: absolute; left: 50%; top: 0; height: 12px; border-left: 2px solid var(--scan); }
+.visor__hdg { font-size: 12px; letter-spacing: 0.16em; color: var(--scan); }
+.visor__hint { position: absolute; left: 50%; top: 94px; transform: translateX(-50%); margin: 0; white-space: nowrap; font-size: 11px; letter-spacing: 0.06em; color: var(--scan-dim); }
+.visor__reticle { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+.visor__reticle i { position: absolute; background: var(--scan); opacity: 0.85; }
+.visor__reticle i:nth-child(1) { left: -1px; top: -18px; width: 1px; height: 10px; }
+.visor__reticle i:nth-child(2) { left: -1px; top: 8px; width: 1px; height: 10px; }
+.visor__reticle i:nth-child(3) { left: -18px; top: 0; width: 10px; height: 1px; }
+.visor__reticle i:nth-child(4) { left: 8px; top: 0; width: 10px; height: 1px; }
+.visor__target { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.visor__target::before { content: ''; position: absolute; left: -24px; top: -26px; width: 48px; height: 52px; border: 1px dashed var(--molt); }
+.visor__target span { position: absolute; left: 0; top: 32px; transform: translateX(-50%); white-space: nowrap; font-size: 11px; letter-spacing: 0.08em; color: var(--molt); }
+.visor__target.lock::before { border: 2px solid var(--lit); }
+.visor__target.lock span { color: var(--lit); }
+.visor__tag { position: absolute; left: calc(7vw + 12px); bottom: calc(24vh + 12px); display: grid; gap: 2px; font-size: 11px; letter-spacing: 0.06em; color: var(--read); }
+.visor__tag b { color: var(--scan); font-weight: 600; }
+.visor__tag span:first-of-type { color: var(--scan-dim); text-transform: uppercase; font-size: 10px; }
+.visor__tag .alarm { color: var(--alarm); }
+.visor__ap { display: flex; align-items: center; gap: 0; color: var(--scan-dim); }
+.visor__ap b { margin-right: 6px; color: var(--scan-dim); font-weight: 400; }
+.visor__lost { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-head); font-weight: 700; letter-spacing: 0.3em; font-size: 22px; color: var(--molt);
+  background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--molt) 10%, transparent) 0 2px, var(--void) 2px 4px); animation: visor-blink 0.5s steps(2) infinite; }
+.visor__switch { position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--scan) 14%, transparent) 0 1px, transparent 1px 4px); opacity: 0; animation: visor-switch 0.32s steps(4) 1; }
+@keyframes visor-switch { from { opacity: 1; } to { opacity: 0; } }
+@keyframes visor-blink { 50% { opacity: 0.7; } }
+.topright button small { margin-left: 6px; color: var(--scan-dim); font-size: 10px; }
+.visorbtn[aria-pressed='true'] { border-color: var(--scan); color: var(--scan); }
+/* the visor keeps the view clear: the log goes behind the Comms button as on a phone */
+.hud--visor .log:not(.log--sheet) { display: none; }
+.hud--visor .logbtn { display: block; }
+.hud--visor .logtoggle { display: none; }
+
 /* phones: under 700 px wide or 500 px tall (spec 50 "Phone layout") */
 @media (max-width: 700px), (max-height: 500px) {
   .clock { width: 168px; left: 6px; top: 6px; padding: 4px 6px; gap: 3px; }
@@ -193,11 +245,16 @@ button.primary { border-color: var(--scan); color: var(--scan); }
   .beat { height: 8px; }
   .modal { padding: 12px; }
   .seg__label { min-width: 0; width: 100%; }
+  .visor__heading { top: 96px; width: 180px; margin-left: -90px; }
+  .visor__hint { display: none; }
+  .visor__frame::before { inset: 14vh 4vw 34vh; }
+  .visor__tag { left: calc(4vw + 8px); bottom: calc(34vh + 8px); font-size: 10px; }
+  .topright button small { display: none; }
 }
 @media (max-height: 500px) {
   .strip { }
 }
-@media (prefers-reduced-motion: reduce) { .beat__run, .caret { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .beat__run, .caret, .visor__lost, .visor__switch { animation: none; } }
 
 /* ------------------------------------------------------------------ M5/M6: sound sliders, model loading, gallery */
 .mix { display: grid; gap: 6px; margin: 6px 0; }

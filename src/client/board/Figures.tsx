@@ -10,6 +10,7 @@ import { ModelFigure } from '../models/Model'
 import { getStore, useStore } from '../store'
 import { tokens } from '../tokens'
 import { toWorldX, toWorldZ, type Dims } from './layout'
+import { figurePose, visorRt } from './visor'
 
 const ROT: Record<Facing, number> = { N: 0, E: -Math.PI / 2, S: Math.PI, W: Math.PI / 2 }
 
@@ -111,6 +112,12 @@ function useSmoothPlacement(dims: Dims, at: [number, number], unit: string, faci
     }
     g.position.set(c.x + ox, 0, c.z + oz)
     g.rotation.y = c.r
+    const pose = figurePose.get(unit)
+    if (pose) {
+      pose.x = c.x + ox
+      pose.z = c.z + oz
+      pose.r = c.r
+    } else figurePose.set(unit, { x: c.x + ox, z: c.z + oz, r: c.r })
   })
   return ref
 }
@@ -119,13 +126,17 @@ function WardenFigure({ dims, u, slug, selected, carrier }: { dims: Dims; u: War
   const ref = useSmoothPlacement(dims, u.at, u.id, u.facing)
   const body = u.breached ? new Color(tokens.read).lerp(new Color(tokens.alarm), 0.35) : new Color(tokens.read).lerp(new Color(tokens.scan), 0.3)
   const glyph = useRef<Mesh>(null)
+  const own = useRef<Group>(null)
   useFrame((_, dt) => {
     if (glyph.current) glyph.current.rotation.y += dt * 1.6
+    // in the visor the camera is inside this helmet: the Warden's own figure, ring and marks are not drawn
+    if (own.current) own.current.visible = !(visorRt.unit === u.id && visorRt.blend > 0.75)
   })
   return (
     <group ref={ref}>
       {u.alive && (
         <>
+          <group ref={own}>
           <ModelFigure
             slug={slug}
             tint={u.breached}
@@ -139,18 +150,10 @@ function WardenFigure({ dims, u, slug, selected, carrier }: { dims: Dims; u: War
             <meshBasicMaterial color={tokens.lit} fog={false} side={DoubleSide} />
           </mesh>
           {selected && (
-            <>
-              <mesh position={[0, 0.025, 0]} rotation-x={-Math.PI / 2}>
-                <ringGeometry args={[0.38, 0.46, 24]} />
-                <meshBasicMaterial color={tokens.scan} transparent opacity={0.9} fog={false} blending={AdditiveBlending} depthWrite={false} />
-              </mesh>
-              <mesh geometry={fanGeo} position={[0, 0.03, 0]}>
-                <meshBasicMaterial color={tokens.scan} transparent opacity={0.07} fog={false} blending={AdditiveBlending} depthWrite={false} side={DoubleSide} />
-              </mesh>
-              <lineSegments geometry={fanEdge} position={[0, 0.035, 0]}>
-                <lineBasicMaterial color={tokens.scan} transparent opacity={0.3} fog={false} />
-              </lineSegments>
-            </>
+            <mesh position={[0, 0.025, 0]} rotation-x={-Math.PI / 2}>
+              <ringGeometry args={[0.38, 0.46, 24]} />
+              <meshBasicMaterial color={tokens.scan} transparent opacity={0.9} fog={false} blending={AdditiveBlending} depthWrite={false} />
+            </mesh>
           )}
           {u.watch && (
             <mesh position={[0, 1.12, 0]}>
@@ -163,6 +166,17 @@ function WardenFigure({ dims, u, slug, selected, carrier }: { dims: Dims; u: War
               <octahedronGeometry args={[0.2]} />
               <meshBasicMaterial color={tokens.lit} fog={false} />
             </mesh>
+          )}
+          </group>
+          {selected && (
+            <>
+              <mesh geometry={fanGeo} position={[0, 0.03, 0]}>
+                <meshBasicMaterial color={tokens.scan} transparent opacity={0.07} fog={false} blending={AdditiveBlending} depthWrite={false} side={DoubleSide} />
+              </mesh>
+              <lineSegments geometry={fanEdge} position={[0, 0.035, 0]}>
+                <lineBasicMaterial color={tokens.scan} transparent opacity={0.3} fog={false} />
+              </lineSegments>
+            </>
           )}
         </>
       )}

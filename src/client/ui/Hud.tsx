@@ -7,9 +7,10 @@ import { query } from '../../engine'
 import type { Action, Facing, Pos, View, WardenUnit } from '../../engine'
 import { viewApi } from '../board/viewApi'
 import { AudioControls } from './AudioControls'
+import { VisorHud } from './Visor'
 import { inspectSquare, nameOf, roundLabel } from '../describe'
 import {
-  arm,
+  armOrStrike,
   canAct,
   dispatchHuman,
   leaveToTitle,
@@ -19,6 +20,8 @@ import {
   selectWarden,
   setSpeed,
   setTimerSetting,
+  setVisor,
+  toggleVisor,
   wardenOf,
 } from '../session'
 import { setStore, useStore, type Side } from '../store'
@@ -182,13 +185,14 @@ function ActionBar({ v }: { v: View }) {
   const armed = useStore((s) => s.armed)
   const animating = useStore((s) => s.animating)
   const toAct = useStore((s) => s.state?.toAct)
+  const visor = useStore((s) => s.visor)
   const w = wardenOf(v, selected)
   const enabled = canAct() && !animating && toAct === 'warden'
   const btns = useMemo(() => (w && enabled ? buttonsFor(v, w) : []), [v, w, enabled])
   const press = (b: Btn): void => {
     if (!w) return
     if (b.action) dispatchHuman(b.action)
-    else if (b.arm) arm(b.arm)
+    else if (b.arm) armOrStrike(b.arm)
     else if (b.terminal) openTerminalPrompt(w.id)
   }
   return (
@@ -196,7 +200,7 @@ function ActionBar({ v }: { v: View }) {
       <div className="actions__who">
         {w ? (
           <>
-            <b>{w.name}</b> facing {w.facing}, {w.ap} AP{v.cp > 0 ? `, ${v.cp} CP shared` : ''}. {armed ? `Armed: ${armed.kind}. Tap a highlighted square.` : 'Tap a lit square to move.'}
+            <b>{w.name}</b> facing {w.facing}, {w.ap} AP{v.cp > 0 ? `, ${v.cp} CP shared` : ''}. {armed ? (visor && armed.kind !== 'scorch' ? `Armed: ${armed.kind}. Press it again to shoot the locked bracket.` : `Armed: ${armed.kind}. Tap a highlighted square.`) : visor ? 'W / S to step, Q / E to turn, drag to look.' : 'Tap a lit square to move.'}
           </>
         ) : (
           <>{enabled ? 'Select a Warden: tap one on the board or on its card.' : v.phase === 'molt' ? 'The Molt move.' : 'Wait.'}</>
@@ -390,13 +394,23 @@ function useKeys(v: View | null): void {
       const s = useStore.getState()
       if (e.key === 'Escape') {
         if (s.prompt || s.confirm || s.menu) setStore({ prompt: null, confirm: null, menu: false })
-        else setStore({ armed: null, inspect: null })
+        else if (s.armed || s.inspect || !s.visor) setStore({ armed: null, inspect: null })
+        else setVisor(false)
         return
       }
-      if (s.prompt || s.confirm || s.menu || !canAct()) return
+      if (s.prompt || s.confirm || s.menu) return
       const t = e.target
       if (t instanceof HTMLElement && /input|textarea|select/i.test(t.tagName)) return
-      const k = e.key.toLowerCase()
+      // the visor toggles at any time in the mission, the Molt phase included (watching through a Warden's eyes)
+      if (e.key === 'c' || e.key === 'C') {
+        toggleVisor()
+        return
+      }
+      if (!canAct()) return
+      // the arrow keys step and turn like W / S and Q / E
+      const arrow: Record<string, string> = { ArrowUp: 'w', ArrowDown: 's', ArrowLeft: 'q', ArrowRight: 'e' }
+      if (arrow[e.key]) e.preventDefault()
+      const k = arrow[e.key] ?? e.key.toLowerCase()
       if (k === ' ') {
         if (t instanceof HTMLButtonElement) return
         e.preventDefault()
@@ -414,7 +428,7 @@ function useKeys(v: View | null): void {
       const b = buttonsFor(v, w).find((x) => x.key?.toLowerCase() === k)
       if (!b) return
       if (b.action) dispatchHuman(b.action)
-      else if (b.arm) arm(b.arm)
+      else if (b.arm) armOrStrike(b.arm)
       else if (b.terminal) openTerminalPrompt(w.id)
     }
     window.addEventListener('keydown', onKey)
@@ -431,18 +445,24 @@ export function Hud() {
   const notice = useStore((s) => s.notice)
   const storageError = useStore((s) => s.storageError)
   const animating = useStore((s) => s.animating)
+  const visor = useStore((s) => s.visor)
   const [sheet, setSheet] = useState(false)
   const [logOpen, setLogOpen] = useState(true)
   useKeys(v)
   if (!v) return null
   const obj = objectiveOf(v)
   return (
-    <div className="hud" data-screen="mission" data-animating={animating ? 'yes' : 'no'}>
+    <div className={`hud ${visor ? 'hud--visor' : ''}`} data-screen="mission" data-animating={animating ? 'yes' : 'no'}>
+      <VisorHud v={v} />
       <Clock v={v} />
       <div className="hud-objective panel" aria-label="Objective">
         <span className="eyebrow">Objective</span> {obj}
       </div>
       <div className="topright">
+        <button type="button" className="panel visorbtn" onClick={toggleVisor} data-act="visor" aria-pressed={visor}>
+          {visor ? 'Map' : 'Visor'}
+          <small>C</small>
+        </button>
         <button type="button" className="panel" onClick={() => setStore({ menu: true })} data-act="menu">
           Menu
         </button>

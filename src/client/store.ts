@@ -56,6 +56,8 @@ export interface GameStore {
   armed: Armed
   hover: Pos | null
   inspect: Pos | null
+  /** visor mode: the camera rides the selected Warden's helmet (spec 50 "Visor") */
+  visor: boolean
   prompt: Prompt
   confirm: Confirm
   menu: boolean
@@ -87,6 +89,7 @@ export const useStore = create<GameStore>(() => ({
   armed: null,
   hover: null,
   inspect: null,
+  visor: false,
   prompt: null,
   confirm: null,
   menu: false,

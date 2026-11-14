@@ -2,7 +2,7 @@
 // fixtures (doors, terminals, console, ducts). Nothing here has a pointer handler (KB rule 25).
 import { useFrame } from '@react-three/fiber'
 import { useLayoutEffect, useMemo, useRef } from 'react'
-import type { Group } from 'three'
+import type { Group, LineBasicMaterial, LineSegments, MeshBasicMaterial } from 'three'
 import { BoxGeometry, BufferAttribute, BufferGeometry, Color, InstancedMesh, Matrix4, Mesh, PlaneGeometry } from 'three'
 import { geoOf } from '../../engine/grid'
 import type { View } from '../../engine'
@@ -10,11 +10,18 @@ import { ModelFigure } from '../models/Model'
 import { getStore } from '../store'
 import { tokens } from '../tokens'
 import { WALL_H, toWorldX, toWorldZ, type Dims } from './layout'
+import { visorRt } from './visor'
+import { ease, VISOR_WALL_H } from './visorModel'
+
+/** How much taller walls (and door leaves) stand in the visor: the map's low walls would let a Warden see over every bulkhead. */
+export const visorRise = (): number => 1 + ease(visorRt.blend) * (VISOR_WALL_H / WALL_H - 1)
 
 const C = {
   seen: new Color(tokens.deck).lerp(new Color(tokens.scan), 0.42),
   mapped: new Color(tokens.deck).lerp(new Color(tokens.scanDim), 0.45),
   wall: new Color(tokens.void).lerp(new Color(tokens.trace), 0.1),
+  wallVisor: new Color(tokens.void).lerp(new Color(tokens.trace), 0.55),
+  ceiling: new Color(tokens.void).lerp(new Color(tokens.trace), 0.18),
   lineSeen: new Color(tokens.scan),
   lineMapped: new Color(tokens.scanDim),
   trace: new Color(tokens.trace),
@@ -115,6 +122,56 @@ export function Deck({ mission, dims, seen }: { mission: string; dims: Dims; see
     return geo
   }, [walls, dims, g])
 
+  // the visor's sensor outline of each wall face that meets the deck: a line along the foot and an upright at each end
+  // (drawn 0..1 high and stretched with the walls), so flat black walls still read as corridors from inside
+  const visorEdges = useMemo(() => {
+    const geo = new BufferGeometry()
+    const pts: number[] = []
+    const open = (x: number, y: number): boolean => (g.terrain[y]?.[x] ?? 'wall') !== 'wall'
+    const face = (ax: number, az: number, bx: number, bz: number): void => {
+      // foot, a rib at half height, the top, and the uprights
+      for (const h of [0.015, 0.5, 0.995]) pts.push(ax, h, az, bx, h, bz)
+      pts.push(ax, 0, az, ax, 1, az, bx, 0, bz, bx, 1, bz)
+    }
+    for (const [x, y] of walls) {
+      const cx = toWorldX(dims, x)
+      const cz = toWorldZ(dims, y)
+      const a = 0.5
+      if (open(x, y - 1)) face(cx - a, cz - a, cx + a, cz - a)
+      if (open(x + 1, y)) face(cx + a, cz - a, cx + a, cz + a)
+      if (open(x, y + 1)) face(cx + a, cz + a, cx - a, cz + a)
+      if (open(x - 1, y)) face(cx - a, cz + a, cx - a, cz - a)
+    }
+    geo.setAttribute('position', new BufferAttribute(new Float32Array(pts), 3))
+    return geo
+  }, [walls, dims, g])
+  // the visor's deckhead: a dark plate over the whole deck at wall height, with the floor's grid echoed faintly on it
+  const ceil = useMemo(() => new PlaneGeometry(dims.w, dims.h).rotateX(Math.PI / 2), [dims])
+  const ceilRef = useRef<Group>(null)
+  const ceilLines = useRef<LineBasicMaterial>(null)
+  const topsRef = useRef<Group>(null)
+  const edgesRef = useRef<LineSegments>(null)
+  const wallMat = useRef<MeshBasicMaterial>(null)
+  useFrame(() => {
+    const rise = visorRise()
+    const e = ease(visorRt.blend)
+    if (wallRef.current) wallRef.current.scale.y = rise
+    if (topsRef.current) topsRef.current.scale.y = rise
+    if (wallMat.current) wallMat.current.color.copy(C.wall).lerp(C.wallVisor, e)
+    const cg = ceilRef.current
+    if (cg) {
+      cg.visible = e > 0.5
+      cg.position.y = WALL_H * rise - 0.01
+    }
+    if (ceilLines.current) ceilLines.current.opacity = 0.35 * e
+    const ed = edgesRef.current
+    if (ed) {
+      ed.visible = e > 0.01
+      ed.scale.y = WALL_H * rise
+      ;(ed.material as LineBasicMaterial).opacity = 0.55 * e
+    }
+  })
+
   return (
     <group>
       <instancedMesh ref={floorRef} args={[plate, undefined, floors.length]} frustumCulled={false}>
@@ -124,11 +181,24 @@ export function Deck({ mission, dims, seen }: { mission: string; dims: Dims; see
         <lineBasicMaterial vertexColors />
       </lineSegments>
       <instancedMesh ref={wallRef} args={[box, undefined, walls.length]} frustumCulled={false}>
-        <meshBasicMaterial color={C.wall} />
+        <meshBasicMaterial ref={wallMat} color={C.wall} />
       </instancedMesh>
-      <lineSegments geometry={wallTops} frustumCulled={false}>
-        <lineBasicMaterial color={C.trace} />
+      <group ref={topsRef}>
+        <lineSegments geometry={wallTops} frustumCulled={false}>
+          <lineBasicMaterial color={C.trace} />
+        </lineSegments>
+      </group>
+      <lineSegments ref={edgesRef} geometry={visorEdges} frustumCulled={false} visible={false}>
+        <lineBasicMaterial color={C.lineSeen} transparent opacity={0} depthWrite={false} />
       </lineSegments>
+      <group ref={ceilRef} visible={false}>
+        <mesh geometry={ceil} frustumCulled={false}>
+          <meshBasicMaterial color={C.ceiling} />
+        </mesh>
+        <lineSegments geometry={lines} position-y={-0.03} scale-y={-1} frustumCulled={false}>
+          <lineBasicMaterial ref={ceilLines} color={C.trace} transparent opacity={0} depthWrite={false} />
+        </lineSegments>
+      </group>
     </group>
   )
 }
@@ -142,6 +212,7 @@ function Door({ mission, dims, at, v }: { mission: string; dims: Dims; at: [numb
   const stubB = useRef<Mesh>(null)
   const lock = useRef<Mesh>(null)
   const k = useRef(d && (d.open || d.torn) ? 1 : 0)
+  const leaf = useRef<Group>(null)
   const acrossZ = isWallAt(mission, at[0], at[1] - 1) && isWallAt(mission, at[0], at[1] + 1) ? false : true
   // the bar spans the width of the passage: along x when walls lie north and south of the door, else along z
   const col = !d ? tokens.scan : d.torn ? tokens.molt : d.sealed ? tokens.alarm : tokens.scan
@@ -160,9 +231,10 @@ function Door({ mission, dims, at, v }: { mission: string; dims: Dims; at: [numb
       m.rotation.y = torn * s * 0.35
     }
     if (lock.current) lock.current.visible = Boolean(d?.sealed)
+    if (leaf.current) leaf.current.scale.y = visorRise()
   })
   return (
-    <group position={[toWorldX(dims, at[0]), 0, toWorldZ(dims, at[1])]} rotation-y={acrossZ ? Math.PI / 2 : 0}>
+    <group ref={leaf} position={[toWorldX(dims, at[0]), 0, toWorldZ(dims, at[1])]} rotation-y={acrossZ ? Math.PI / 2 : 0}>
       <mesh ref={stubA} position={[-0.25, 0.28, 0]}>
         <boxGeometry args={[0.5, 0.5, 0.1]} />
         <meshBasicMaterial color={col} />

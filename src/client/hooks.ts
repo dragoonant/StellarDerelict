@@ -2,6 +2,7 @@
 import { legalActions, view } from '../engine'
 import type { Action, State, View } from '../engine'
 import { viewApi } from './board/viewApi'
+import { visorRt } from './board/visor'
 import { dimsOf, toWorldX, toWorldZ } from './board/layout'
 import { activeBot, botIdle, dispatchHuman, MISSION_ID, setSpeed, wardenSuggestion } from './session'
 import { botInfo } from './moltBot'
@@ -28,6 +29,8 @@ export interface SdHooks {
   models(): { enabled: string[]; loaded: number; total: number; failed: string[]; mounted: Record<string, number> }
   /** audio: whether anything is enabled, ids played so far, files that failed to load */
   audio(): { enabled: boolean; played: string[]; failed: string[] }
+  /** visor mode: on in the store, the camera blend (0 map, 1 visor), whose eyes, and the target the reticle has locked */
+  visor(): { on: boolean; blend: number; unit: string | null; lock: string | null; look: { yaw: number; pitch: number } }
   ui(): { screen: string; selected: string | null; armed: string | null; actions: number; log: number; timerLeft: number; hover: [number, number] | null }
 }
 
@@ -64,6 +67,7 @@ export function installHooks(): void {
       return { enabled: modelStore.enabledSlugs(), loaded: s.loaded, total: s.total, failed: s.failed.map((f) => f.slug), mounted: modelStore.mountedCounts() }
     },
     audio: () => ({ enabled: audioEngine.anyEnabled(), played: [...audioEngine.played], failed: audioEngine.failures() }),
+    visor: () => ({ on: getStore().visor, blend: visorRt.blend, unit: visorRt.unit, lock: visorRt.lock, look: { ...visorRt.look } }),
     ui: () => {
       const s = getStore()
       return { screen: s.screen, selected: s.selected, armed: s.armed?.kind ?? null, actions: s.actions.length, log: s.log.length, timerLeft: s.timerLeft, hover: s.hover }

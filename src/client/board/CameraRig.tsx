@@ -1,11 +1,19 @@
 // The board camera: the MapController (touch and mouse, KB rule 27) fitted to the free part of the window.
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
-import { PerspectiveCamera, Vector3 } from 'three'
+import { Fog, Matrix4, PerspectiveCamera, Quaternion, Vector3 } from 'three'
 import { clamp, distFor, ZOOM_MAX, zoomFor } from './cameraModel'
 import { MapController } from './mapController'
 import { viewApi } from './viewApi'
+import { figurePose, visorRt } from './visor'
+import { VisorLook } from './visorController'
+import { ease, FACING_YAW, MAP_FOV, stepBlend, VISOR_FOG, VISOR_FOV, visorPose } from './visorModel'
+import { getStore } from '../store'
 import type { Dims } from './layout'
+
+/** Fog distances on the map: far past the board, so the map never fogs (the fog object exists from the start so no material recompiles). */
+const MAP_FOG = { near: 1000, far: 2000 }
+const UP = new Vector3(0, 1, 0)
 
 interface Insets {
   left: number
@@ -106,7 +114,10 @@ export function CameraRig({ dims, home }: { dims: Dims; home: { x: number; z: nu
   }, [ctl, home.x, home.z])
 
   useEffect(() => {
-    viewApi.reset = () => ctl.flyOpening(home.x, home.z, openZoom.current)
+    viewApi.reset = () => {
+      if (getStore().visor) visorRt.look = { yaw: 0, pitch: 0 }
+      else ctl.flyOpening(home.x, home.z, openZoom.current)
+    }
     viewApi.setView = (p) => ctl.setView(p)
     viewApi.flyTo = (x, z, zoom) => ctl.flyTo(x, z, zoom ?? Math.max(ctl.view.zoom, 0.45))
     viewApi.camera = () => {
@@ -118,11 +129,107 @@ export function CameraRig({ dims, home }: { dims: Dims; home: { x: number; z: nu
       camera.updateMatrixWorld(true)
       const v = new Vector3(x, y, z).project(camera)
       const r = gl.domElement.getBoundingClientRect()
-      return { x: r.left + ((v.x + 1) / 2) * r.width, y: r.top + ((1 - v.y) / 2) * r.height }
+      return { x: r.left + ((v.x + 1) / 2) * r.width, y: r.top + ((1 - v.y) / 2) * r.height, behind: v.z > 1 || v.z < -1 }
     }
   }, [camera, ctl, gl, home.x, home.z])
 
-  useFrame((_, dt) => ctl.update(Math.min(dt, 0.1)))
+  // ------------------------------------------------------------------ visor mode (spec 50 "Visor")
+  const look = useMemo(() => new VisorLook(gl.domElement), [gl])
+  useEffect(() => {
+    look.attach()
+    return () => look.detach()
+  }, [look])
+  const vis = useMemo(
+    () => ({ mapPos: new Vector3(), mapQ: new Quaternion(), goalPos: new Vector3(), goalQ: new Quaternion(), pos: new Vector3(), q: new Quaternion(), m: new Matrix4(), has: false, unit: '', facing: '', swoop: false, recentre: false, was: false, wasOn: false }),
+    [],
+  )
+
+  useFrame((state, dt0) => {
+    const dt = Math.min(dt0, 0.1)
+    const s = getStore()
+    const on = s.visor && s.screen === 'mission'
+    if (on && s.selected) visorRt.unit = s.selected
+    const unit = visorRt.unit
+    const fig = unit ? figurePose.get(unit) : undefined
+    // leaving the visor: put the map over the Warden, so the swing back lands where the player was looking from
+    if (vis.wasOn && !on && fig) ctl.setView({ x: fig.x, z: fig.z, zoom: Math.max(ctl.view.zoom, 0.5) })
+    vis.wasOn = on
+    const goal = on && fig ? 1 : 0
+    visorRt.blend = s.settings.speed === 'instant' ? goal : stepBlend(visorRt.blend, goal, dt)
+    ctl.interactive = !on && visorRt.blend === 0
+    look.active = on
+    ctl.update(dt)
+    const cam = camera as PerspectiveCamera
+    const fog = state.scene.fog as Fog | null
+    const b = visorRt.blend
+    if (b <= 0 || !fig) {
+      if (vis.was) {
+        vis.was = false
+        vis.has = false
+        visorRt.look = { yaw: 0, pitch: 0 }
+        visorRt.lock = null
+        cam.fov = MAP_FOV
+        if (fog) {
+          fog.near = MAP_FOG.near
+          fog.far = MAP_FOG.far
+        }
+        ctl.apply()
+      }
+      return
+    }
+    vis.was = true
+    // the map pose (where the swing starts), then the visor pose
+    cam.fov = MAP_FOV
+    ctl.apply()
+    vis.mapPos.copy(cam.position)
+    vis.mapQ.copy(cam.quaternion)
+    const mapNear = cam.near
+    const u = s.presented?.units.find((x) => x.id === unit)
+    const facing = u && u.kind === 'warden' ? u.facing : ''
+    if (unit !== vis.unit) {
+      vis.swoop = vis.has
+      vis.unit = unit ?? ''
+      visorRt.look = { yaw: 0, pitch: 0 }
+    } else if (facing !== vis.facing) vis.recentre = true
+    vis.facing = facing
+    if (vis.recentre) {
+      const k = Math.exp(-dt * 8)
+      visorRt.look = { yaw: visorRt.look.yaw * k, pitch: visorRt.look.pitch }
+      if (Math.abs(visorRt.look.yaw) < 0.01) vis.recentre = false
+    }
+    // a pose from the facing itself when the figure has not been drawn turning yet
+    const p = visorPose({ x: fig.x, z: fig.z, r: Number.isFinite(fig.r) ? fig.r : FACING_YAW.N }, visorRt.look)
+    visorRt.yaw = p.yaw
+    vis.goalPos.set(p.eye.x, p.eye.y, p.eye.z)
+    vis.m.lookAt(vis.goalPos, new Vector3(p.at.x, p.at.y, p.at.z), UP)
+    vis.goalQ.setFromRotationMatrix(vis.m)
+    if (!vis.has) {
+      vis.pos.copy(vis.goalPos)
+      vis.q.copy(vis.goalQ)
+      vis.has = true
+    } else if (vis.swoop) {
+      // switching Wardens: a quick glide from one helmet to the other
+      const k = 1 - Math.exp(-dt * 9)
+      vis.pos.lerp(vis.goalPos, k)
+      vis.q.slerp(vis.goalQ, k)
+      if (vis.pos.distanceTo(vis.goalPos) < 0.02) vis.swoop = false
+    } else {
+      vis.pos.copy(vis.goalPos)
+      vis.q.copy(vis.goalQ)
+    }
+    const e = ease(b)
+    cam.position.lerpVectors(vis.mapPos, vis.pos, e)
+    cam.quaternion.slerpQuaternions(vis.mapQ, vis.q, e)
+    cam.fov = MAP_FOV + (VISOR_FOV - MAP_FOV) * e
+    cam.near = mapNear + (0.05 - mapNear) * e
+    if (cam.view) cam.setViewOffset(cam.view.fullWidth, cam.view.fullHeight, cam.view.offsetX * (1 - e), cam.view.offsetY * (1 - e), cam.view.width, cam.view.height)
+    cam.updateProjectionMatrix()
+    cam.updateMatrixWorld(true)
+    if (fog) {
+      fog.near = MAP_FOG.near + (VISOR_FOG.near - MAP_FOG.near) * e
+      fog.far = MAP_FOG.far + (VISOR_FOG.far - MAP_FOG.far) * e
+    }
+  })
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {

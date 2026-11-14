@@ -148,6 +148,9 @@ function HowTo() {
           <b>Keys.</b> W forward, S back, Q and E turn, F fire, O watch, V vent, D door, T terminal, Space ends the phase. Mouse: wheel zooms, right-drag rotates, middle-drag pans. Touch: drag to pan, pinch and twist.
         </p>
         <p>
+          <b>Visor.</b> C (or the Visor button) puts you behind the selected Warden's visor: W and S (or the up and down arrows) step, Q and E (or left and right) turn, drag to look around. With Fire armed, the bracket nearest the reticle is locked; press Fire again to shoot it. C or Esc returns to the map.
+        </p>
+        <p>
           <b>Saves.</b> The game saves after every action, in this browser only. A different browser, device or address has its own saves.
         </p>
       </div>

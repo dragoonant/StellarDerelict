@@ -19,6 +19,6 @@ export const viewApi = {
   /** Glide the camera target to a world point. */
   flyTo: (_x: number, _z: number, _zoom?: number): void => {},
   camera: (): CameraReadout | null => null,
-  /** World point to client pixels, for tests that click a tile. */
-  project: (_x: number, _y: number, _z: number): { x: number; y: number } | null => null,
+  /** World point to client pixels, for tests that click a tile; `behind` when the point is behind the camera or past its far plane. */
+  project: (_x: number, _y: number, _z: number): { x: number; y: number; behind?: boolean } | null => null,
 }
