@@ -213,8 +213,8 @@ function Door({ mission, dims, at, v }: { mission: string; dims: Dims; at: [numb
   const lock = useRef<Mesh>(null)
   const k = useRef(d && (d.open || d.torn) ? 1 : 0)
   const leaf = useRef<Group>(null)
-  const acrossZ = isWallAt(mission, at[0], at[1] - 1) && isWallAt(mission, at[0], at[1] + 1) ? false : true
-  // the bar spans the width of the passage: along x when walls lie north and south of the door, else along z
+  // the leaf closes the passage, bridging wall to wall: along z when walls lie north and south of the door, else along x
+  const acrossZ = isWallAt(mission, at[0], at[1] - 1) && isWallAt(mission, at[0], at[1] + 1)
   const col = !d ? tokens.scan : d.torn ? tokens.molt : d.sealed ? tokens.alarm : tokens.scan
   const open = d ? d.open || d.torn : false
   useFrame((_, dt) => {
