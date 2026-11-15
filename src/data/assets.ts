@@ -38,6 +38,8 @@ export interface SoundEntry {
   prompt: string
   negative?: string
   loop?: boolean
+  /** how literally the sound-effect model follows the prompt (0-1; the generator's default is 0.4) */
+  promptInfluence?: number
 }
 
 export type MusicState = 'calm' | 'tense' | 'battle' | 'alarm' | 'victory' | 'defeat' | 'title'
@@ -53,18 +55,38 @@ export interface MusicEntry {
 
 export interface VoiceEntry {
   id: string
-  /** a Warden id, or 'carrier' for whoever holds the core */
+  /** a Warden id, or 'comms' for the briefing narration */
   speaker: string
   enabled: boolean
+  /** an engine Event type, or 'briefing' (played when the Briefing screen opens; `when` is the mission id) */
   event: string
+  /** `carrier` for the core-carrier lines, a mission id for a briefing */
   when?: string
   text: string
   file: string
+  /** the voice description the speaker's voice was designed from (the voices table is canonical) */
   voiceDesign: string
+  /** an Eleven v3 audio tag spoken before the line, for example "[urgent]" */
+  delivery?: string
+}
+
+/** One designed voice per speaker, saved in the ElevenLabs account; the generator speaks every line of a speaker with it. */
+export interface VoiceProfile {
+  voiceId: string
+  name: string
+  model: string
+  design: string
+}
+
+export interface AudioProvider {
+  provider: 'elevenlabs'
+  models: { sfx: string; music: string; tts: string; design: string }
 }
 
 export interface AssetManifest {
   models: ModelEntry[]
+  audio: AudioProvider
+  voices: Record<string, VoiceProfile>
   sounds: SoundEntry[]
   music: MusicEntry[]
   voice: VoiceEntry[]

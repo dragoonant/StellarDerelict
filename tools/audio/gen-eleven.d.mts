@@ -1,0 +1,2 @@
+export function parseArgv(argv: string[], manifest: { sounds: any[]; music: any[]; voice: any[]; voices?: Record<string, any> }): { help: boolean; dryRun: boolean; force: boolean; budget: number; kind: string | null; only: Set<string> | null; design: string[] | null; adopt: { speaker: string; index: number } | null; enable: boolean }
+export function main(argv: string[], io?: { log: (m: string) => void; err: (m: string) => void }, env?: Record<string, string | undefined>): Promise<number>

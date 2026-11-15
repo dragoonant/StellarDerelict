@@ -1,5 +1,18 @@
 # STATUS (rewritten at each stage; trust `git log` over this file)
 
+**2026-11-15: M8 audio through ElevenLabs (owner's one-day key).** Every effect, track and voice line regenerated
+with ElevenLabs: sound effects v2 (one take per file, 61 files; the ambience as a 30 s `loop`), Eleven Music (seven
+instrumental states at the spec lengths), Eleven v3 speech with **six designed voices** saved to the account as
+`Stellar Derelict <name>` (the five Wardens and a comms officer), adopted from their first previews unheard. New:
+`servo-turn` on `turned` and `burn-out` on `burnCleared` (the silent list is down to `cpSpent`, `pingHeld`, `roundEnded`,
+`watchEnded`), a third variant for hits, scorch, door tears and pings, the four carrier lines in each Warden's own voice
+(AUD-10; the generic carrier voice is gone), and a briefing narration per mission read once when the Briefing opens
+(AUD-11). Tooling: `tools/audio/gen-eleven.mjs` (`npm run audio:eleven`; dry run with a credit estimate, `--budget`,
+`--design`/`--adopt`, `--enable`, cost logged from the `character-cost` header, IPv4-first), the validator checks the
+cast, the carrier lines and the briefing texts. Measured: effects 10 credits a second, music 12.5 a second, speech 1 a
+character; the whole set about 11,400 credits by the subscription counter (four near-silent first takes re-rolled). Spec 60 rewritten. **Not verified by ear** (the owner's listen on
+`sounds.html`, then re-rolls with `--force --only <id>` or another preview with `--design`/`--adopt`).
+
 **2026-11-14: M7 done: three missions, the Molt seat, the boarding run, a fuller debrief.** The plan's last milestone.
 
 - **Missions.** *Cold Berth* (spec 12: a berth deck of one-wide lanes, five by four, the manifest drive behind a sealed

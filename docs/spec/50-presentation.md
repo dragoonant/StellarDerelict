@@ -47,7 +47,8 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
 - **Missions** (M7). One card per mission in run order: number, name, a line drawing of its deck, size, rounds and
   arrival rates, and its objective in the mission's own words. A `PLAY AS` choice (Wardens / Molt) with one line on what
   the seat means. `BRIEF` opens the Briefing of the picked mission; `BACK`.
-- **Briefing.** The mission's brief text typed out as a transmission; the squad roster as trace cards (in a run, only the
+- **Briefing.** The mission's brief text typed out as a transmission, and read aloud once by the comms officer when the
+  screen opens (spec 60 AUD-11; leaving the screen cuts the line); the squad roster as trace cards (in a run, only the
   survivors who board, with a line on missions done and plating patched); the objective line in the mission's words (for
   the Molt seat, inverted: no Warden leaves with the item); timer setting and Difficulty for the Warden seat, a note on the
   squad AI for the Molt seat; `CUT IN` (`LET THEM IN` on the Molt seat) starts the mission; `BACK` (`ABANDON THE RUN` in a run).

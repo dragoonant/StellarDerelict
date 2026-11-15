@@ -15,7 +15,7 @@ export const EVENT_SOUNDS: Table = {
     const u = unitOf(v, ev.unit)
     return u?.kind === 'warden' ? ['footstep'] : u?.kind === 'stalker' ? ['skitter'] : u?.kind === 'ping' ? ['ping'] : []
   },
-  turned: 'silent',
+  turned: () => ['servo-turn'],
   doorChanged: (ev) => (ev.state === 'open' ? ['door-open'] : ev.state === 'closed' ? ['door-close'] : ev.state === 'sealed' ? ['door-seal'] : []),
   fired: (ev) => (ev.hit ? ['repeater-shot', 'repeater-hit'] : ['repeater-shot']),
   locked: () => ['repeater-lock'],
@@ -24,7 +24,7 @@ export const EVENT_SOUNDS: Table = {
   watchSet: () => ['watch-set'],
   watchEnded: 'silent',
   scorched: () => ['scorch'],
-  burnCleared: 'silent',
+  burnCleared: () => ['burn-out'],
   meleeFought: (ev, v) => {
     const a = unitOf(v, ev.attacker)
     return a?.kind === 'warden' && a.role === 'sergeant' && ev.outcome === 'attacker' ? ['maul'] : ['melee-hit']
@@ -101,7 +101,8 @@ export function voiceFor(ev: Event, view: View | null): string | null {
     case 'locked':
       return own(ev.unit, 'locked')
     case 'breached':
-      return view.core.carrier === ev.unit ? 'carrier-breached' : own(ev.unit, 'breached')
+      // the carrier speaks of the core in their own voice (AUD-10)
+      return view.core.carrier === ev.unit ? own(ev.unit, 'carrierBreached') : own(ev.unit, 'breached')
     case 'watchSet':
       return own(ev.unit, 'watchSet')
     case 'vented':
@@ -114,14 +115,21 @@ export function voiceFor(ev: Event, view: View | null): string | null {
       // the Sergeant's command-point line: the first time command points are spent in a phase (the director rate-limits it)
       return own('venn', 'cpSpent')
     case 'coreTaken':
-      return 'carrier-core-taken'
+      return own(ev.unit, 'coreTaken')
     case 'coreDropped':
-      return 'carrier-core-dropped'
+      // the event names the square, not the Warden: the presented view before it still shows who carried the core
+      return view.core.carrier ? own(view.core.carrier, 'coreDropped') : null
     case 'corePicked':
-      return 'carrier-core-picked'
+      return own(ev.unit, 'corePicked')
     default:
       return null
   }
+}
+
+/** The briefing narration for a mission (AUD-11), or null when the manifest has none. */
+export function briefingLine(missionId: string): string | null {
+  const id = `briefing-${missionId}`
+  return VOICE_IDS.has(id) ? id : null
 }
 
 /** At Instant speed: at most one sound per event type per phase. */

@@ -19,6 +19,7 @@
     "figures:inputs": "node tools/figures/make-hunyuan-inputs.mjs",
     "models:optimize": "node tools/models/optimize.mjs",
     "audio:gen": "node tools/audio/gen-audio.mjs",
+    "audio:eleven": "node tools/audio/gen-eleven.mjs",
     "audio:measure": "node tools/audio/measure-audio.mjs"
   },
   "dependencies": {

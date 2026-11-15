@@ -108,6 +108,53 @@
       "prompt": "a short armoured data cylinder with a carry handle and a teal light band, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 2k triangles"
     }
   ],
+  "audio": {
+    "provider": "elevenlabs",
+    "models": {
+      "sfx": "eleven_text_to_sound_v2",
+      "music": "music_v1",
+      "tts": "eleven_v3",
+      "design": "eleven_ttv_v3"
+    }
+  },
+  "voices": {
+    "venn": {
+      "voiceId": "OgtzKBp1vkxno913pKKz",
+      "name": "Stellar Derelict Sgt. Maro Venn",
+      "model": "eleven_v3",
+      "design": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
+    },
+    "brandt": {
+      "voiceId": "MnUww8gvYDIK07LZOpF8",
+      "name": "Stellar Derelict Ilse Brandt",
+      "model": "eleven_v3",
+      "design": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
+    },
+    "okafor": {
+      "voiceId": "be8rIXK1kZq8Wl6AyWxY",
+      "name": "Stellar Derelict Teo Okafor",
+      "model": "eleven_v3",
+      "design": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
+    },
+    "riedel": {
+      "voiceId": "IcjC7ajPLTbTt8goPK3f",
+      "name": "Stellar Derelict Kass Riedel",
+      "model": "eleven_v3",
+      "design": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
+    },
+    "sato": {
+      "voiceId": "OzdWuUzuDhbiyUzlFXP1",
+      "name": "Stellar Derelict Juno Sato",
+      "model": "eleven_v3",
+      "design": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
+    },
+    "comms": {
+      "voiceId": "5p4E1QCcFH5jMGiv8x5V",
+      "name": "Stellar Derelict Comms officer",
+      "model": "eleven_v3",
+      "design": "A middle-aged ship communications officer, gender-neutral, with a flat, tired, measured voice reading a mission transmission over a long-range radio link: unhurried, clear, no warmth, slight static."
+    }
+  },
   "sounds": [
     {
       "id": "repeater-shot",
@@ -121,14 +168,16 @@
       "gain": 0.9,
       "bus": "sfx",
       "seconds": 1.5,
-      "prompt": "two fast heavy slugs from a twin-barrel autogun in a metal corridor, dry punchy transient, short metallic tail, no music, no voices",
+      "prompt": "a loud twin-barrel autogun firing two heavy rounds in quick succession inside a steel corridor, a sharp cracking report at full volume, close to the microphone, short metallic ring-off, no music, no voices",
+      "promptInfluence": 0.6,
       "negative": "music, voices, speech, noise, distortion"
     },
     {
       "id": "repeater-hit",
       "files": [
         "audio/sfx/repeater-hit-1.mp3",
-        "audio/sfx/repeater-hit-2.mp3"
+        "audio/sfx/repeater-hit-2.mp3",
+        "audio/sfx/repeater-hit-3.mp3"
       ],
       "event": "fired",
       "enabled": true,
@@ -182,7 +231,8 @@
       "id": "scorch",
       "files": [
         "audio/sfx/scorch-1.mp3",
-        "audio/sfx/scorch-2.mp3"
+        "audio/sfx/scorch-2.mp3",
+        "audio/sfx/scorch-3.mp3"
       ],
       "event": "scorched",
       "enabled": true,
@@ -190,6 +240,19 @@
       "bus": "sfx",
       "seconds": 3,
       "prompt": "a heavy flame projector burst in a narrow corridor, roar and whoosh, crackling tail, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "burn-out",
+      "files": [
+        "audio/sfx/burn-out.mp3"
+      ],
+      "event": "burnCleared",
+      "enabled": true,
+      "gain": 0.5,
+      "bus": "sfx",
+      "seconds": 2,
+      "prompt": "the last flames of a chemical fire on deck plate dying down, crackle and hiss fading to ticking metal, no music, no voices",
       "negative": "music, voices, speech, noise, distortion"
     },
     {
@@ -312,10 +375,25 @@
       "negative": "music, voices, speech, noise, distortion"
     },
     {
+      "id": "servo-turn",
+      "files": [
+        "audio/sfx/servo-turn-1.mp3",
+        "audio/sfx/servo-turn-2.mp3"
+      ],
+      "event": "turned",
+      "enabled": true,
+      "gain": 0.3,
+      "bus": "sfx",
+      "seconds": 0.6,
+      "prompt": "a small armour servo whirring as a heavy suit turns on the spot, one short motor movement with a soft stop, close, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
       "id": "ping",
       "files": [
         "audio/sfx/ping-1.mp3",
-        "audio/sfx/ping-2.mp3"
+        "audio/sfx/ping-2.mp3",
+        "audio/sfx/ping-3.mp3"
       ],
       "event": "pingArrived",
       "enabled": true,
@@ -398,7 +476,8 @@
       "id": "door-tear",
       "files": [
         "audio/sfx/door-tear-1.mp3",
-        "audio/sfx/door-tear-2.mp3"
+        "audio/sfx/door-tear-2.mp3",
+        "audio/sfx/door-tear-3.mp3"
       ],
       "event": "tearRolled",
       "enabled": true,
@@ -553,7 +632,8 @@
       "bus": "sfx",
       "seconds": 0.4,
       "prompt": "a small dry instrument click, no music, no voices",
-      "negative": "music, voices, speech, noise, distortion"
+      "negative": "music, voices, speech, noise, distortion",
+      "promptInfluence": 0.6
     },
     {
       "id": "ui-arm",
@@ -634,8 +714,8 @@
       "enabled": true,
       "gain": 0.35,
       "bus": "sfx",
-      "seconds": 40,
-      "prompt": "the inside of a dead ship: low hull groans, distant ticking, air through broken ducts, no music, no voices",
+      "seconds": 30,
+      "prompt": "the inside of a dead ship, a seamless loop: low hull groans, distant ticking, air through broken ducts, no music, no voices",
       "negative": "music, voices, speech, noise, distortion",
       "loop": true
     }
@@ -706,7 +786,7 @@
       "enabled": true,
       "text": "Moving.",
       "file": "audio/voice/venn-moved.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
     },
     {
       "id": "venn-revealed",
@@ -715,7 +795,8 @@
       "enabled": true,
       "text": "Contact. Eyes up, Lantern.",
       "file": "audio/voice/venn-revealed.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "venn-locked",
@@ -724,7 +805,7 @@
       "enabled": true,
       "text": "Repeater's cooked. Venting it.",
       "file": "audio/voice/venn-locked.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
     },
     {
       "id": "venn-breached",
@@ -733,7 +814,8 @@
       "enabled": true,
       "text": "Plate's open. Still standing.",
       "file": "audio/voice/venn-breached.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "venn-watch-set",
@@ -742,7 +824,7 @@
       "enabled": true,
       "text": "Holding here. Watching the lane.",
       "file": "audio/voice/venn-watch-set.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
     },
     {
       "id": "venn-cp-spent",
@@ -750,9 +832,51 @@
       "event": "cpSpent",
       "enabled": true,
       "text": "Command points are mine. Make them count.",
-      "file": "audio/voice/venn-phase-started.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio.",
+      "file": "audio/voice/venn-cp-spent.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
       "when": "seat:warden"
+    },
+    {
+      "id": "venn-core-taken",
+      "speaker": "venn",
+      "enabled": true,
+      "event": "coreTaken",
+      "when": "carrier",
+      "text": "Core is on me. Lantern, on me.",
+      "file": "audio/voice/venn-core-taken.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
+    },
+    {
+      "id": "venn-core-dropped",
+      "speaker": "venn",
+      "enabled": true,
+      "event": "coreDropped",
+      "when": "carrier",
+      "text": "Core is down. Somebody take it.",
+      "file": "audio/voice/venn-core-dropped.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
+      "delivery": "[shouts]"
+    },
+    {
+      "id": "venn-core-picked",
+      "speaker": "venn",
+      "enabled": true,
+      "event": "corePicked",
+      "when": "carrier",
+      "text": "I have the core again. Moving.",
+      "file": "audio/voice/venn-core-picked.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
+    },
+    {
+      "id": "venn-carrier-breached",
+      "speaker": "venn",
+      "enabled": true,
+      "event": "breached",
+      "when": "carrier",
+      "text": "Plate's open and I still have the core.",
+      "file": "audio/voice/venn-carrier-breached.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "brandt-moved",
@@ -761,7 +885,7 @@
       "enabled": true,
       "text": "Copy. Shifting.",
       "file": "audio/voice/brandt-moved.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
     },
     {
       "id": "brandt-revealed",
@@ -770,7 +894,8 @@
       "enabled": true,
       "text": "Something ahead. I have it.",
       "file": "audio/voice/brandt-revealed.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "brandt-locked",
@@ -779,7 +904,7 @@
       "enabled": true,
       "text": "Barrels are seized.",
       "file": "audio/voice/brandt-locked.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
     },
     {
       "id": "brandt-breached",
@@ -788,7 +913,8 @@
       "enabled": true,
       "text": "Seal is cracked. Hissing.",
       "file": "audio/voice/brandt-breached.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "brandt-watch-set",
@@ -797,7 +923,7 @@
       "enabled": true,
       "text": "On watch.",
       "file": "audio/voice/brandt-watch-set.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
     },
     {
       "id": "brandt-vented",
@@ -806,7 +932,49 @@
       "enabled": true,
       "text": "Venting. Give me a breath.",
       "file": "audio/voice/brandt-vented.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
+    },
+    {
+      "id": "brandt-core-taken",
+      "speaker": "brandt",
+      "enabled": true,
+      "event": "coreTaken",
+      "when": "carrier",
+      "text": "Core secured. Moving.",
+      "file": "audio/voice/brandt-core-taken.mp3",
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
+    },
+    {
+      "id": "brandt-core-dropped",
+      "speaker": "brandt",
+      "enabled": true,
+      "event": "coreDropped",
+      "when": "carrier",
+      "text": "Dropped it. Core is loose.",
+      "file": "audio/voice/brandt-core-dropped.mp3",
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio.",
+      "delivery": "[shouts]"
+    },
+    {
+      "id": "brandt-core-picked",
+      "speaker": "brandt",
+      "enabled": true,
+      "event": "corePicked",
+      "when": "carrier",
+      "text": "Core is back with me.",
+      "file": "audio/voice/brandt-core-picked.mp3",
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
+    },
+    {
+      "id": "brandt-carrier-breached",
+      "speaker": "brandt",
+      "enabled": true,
+      "event": "breached",
+      "when": "carrier",
+      "text": "Seal cracked. Core is still on me.",
+      "file": "audio/voice/brandt-carrier-breached.mp3",
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "okafor-moved",
@@ -815,7 +983,7 @@
       "enabled": true,
       "text": "On the move.",
       "file": "audio/voice/okafor-moved.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
     },
     {
       "id": "okafor-revealed",
@@ -824,7 +992,8 @@
       "enabled": true,
       "text": "Contact, contact. Eyes on it.",
       "file": "audio/voice/okafor-revealed.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "okafor-locked",
@@ -833,7 +1002,7 @@
       "enabled": true,
       "text": "Gun is locked. Need a second.",
       "file": "audio/voice/okafor-locked.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
     },
     {
       "id": "okafor-breached",
@@ -842,7 +1011,8 @@
       "enabled": true,
       "text": "Suit is breached. Keep it quick.",
       "file": "audio/voice/okafor-breached.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "okafor-watch-set",
@@ -851,7 +1021,7 @@
       "enabled": true,
       "text": "Covering this door.",
       "file": "audio/voice/okafor-watch-set.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
     },
     {
       "id": "okafor-vented",
@@ -860,7 +1030,49 @@
       "enabled": true,
       "text": "Venting heat. One moment.",
       "file": "audio/voice/okafor-vented.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
+    },
+    {
+      "id": "okafor-core-taken",
+      "speaker": "okafor",
+      "enabled": true,
+      "event": "coreTaken",
+      "when": "carrier",
+      "text": "Got the core. Let's go, let's go.",
+      "file": "audio/voice/okafor-core-taken.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
+    },
+    {
+      "id": "okafor-core-dropped",
+      "speaker": "okafor",
+      "enabled": true,
+      "event": "coreDropped",
+      "when": "carrier",
+      "text": "Core's down! Grab it, somebody.",
+      "file": "audio/voice/okafor-core-dropped.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio.",
+      "delivery": "[shouts]"
+    },
+    {
+      "id": "okafor-core-picked",
+      "speaker": "okafor",
+      "enabled": true,
+      "event": "corePicked",
+      "when": "carrier",
+      "text": "Got it back. Moving.",
+      "file": "audio/voice/okafor-core-picked.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
+    },
+    {
+      "id": "okafor-carrier-breached",
+      "speaker": "okafor",
+      "enabled": true,
+      "event": "breached",
+      "when": "carrier",
+      "text": "Suit's breached. Core is still with me.",
+      "file": "audio/voice/okafor-carrier-breached.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "riedel-moved",
@@ -869,7 +1081,7 @@
       "enabled": true,
       "text": "Going.",
       "file": "audio/voice/riedel-moved.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
     },
     {
       "id": "riedel-revealed",
@@ -878,7 +1090,8 @@
       "enabled": true,
       "text": "There it is.",
       "file": "audio/voice/riedel-revealed.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "riedel-locked",
@@ -887,7 +1100,7 @@
       "enabled": true,
       "text": "Nozzle is dry. Not now.",
       "file": "audio/voice/riedel-locked.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
     },
     {
       "id": "riedel-breached",
@@ -896,7 +1109,8 @@
       "enabled": true,
       "text": "Suit is torn open. Still burning.",
       "file": "audio/voice/riedel-breached.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "riedel-watch-set",
@@ -905,7 +1119,7 @@
       "enabled": true,
       "text": "Staying put. Fuel is hot.",
       "file": "audio/voice/riedel-watch-set.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
     },
     {
       "id": "riedel-scorched",
@@ -914,7 +1128,49 @@
       "enabled": true,
       "text": "Burn it all. Clear the lane.",
       "file": "audio/voice/riedel-scorched.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
+    },
+    {
+      "id": "riedel-core-taken",
+      "speaker": "riedel",
+      "enabled": true,
+      "event": "coreTaken",
+      "when": "carrier",
+      "text": "Core's mine. Move.",
+      "file": "audio/voice/riedel-core-taken.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
+    },
+    {
+      "id": "riedel-core-dropped",
+      "speaker": "riedel",
+      "enabled": true,
+      "event": "coreDropped",
+      "when": "carrier",
+      "text": "Core's on the deck.",
+      "file": "audio/voice/riedel-core-dropped.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio.",
+      "delivery": "[shouts]"
+    },
+    {
+      "id": "riedel-core-picked",
+      "speaker": "riedel",
+      "enabled": true,
+      "event": "corePicked",
+      "when": "carrier",
+      "text": "Got it. Go.",
+      "file": "audio/voice/riedel-core-picked.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
+    },
+    {
+      "id": "riedel-carrier-breached",
+      "speaker": "riedel",
+      "enabled": true,
+      "event": "breached",
+      "when": "carrier",
+      "text": "Torn open. Core stays with me.",
+      "file": "audio/voice/riedel-carrier-breached.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "sato-moved",
@@ -923,7 +1179,7 @@
       "enabled": true,
       "text": "Understood. Going.",
       "file": "audio/voice/sato-moved.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
       "id": "sato-revealed",
@@ -932,7 +1188,8 @@
       "enabled": true,
       "text": "Movement on the board.",
       "file": "audio/voice/sato-revealed.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "sato-locked",
@@ -941,7 +1198,7 @@
       "enabled": true,
       "text": "Heat limit hit. Venting.",
       "file": "audio/voice/sato-locked.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
       "id": "sato-breached",
@@ -950,7 +1207,8 @@
       "enabled": true,
       "text": "Pressure is dropping in my suit.",
       "file": "audio/voice/sato-breached.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "sato-watch-set",
@@ -959,7 +1217,7 @@
       "enabled": true,
       "text": "Watching. Sensors are up.",
       "file": "audio/voice/sato-watch-set.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
       "id": "sato-terminal-used",
@@ -968,47 +1226,79 @@
       "enabled": true,
       "text": "Console answered. Input accepted.",
       "file": "audio/voice/sato-terminal-used.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
-      "id": "carrier-core-taken",
-      "speaker": "carrier",
+      "id": "sato-core-taken",
+      "speaker": "sato",
+      "enabled": true,
       "event": "coreTaken",
-      "enabled": true,
-      "text": "Core is mine. Moving.",
-      "file": "audio/voice/carrier-core-taken.mp3",
-      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
-      "when": "carrier"
+      "when": "carrier",
+      "text": "Core released and secured. Moving.",
+      "file": "audio/voice/sato-core-taken.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
-      "id": "carrier-core-dropped",
-      "speaker": "carrier",
+      "id": "sato-core-dropped",
+      "speaker": "sato",
+      "enabled": true,
       "event": "coreDropped",
-      "enabled": true,
-      "text": "Core is down! Somebody grab it.",
-      "file": "audio/voice/carrier-core-dropped.mp3",
-      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
-      "when": "carrier"
+      "when": "carrier",
+      "text": "Core is loose on the deck.",
+      "file": "audio/voice/sato-core-dropped.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio.",
+      "delivery": "[shouts]"
     },
     {
-      "id": "carrier-core-picked",
-      "speaker": "carrier",
+      "id": "sato-core-picked",
+      "speaker": "sato",
+      "enabled": true,
       "event": "corePicked",
-      "enabled": true,
-      "text": "Got it. Back on the move.",
-      "file": "audio/voice/carrier-core-picked.mp3",
-      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
-      "when": "carrier"
+      "when": "carrier",
+      "text": "Core recovered. Moving.",
+      "file": "audio/voice/sato-core-picked.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
-      "id": "carrier-breached",
-      "speaker": "carrier",
-      "event": "breached",
+      "id": "sato-carrier-breached",
+      "speaker": "sato",
       "enabled": true,
-      "text": "Carrier is breached. Core is still with me.",
-      "file": "audio/voice/carrier-breached.mp3",
-      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
-      "when": "carrier"
+      "event": "breached",
+      "when": "carrier",
+      "text": "Pressure dropping. Core is still secure.",
+      "file": "audio/voice/sato-carrier-breached.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio.",
+      "delivery": "[pained]"
+    },
+    {
+      "id": "briefing-dead-reckoning",
+      "speaker": "comms",
+      "enabled": true,
+      "event": "briefing",
+      "when": "dead-reckoning",
+      "text": "The Halcyon Drift went dark eleven years ago. Its navigation core still holds where it had been. Cut in at the aft airlock, pull the core from the archive, and carry it back out before the hull lets go.",
+      "file": "audio/voice/briefing-dead-reckoning.mp3",
+      "voiceDesign": "A middle-aged ship communications officer, gender-neutral, with a flat, tired, measured voice reading a mission transmission over a long-range radio link: unhurried, clear, no warmth, slight static."
+    },
+    {
+      "id": "briefing-cold-berth",
+      "speaker": "comms",
+      "enabled": true,
+      "event": "briefing",
+      "when": "cold-berth",
+      "text": "The berth deck is where the Drift's crew went to sleep and never woke. The manifest drive in the berth control room says who they were and what they carried. Cut in at the west airlock, work the lanes between the berth blocks, and bring the drive out before the Molt close the galleries.",
+      "file": "audio/voice/briefing-cold-berth.mp3",
+      "voiceDesign": "A middle-aged ship communications officer, gender-neutral, with a flat, tired, measured voice reading a mission transmission over a long-range radio link: unhurried, clear, no warmth, slight static."
+    },
+    {
+      "id": "briefing-last-light",
+      "speaker": "comms",
+      "enabled": true,
+      "event": "briefing",
+      "when": "last-light",
+      "text": "The reactor deck is the last of the Drift still warm, and the Molt nest closest to it. The reactor's black box holds the final hours of the ship. Cut in at the forward airlock, run the spine through two sealed bulkheads, and get the box out before the swarm wakes in force.",
+      "file": "audio/voice/briefing-last-light.mp3",
+      "voiceDesign": "A middle-aged ship communications officer, gender-neutral, with a flat, tired, measured voice reading a mission transmission over a long-range radio link: unhurried, clear, no warmth, slight static."
     }
   ]
 }

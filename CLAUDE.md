@@ -25,6 +25,7 @@ Credit the owner as **evilgouki**; never write a real name, email or home path a
 | `npm run validate:data` | Mission and rules data checks |
 | `npm run sim -- --games 1000` | Scripted self-play with invariants; prints the balance table (`--mission`, `--roster a,b`, `--override '<json>'`, `--override-file`) |
 | `npm run bench:ai` | AI gate (M4) |
+| `npm run audio:eleven -- --dry-run` | Audio through ElevenLabs from `src/data/assets.json` (`ELEVENLABS_API_KEY` in the environment, never in a file; `--only`, `--force`, `--budget`, `--design`, `--adopt`, `--enable`); then `npm run audio:measure` |
 
 Gates before every push: typecheck, test, validate:data, sim (0 violations), e2e, build.
 

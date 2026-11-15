@@ -161,7 +161,8 @@ function checkAssets(): void {
     ids.add(s.id)
     if (s.bus !== 'sfx') e(`sound ${s.id} bus must be sfx`)
     if (!(s.gain > 0 && s.gain <= 1.5)) e(`sound ${s.id} has a bad gain`)
-    if (!(s.seconds >= 0.3 && s.seconds <= 47)) e(`sound ${s.id} seconds must be within the studio's 1-47 s (0.3 minimum for interface sounds)`)
+    if (!(s.seconds >= 0.3 && s.seconds <= 30)) e(`sound ${s.id} seconds must be within the sound-effect model's 0.5-30 s (0.3 minimum for interface sounds)`)
+    if (s.promptInfluence !== undefined && !(s.promptInfluence >= 0 && s.promptInfluence <= 1)) e(`sound ${s.id} promptInfluence must be 0-1`)
     if (!s.files.length || s.files.some((f) => !f.startsWith('audio/sfx/'))) e(`sound ${s.id} files must be under audio/sfx/`)
     if (![...Object.keys(EVENT_SOUNDS), 'ui', 'timer', 'always'].includes(s.event)) e(`sound ${s.id} names unknown event ${s.event}`)
     if (!s.prompt) e(`sound ${s.id} has no prompt`)
@@ -172,18 +173,37 @@ function checkAssets(): void {
     if (!m.file.startsWith('audio/music/') || !(m.bpm >= 10 && m.bpm <= 300) || !(m.seconds >= 10 && m.seconds <= 240)) e(`music ${m.state} is malformed`)
     onDisk(m.file, `music ${m.state}`, m.enabled)
   }
+  if (assets.audio?.provider !== 'elevenlabs' || !assets.audio.models?.sfx || !assets.audio.models?.music || !assets.audio.models?.tts) e('audio provider block is malformed')
   const squad = new Set((getMission('dead-reckoning')?.squad ?? []).map((u) => u.id))
+  for (const [sp, p] of Object.entries(assets.voices ?? {})) {
+    if (sp !== 'comms' && !squad.has(sp)) e(`voices table names unknown speaker ${sp}`)
+    if (!/^[A-Za-z0-9]{10,}$/.test(p.voiceId ?? '') || !p.name || !p.design || !p.model) e(`voice profile ${sp} is malformed`)
+  }
+  for (const w of [...squad, 'comms']) if (!assets.voices?.[w]) e(`speaker ${w} has no voice profile`)
   const vids = new Set<string>()
+  const CARRIER = ['core-taken', 'core-dropped', 'core-picked', 'carrier-breached']
   for (const v of assets.voice) {
     if (vids.has(v.id)) e(`duplicate voice ${v.id}`)
     vids.add(v.id)
-    if (v.speaker !== 'carrier' && !squad.has(v.speaker)) e(`voice ${v.id} names unknown speaker ${v.speaker}`)
-    if (!v.text.trim() || v.text.length > 80) e(`voice ${v.id} text must be 1-80 characters`)
+    if (!assets.voices?.[v.speaker]) e(`voice ${v.id} names unknown speaker ${v.speaker}`)
+    if (!v.id.startsWith(v.speaker === 'comms' ? 'briefing-' : `${v.speaker}-`)) e(`voice ${v.id} must be named after its speaker`)
+    const briefing = v.event === 'briefing'
+    if (!v.text.trim() || v.text.length > (briefing ? 400 : 80)) e(`voice ${v.id} text must be 1-${briefing ? 400 : 80} characters`)
     if (!v.file.startsWith('audio/voice/') || !v.voiceDesign) e(`voice ${v.id} is malformed`)
+    if (v.voiceDesign !== assets.voices?.[v.speaker]?.design) e(`voice ${v.id} voiceDesign differs from its speaker's profile`)
+    if (v.delivery !== undefined && !/^\[[a-z ]+\]$/.test(v.delivery)) e(`voice ${v.id} delivery must be an audio tag like [urgent]`)
+    if (briefing) {
+      const m = getMission(v.when ?? '')
+      if (!m) e(`briefing voice ${v.id} names unknown mission ${v.when}`)
+      else if (m.brief !== v.text) e(`briefing voice ${v.id} text differs from the mission brief`)
+    } else if (!Object.keys(EVENT_SOUNDS).includes(v.event)) e(`voice ${v.id} names unknown event ${v.event}`)
     onDisk(v.file, `voice ${v.id}`, v.enabled)
   }
-  for (const w of squad) if (assets.voice.filter((v) => v.speaker === w).length !== 6) e(`${w} needs exactly six voice lines`)
-  if (assets.voice.filter((v) => v.speaker === 'carrier').length !== 4) e('the carrier needs exactly four voice lines')
+  for (const w of squad) {
+    if (assets.voice.filter((v) => v.speaker === w && v.when !== 'carrier').length !== 6) e(`${w} needs exactly six voice lines of their own`)
+    for (const c of CARRIER) if (!vids.has(`${w}-${c}`)) e(`${w} is missing the carrier line ${c}`)
+  }
+  for (const m of listMissions()) if (!vids.has(`briefing-${m.id}`)) e(`mission ${m.id} has no briefing narration`)
 }
 
 checkRules()
