@@ -12,7 +12,10 @@ import { tokens } from '../tokens'
 import { CameraRig } from './CameraRig'
 import { Deck, Fixtures } from './Deck'
 import { Units } from './Figures'
-import { Effects, Scars, TileLayer } from './Layers'
+import { Dressing, Effects, Scars, TileLayer } from './Layers'
+import { Fires } from './Fires'
+import { wreckOf } from './wreck'
+import { artStore } from '../art/store'
 import { dimsOf, inBoard, toWorldX, toWorldZ, worldTile, type Dims } from './layout'
 import { isTap } from './gesture'
 import { geoOf } from '../../engine/grid'
@@ -169,7 +172,9 @@ function Scene() {
       <CameraRig dims={dims} home={home} />
       <Deck mission={mission} dims={dims} seen={seen} />
       <Fixtures mission={mission} dims={dims} v={v} />
+      <Dressing mission={mission} dims={dims} />
       <Scars dims={dims} />
+      {artStore.entries('wall-fire').length > 0 && <Fires mission={mission} dims={dims} fires={wreckOf(mission).fires} />}
       <Marks dims={dims} v={v} />
       <Units dims={dims} v={v} />
       <Effects dims={dims} />

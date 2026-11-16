@@ -8,6 +8,7 @@ import type { Pos } from '../../engine'
 import { setStore, useStore, type Fx } from '../store'
 import { useBoardTextures } from './Deck'
 import type { Scar } from './scars'
+import { wreckOf } from './wreck'
 import { tokens } from '../tokens'
 import { toWorldX, toWorldZ, type Dims } from './layout'
 
@@ -56,6 +57,36 @@ function ScarSet({ dims, scars, tex, y, opacity }: { dims: Dims; scars: Scar[]; 
     <instancedMesh ref={ref} args={[mark, undefined, scars.length]} frustumCulled={false}>
       <meshBasicMaterial map={tex} transparent opacity={opacity} depthWrite={false} />
     </instancedMesh>
+  )
+}
+
+/** What the wreck already carries (spec 70 ART-9): old claw marks, debris, stains and scorching, from wreck.ts. */
+export function Dressing({ mission, dims }: { mission: string; dims: Dims }) {
+  const claw = useBoardTextures('dress:claw')
+  const debris = useBoardTextures('dress:debris')
+  const stain = useBoardTextures('scar:kill')
+  const scorch = useBoardTextures('scar:burn')
+  const sets = useMemo(() => {
+    const out: { key: string; scars: Scar[]; tex: Texture; y: number; opacity: number }[] = []
+    const dress = wreckOf(mission).dress
+    const split = (kind: string, texs: Texture[], y: number, opacity: number): void => {
+      texs.forEach((tex, k) => {
+        const mine = dress.filter((d) => d.kind === kind && d.n % texs.length === k).map((d, i) => ({ id: i, at: d.at, kind: 'burn' as const, n: d.n }))
+        if (mine.length) out.push({ key: `${kind}${k}-${mine.length}`, scars: mine, tex, y, opacity })
+      })
+    }
+    split('scorch', scorch, 0.0135, 0.5)
+    split('stain', stain, 0.014, 0.55)
+    split('claw', claw, 0.0145, 0.9)
+    split('debris', debris, 0.015, 0.95)
+    return out
+  }, [mission, claw, debris, stain, scorch])
+  return (
+    <group>
+      {sets.map((s) => (
+        <ScarSet key={s.key} dims={dims} scars={s.scars} tex={s.tex} y={s.y} opacity={s.opacity} />
+      ))}
+    </group>
   )
 }
 

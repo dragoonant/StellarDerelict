@@ -10,7 +10,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import path from 'node:path'
 import { REPO_ROOT, UsageError, http, isMain, list, parseFlags, runJob } from '../lib/studio.mjs'
 import { loadManifest } from '../figures/lint-prompts.mjs'
-import { CANDIDATE_DIR, CONCEPT_PICKS, FLUX_BASE, KINDS, PUBLISH_DIR, alphaFromLuma, buildArtJob, knownImageIds, lintImages, planArt, publishRecipe, withPick } from './lib.mjs'
+import { CANDIDATE_DIR, CONCEPT_PICKS, FLUX_BASE, KINDS, PUBLISH_DIR, alphaFromLuma, buildArtJob, knownImageIds, lintImages, luma, planArt, publishRecipe, withPick } from './lib.mjs'
 
 const HELP = `Usage: node tools/art/gen-art.mjs [--dry-run] [--only id,id] [--kind ${KINDS.join('|')}] [--force] [--reroll n] [--base url] [--timeout sec]
        node tools/art/gen-art.mjs --sheets | --pick id:n,id:n | --publish`
@@ -62,18 +62,20 @@ async function publish(image, pick, io) {
   let s = sharp(src).resize(r.width, r.height, { fit: 'cover', position: 'centre' })
   if (r.grey) s = s.greyscale()
   if (r.normalise) s = s.normalise()
+  if (r.recomb) s = s.removeAlpha().recomb(r.recomb)
   if (r.mean) {
-    // level to the shared mean: one multiply, clipped at white
-    const levelled = await s.png().toBuffer()
+    // level the brightness to the shared mean: one multiply on every channel, clipped at white (the colour stays)
+    const levelled = await s.removeAlpha().png().toBuffer()
     const st = await sharp(levelled).stats()
-    const mean = (st.channels[0]?.mean ?? 128) / 255
+    const ch = (i) => (st.channels[i] ?? st.channels[0]).mean
+    const mean = luma(ch(0), ch(1), ch(2)) / 255
     s = sharp(levelled).linear(Math.min(2.5, r.mean / Math.max(0.05, mean)), 0)
   }
   if (r.alphaFromDarkness) {
     const { data, info } = await s.removeAlpha().raw().toBuffer({ resolveWithObject: true })
     const rgba = Buffer.alloc(info.width * info.height * 4)
     for (let i = 0, j = 0; i < data.length; i += 3, j += 4) {
-      const l = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]
+      const l = luma(data[i], data[i + 1], data[i + 2])
       rgba[j] = data[i]
       rgba[j + 1] = data[i + 1]
       rgba[j + 2] = data[i + 2]

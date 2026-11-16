@@ -34,8 +34,10 @@ export interface ImageEntry {
   aspect: string
   /** published width and height in pixels */
   size: [number, number]
-  /** floor | wall | ceiling | door | duct | unit:<id> | model:<slug> | title | mission:<id> | debrief:<seat>-<win|loss> | scar:<burn|kill> */
+  /** floor | wall | wall-fire | ceiling | door | duct | unit:<id> | model:<slug> | title | mission:<id> | debrief:<seat>-<win|loss> | scar:<burn|kill> | dress:<claw|debris> */
   use: string
+  /** board textures: how often this variant is drawn against the others of its use (default 1); damaged plates are rarer */
+  weight?: number
   /** portraits: the model slug whose picked concept is attached to the image-edit job */
   ref?: string
   /** which candidate was published, and the seed of the job that made it */

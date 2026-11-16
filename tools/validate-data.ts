@@ -155,12 +155,13 @@ function checkImages(e: (msg: string) => void, onDisk: (file: string, what: stri
     if (!Array.isArray(im.size) || im.size.length !== 2 || !im.size.every((n) => Number.isInteger(n) && n >= 64 && n <= 2048)) e(`image ${im.id} needs a size of two whole numbers from 64 to 2048`)
     if (!im.prompt || im.prompt.length < 40) e(`image ${im.id} has no prompt`)
     if (typeof im.enabled !== 'boolean') e(`image ${im.id} needs a boolean enabled`)
-    if (!/^(floor|wall|ceiling|door|duct|title|unit:[a-z]+|model:[a-z-]+|mission:[a-z-]+|debrief:(warden|molt)-(win|loss)|scar:(burn|kill))$/.test(im.use)) e(`image ${im.id} has unknown use ${im.use}`)
+    if (!/^(floor|wall|wall-fire|ceiling|door|duct|title|unit:[a-z]+|model:[a-z-]+|mission:[a-z-]+|debrief:(warden|molt)-(win|loss)|scar:(burn|kill)|dress:(claw|debris))$/.test(im.use)) e(`image ${im.id} has unknown use ${im.use}`)
     if (im.kind === 'portrait') {
       if (!im.ref || !assets.models.some((m) => m.slug === im.ref)) e(`portrait ${im.id} needs a ref naming a model`)
     } else if (im.ref !== undefined) e(`image ${im.id}: only portraits take a ref`)
-    if (im.kind === 'texture' && !['floor', 'wall', 'ceiling', 'door', 'duct'].includes(im.use)) e(`texture ${im.id} must be used on a board surface`)
-    if (im.kind === 'decal' && !im.use.startsWith('scar:')) e(`decal ${im.id} must be a scar`)
+    if (im.kind === 'texture' && !['floor', 'wall', 'wall-fire', 'ceiling', 'door', 'duct'].includes(im.use)) e(`texture ${im.id} must be used on a board surface`)
+    if (im.kind === 'decal' && !im.use.startsWith('scar:') && !im.use.startsWith('dress:')) e(`decal ${im.id} must be a scar or dressing`)
+    if (im.weight !== undefined && (im.kind !== 'texture' || !Number.isInteger(im.weight) || im.weight < 1 || im.weight > 9)) e(`image ${im.id} has a bad weight (board textures only, 1 to 9)`)
     if (im.enabled && (!Number.isInteger(im.pick) || !Number.isInteger(im.seed))) e(`image ${im.id} is enabled without a recorded pick and seed`)
     if (im.use.startsWith('unit:') && !squad.includes(im.use.slice(5))) e(`image ${im.id} names an unknown squad member`)
     if (im.use.startsWith('model:') && !assets.models.some((m) => m.slug === im.use.slice(6))) e(`image ${im.id} names an unknown model`)
@@ -168,7 +169,7 @@ function checkImages(e: (msg: string) => void, onDisk: (file: string, what: stri
     onDisk(im.file, `image ${im.id}`, im.enabled)
     uses.add(im.use)
   }
-  const need = ['floor', 'wall', 'ceiling', 'door', 'duct', 'title', 'scar:burn', 'scar:kill', 'debrief:warden-win', 'debrief:warden-loss', 'debrief:molt-win', 'debrief:molt-loss']
+  const need = ['floor', 'wall', 'wall-fire', 'ceiling', 'door', 'duct', 'title', 'scar:burn', 'scar:kill', 'dress:claw', 'dress:debris', 'debrief:warden-win', 'debrief:warden-loss', 'debrief:molt-win', 'debrief:molt-loss']
   for (const w of squad) need.push(`unit:${w}`)
   for (const m of assets.models) if (m.kind === 'stalker') need.push(`model:${m.slug}`)
   for (const id of missionIds) need.push(`mission:${id}`)

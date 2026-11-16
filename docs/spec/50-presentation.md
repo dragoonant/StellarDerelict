@@ -64,8 +64,10 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
 
 ## The board (React Three Fiber, one persistent `<Canvas>` for the session)
 
-- **Deck.** (M9: plates, bulkheads, deckhead, door leaves and duct grates carry generated greyscale textures tinted with
-  the colours below, and the fight leaves scars on the plates: spec 70 ART-3, ART-6. Without the art it is as written here.)
+- **Deck.** (M10, by the owner's word "it's supposed to be a derelict ship, ruined walls, fires, claw marks": with the art
+  loaded the deck is a wreck shown in its own colour, lit where the squad sees and a dim cold ghost where it only has the
+  map; some bulkheads burn; the plates carry old damage and the scars of the fight. Spec 70 ART-3, ART-6 and ART-9 are the
+  newer word on the deck's colours. What follows is the deck without the art, and the reads that both keep.)
   Floor squares are dark plates with 1 px teal edge lines. Three brightness states, all open information:
   *seen now* (any Warden sees it, G-7): filled faint `--scan` with a bright edge; *mapped* (not seen now): `--scan-dim`
   edge only; walls are low dark extrusions (0.6 of a square high) with a `--trace` top edge so corridors read as

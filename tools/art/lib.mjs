@@ -11,6 +11,7 @@ export const CANDIDATE_DIR = path.join(REPO_ROOT, 'tools', 'out', 'art')
 export const PUBLISH_DIR = path.join(REPO_ROOT, 'public', 'assets')
 export const CONCEPT_PICKS = path.join(REPO_ROOT, 'art', 'concepts', 'picks.json')
 export const KINDS = ['texture', 'portrait', 'plate', 'decal']
+export const luma = (r, g, b) => 0.2126 * r + 0.7152 * g + 0.0722 * b
 export const ASPECTS = ['1:1', '3:2', '2:3', '4:3', '3:4', '16:9', '9:16', '21:9']
 
 /** The seed of take `reroll` of an image (take 0 is the id's own hash, so a first run is reproducible from the manifest). */
@@ -42,19 +43,22 @@ export function planArt(manifest, { only = null, kind = null, force = false } = 
   })
 }
 
-/** Every board texture is levelled to this mean (0..1), so one tint gain in the client suits them all. */
-export const TEXTURE_MEAN = 0.5
+/** Every board texture is levelled to this mean brightness (0..1), so one light level in the client suits them all. */
+export const TEXTURE_MEAN = 0.4
+/** The burning breach keeps its own exposure: levelling it would grey the fire. */
+export const UNLEVELLED_USES = ['wall-fire']
+/** Flux paints bare steel blue-grey; board textures are pulled toward neutral (rows are the output R, G and B). */
+export const STEEL_RECOMB = [[1.03, 0, 0], [0, 1.0, 0], [0, 0, 0.95]]
 
 /**
  * How a picked candidate becomes the shipped file (tools/art/gen-art.mjs runs it with sharp):
- * - texture: greyscale, stretched to the full range, levelled to TEXTURE_MEAN, resized; the board multiplies it with the
- *   state colours (it is read as plain numbers, not as sRGB)
+ * - texture: colour kept, levelled to TEXTURE_MEAN (brightness only), resized; the board lights it by what the squad sees
  * - portrait and plate: cover-cropped to the size, colour kept
  * - decal: greyscale, alpha taken from darkness (white paper becomes clear), trimmed to the mark
  */
 export function publishRecipe(image) {
   const [width, height] = image.size
-  if (image.kind === 'texture') return { width, height, grey: true, normalise: true, mean: TEXTURE_MEAN, alphaFromDarkness: false, quality: 82 }
+  if (image.kind === 'texture') return { width, height, grey: false, normalise: false, mean: UNLEVELLED_USES.includes(image.use) ? undefined : TEXTURE_MEAN, recomb: UNLEVELLED_USES.includes(image.use) ? undefined : STEEL_RECOMB, alphaFromDarkness: false, quality: 82 }
   if (image.kind === 'decal') return { width, height, grey: false, normalise: false, alphaFromDarkness: true, quality: 84 }
   return { width, height, grey: false, normalise: false, alphaFromDarkness: false, quality: image.kind === 'plate' ? 78 : 84 }
 }

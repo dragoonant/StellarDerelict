@@ -1,5 +1,29 @@
 # STATUS (rewritten at each stage; trust `git log` over this file)
 
+**2026-11-15: M10 the wreck pass (owner on M9: "The ship looks too plain, lots of blue, it's supposed to be a derelict
+ship, ruined walls, fires, claw marks etc").** PLAN D9. The board art was made again and the way it is shown changed:
+
+- **Colour, not a teal tint.** Board textures are colour pictures of a wrecked ship now; the board lights them. A square
+  seen now is lit steel, a mapped one a dim cold ghost; the sensor teal is left to the HUD, the outlines and the ghost.
+  Spec 70 ART-3 is rewritten.
+- **Ruin.** Eight deck plates (four sound, and rarer: claw gouges, an old burn, a torn hole with pipes below, a dried
+  stain) and five bulkhead panels (two sound, and rarer: raked by claws, burnt out, torn open), drawn by weight so about a
+  third of the ship is visibly damaged; a torn deckhead with hanging cables; a clawed door leaf; a corroded duct grate.
+- **Fires.** Three to nine bulkheads a mission have a burning breach (`wreck.ts`, deterministic): the `wall-fire` texture
+  lit by itself and flickering, shader flames above the wall on the map and licking out at its foot in every view, a soft
+  pool of firelight on the deck. Scenery only: walls keep their shape, and the rule state "burning square" keeps its own
+  hard-edged fill (spec 70 ART-9).
+- **Old damage on the deck.** Claw gouges, debris, stains and scorching on about a fifth of the plain floor squares, under
+  the battle scars of M9.
+- **Stills.** The title wreck now has torn breaches with fires inside and a debris trail; the three mission stills have
+  toppled stacks, smashed berths, a collapsed catwalk, fires and claw marks. The feed frame lost its teal tint.
+- **Fixed on the way:** M9 lit only one of the four side faces of each bulkhead (the other three kept their first colour),
+  which the visor of this pass showed at once; the four faces now share one material.
+- **Measured:** 25 jobs, 100 candidates, about 9 minutes of GPU, no failures or re-rolls. 40 images, 1.6 MB shipped.
+- **Gates:** typecheck, 238 unit tests, data validation, prompt lint, sim (300 games, 0 violations), 31 e2e tests, build.
+  Looked at on the real GPU (headless Chromium on D3D11).
+- **Not verified:** the owner has not seen this pass yet; the audio is still not verified by ear.
+
 **2026-11-15: M9 graphics pass (owner: "Let's do a graphics pass too. Use evilaegis. Flux. And Gemini if needed.").**
 28 images from the local Flux Studio on the GPU PC (FLUX.2 klein; Gemini was not needed), spec `docs/spec/70-art.md`
 (ART-1..8), about 1 MB shipped under `public/assets/art/`:

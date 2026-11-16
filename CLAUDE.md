@@ -3,7 +3,7 @@
 An original 3D corridor-tactics browser game: five armoured Wardens against the Molt swarm aboard a derelict ship.
 Credit the owner as **evilgouki**; never write a real name, email or home path anywhere in this repo.
 
-- **Read first:** `PLAN.md` (decisions D1–D8, do not re-ask), `STATUS.md` (current state), then only the spec a task needs:
+- **Read first:** `PLAN.md` (decisions D1–D9, do not re-ask), `STATUS.md` (current state), then only the spec a task needs:
   `docs/spec/00-architecture.md` (frozen contracts), `10-rules.md` (rules with ids and constants; §15 the boarding run),
   `11-mission-dead-reckoning.md`, `12-mission-cold-berth.md`, `13-mission-last-light.md`, `40-ai.md`, `50-presentation.md`,
   `60-audio.md`, `70-art.md` (generated textures, faces, key art and scars; ids ART-n).

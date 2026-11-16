@@ -16,8 +16,8 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: 
 const KINDS: { kind: ImageEntry['kind']; title: string; note: string }[] = [
   { kind: 'plate', title: 'Key art', note: 'Title, Missions, Briefing and Debrief. Shown in the game as a sensor feed: scanlines, a cold tint and a caption.' },
   { kind: 'portrait', title: 'Faces', note: 'Each one is an image edit of the picked concept of the model that stands on the board.' },
-  { kind: 'texture', title: 'Board textures', note: 'Greyscale and levelled to one mean; the board tints them with the state colours (seen, mapped, sealed, torn).' },
-  { kind: 'decal', title: 'Scars', note: 'Shown here on a mid grey so the clear paper reads. On the deck: a burn mark where a burst burned out, a splash where a stalker fell.' },
+  { kind: 'texture', title: 'Board textures', note: 'A wrecked ship in its own colour, levelled to one brightness. The board lights them: lit where the squad sees, a dim cold ghost where it only has the map. The ruined variants are drawn less often.' },
+  { kind: 'decal', title: 'Scars and dressing', note: 'Shown here on a mid grey so the clear paper reads. On the deck: a burn mark where a burst burned out, a splash where a stalker fell, and the old claw marks and debris the wreck already carries.' },
 ]
 
 function card(im: ImageEntry): HTMLElement {

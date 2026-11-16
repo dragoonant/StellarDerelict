@@ -319,17 +319,17 @@ html:has(body.sounds), body.sounds { overflow: auto; height: auto; }
 /* a still shown as a sensor feed: cold tint, scanlines, a caption line; never a bare photograph */
 .feed { position: relative; margin: 0; overflow: hidden; background: var(--void); border: 1px solid var(--trace); }
 /* a feed gets its height from padding (a share of its width): an aspect-ratio box with a percentage width is sized wrongly as a grid item */
-.feed img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.82) contrast(1.06) brightness(0.92); }
+.feed img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.96) contrast(1.05) brightness(0.94); }
 .feed::after { content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: repeating-linear-gradient(to bottom, rgb(5 9 11 / 0.26) 0 1px, transparent 1px 3px), linear-gradient(to bottom, rgb(63 224 200 / 0.07), rgb(5 9 11 / 0.3)); }
+  background: repeating-linear-gradient(to bottom, rgb(5 9 11 / 0.26) 0 1px, transparent 1px 3px), linear-gradient(to bottom, transparent 55%, rgb(5 9 11 / 0.4)); }
 .feed figcaption { position: absolute; left: 8px; bottom: 6px; right: 8px; z-index: 1; color: var(--scan); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; text-shadow: 0 0 6px var(--void), 0 0 2px var(--void); }
 .title__plate { position: absolute; inset: 0; border: 0; }
-.title__plate img { opacity: 0.8; filter: saturate(0.7) contrast(1.08) brightness(0.8); }
+.title__plate img { opacity: 0.9; filter: saturate(0.95) contrast(1.08) brightness(0.88); }
 .title__plate::after { background: linear-gradient(to right, var(--void) 0%, rgb(5 9 11 / 0.72) 30%, rgb(5 9 11 / 0.1) 62%, rgb(5 9 11 / 0.35) 100%), repeating-linear-gradient(to bottom, rgb(5 9 11 / 0.22) 0 1px, transparent 1px 3px); }
 .title__plate ~ .title__rings { opacity: 0.3; }
 .title__plate ~ .title__map { opacity: 0.4; }
 .mcard__plate { height: 0; padding-bottom: 43.75%; }
-.mcard:not(.on) .mcard__plate img { filter: saturate(0.4) contrast(1.02) brightness(0.62); }
+.mcard:not(.on) .mcard__plate img { filter: saturate(0.55) contrast(1.02) brightness(0.62); }
 .side-plate { height: 0; padding-bottom: 56.25%; }
 /* rows never shrink under their content when a screen is taller than the window (a min-height on a row's item would
    otherwise let the row stop there, and the brief ran into the objective on phones) */

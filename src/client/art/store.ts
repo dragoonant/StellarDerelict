@@ -47,6 +47,11 @@ class ArtStore {
     return out
   }
 
+  /** The draw weights of the loaded textures of a use, in the same order as `textures(use)`. */
+  weights(use: string): number[] {
+    return this.entries(use).filter((im) => this.tex.has(im.id) && this.state.get(im.id) === 'ready').map((im) => im.weight ?? 1)
+  }
+
   /** At app start: every enabled board texture through the texture loader, every screen image through the browser cache. */
   preload(): void {
     if (this.started || typeof document === 'undefined') return
@@ -64,8 +69,7 @@ class ArtStore {
       loader.load(
         artUrl(im.file),
         (t) => {
-          // a greyscale surface texture is a multiplier for the tint, read as plain numbers; a decal is a picture
-          t.colorSpace = im.kind === 'texture' ? NoColorSpace : SRGBColorSpace
+          t.colorSpace = SRGBColorSpace
           t.anisotropy = 8
           if (im.use === 'ceiling') t.wrapS = t.wrapT = RepeatWrapping
           this.tex.set(im.id, t)

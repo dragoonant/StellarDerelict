@@ -125,7 +125,8 @@
         512
       ],
       "use": "floor",
-      "prompt": "a top-down orthographic photograph of one square steel deck plate of a starship floor filling the whole frame edge to edge: a worn dark gunmetal floor panel with a narrow bevelled border, a fine raised diamond tread pattern across the whole centre, a countersunk bolt in each corner, light scratches and scuffs, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "weight": 3,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, a raised diamond tread pattern worn smooth and bright in the middle, a countersunk bolt in each corner with a bloom of corrosion around it, grime packed into the tread, long scuffs, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
       "pick": 1,
       "seed": 1206544536
     },
@@ -140,7 +141,8 @@
         512
       ],
       "use": "floor",
-      "prompt": "a top-down orthographic photograph of one square steel deck plate of a starship floor filling the whole frame edge to edge: a worn dark gunmetal floor panel with a narrow bevelled border, a square inspection hatch with a recessed pull ring in the centre, rows of small rivets, boot scuffs and a faint oil stain, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "weight": 3,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, a square inspection hatch in the centre bent up at one corner, rows of small rivets, a wide dried oil stain, boot scuffs and grit, flaking grey paint, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
       "pick": 4,
       "seed": 1223322155
     },
@@ -155,8 +157,9 @@
         512
       ],
       "use": "floor",
-      "prompt": "a top-down orthographic photograph of one square steel deck plate of a starship floor filling the whole frame edge to edge: a worn dark gunmetal floor panel with a narrow bevelled border, two long recessed cable trench covers running side by side with slotted screws, a strip of raised tread between them, scratches and wear, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
-      "pick": 4,
+      "weight": 2,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, two long recessed cable trench covers side by side, one cover missing so that dusty black cables show in the trench, slotted screws, dents, grime and corrosion in the seams, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 3,
       "seed": 1240099774
     },
     {
@@ -170,9 +173,74 @@
         512
       ],
       "use": "floor",
-      "prompt": "a top-down orthographic photograph of one square steel deck plate of a starship floor filling the whole frame edge to edge: a worn dark gunmetal floor panel with a narrow bevelled border, four smaller pressed panels with ribbed centres, a round magnetic tie-down point in the middle, dents, scratches and grime in the seams, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "weight": 3,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, four smaller pressed panels with ribbed centres, one of them cracked across and sunk, a round tie-down point in the middle, dents, scratches, soot and grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
       "pick": 4,
       "seed": 1122656441
+    },
+    {
+      "id": "deck-plate-e",
+      "kind": "texture",
+      "file": "art/deck-plate-e.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 2,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, four long deep parallel claw gouges raked diagonally right across the plate, bright bare torn metal with curled edges inside each gouge, chipped paint around them, grime and scuffs, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1139434060
+    },
+    {
+      "id": "deck-plate-f",
+      "kind": "texture",
+      "file": "art/deck-plate-f.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 1,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, burnt by an old fire: most of the plate blackened with soot, paint blistered and peeled, blue and straw heat discolouration at the edges of the burn, a scatter of pale ash, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 2,
+      "seed": 1156211679
+    },
+    {
+      "id": "deck-plate-g",
+      "kind": "texture",
+      "file": "art/deck-plate-g.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 1,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, buckled and split: a ragged torn hole near the middle with the steel peeled upward, dark pipes and frayed wiring visible below, bent rivets, grit and small fragments around the hole, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 2,
+      "seed": 1172989298
+    },
+    {
+      "id": "deck-plate-h",
+      "kind": "texture",
+      "file": "art/deck-plate-h.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 1,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, a large old dried dark brown-black stain spread across it with drag marks leading off one edge, thin pale translucent flakes of shed shell stuck in the stain, scratches and grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1055545965
     },
     {
       "id": "wall-panel-a",
@@ -185,7 +253,8 @@
         768
       ],
       "use": "wall",
-      "prompt": "a front-on orthographic photograph of one tall section of a starship corridor bulkhead wall filling the whole frame edge to edge: dark gunmetal pressed-steel wall panels with vertical ribs, a horizontal conduit run with clamps at mid height, a heavy kick plate along the bottom, rivet lines, grime streaks running down from the seams, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "weight": 3,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating with vertical ribs, a horizontal conduit run with clamps at mid height, a heavy kick plate along the bottom, rivet lines, long streaks of corrosion and grime running down from the seams, flaking paint, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
       "pick": 1,
       "seed": 1545187025
     },
@@ -200,9 +269,73 @@
         768
       ],
       "use": "wall",
-      "prompt": "a front-on orthographic photograph of one tall section of a starship corridor bulkhead wall filling the whole frame edge to edge: dark gunmetal wall panels around a recessed equipment bay with a closed access hatch and two round gauges with blank faces, thick pipes running vertically along one side, a heavy kick plate along the bottom, scratches and grime, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "weight": 3,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating around a recessed equipment bay with a dented access hatch hanging from one hinge and two round gauges with cracked blank faces, thick corroded pipes running vertically along one side, a heavy kick plate along the bottom, grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
       "pick": 4,
       "seed": 1595519882
+    },
+    {
+      "id": "wall-panel-c",
+      "kind": "texture",
+      "file": "art/wall-panel-c.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "weight": 2,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating raked by huge claws: five long deep parallel gouges slashed diagonally across the whole panel, the steel torn open to bright bare metal with curled ragged edges, paint chipped away around them, a heavy kick plate along the bottom, grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1578742263
+    },
+    {
+      "id": "wall-panel-d",
+      "kind": "texture",
+      "file": "art/wall-panel-d.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "weight": 2,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating burnt out by an old fire: the panel blackened with soot in a tall fan shape rising from the floor, paint blistered and peeled, a melted cable run sagging across it, heat-warped plating, pale ash on the kick plate, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 2,
+      "seed": 1629075120
+    },
+    {
+      "id": "wall-panel-e",
+      "kind": "texture",
+      "file": "art/wall-panel-e.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "weight": 2,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating torn open: a ragged hole ripped through the middle of the panel with the plating peeled outward, bent structural ribs behind it, severed cables and a broken pipe hanging out of the dark cavity, claw scratches around the hole, debris on the kick plate, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 2,
+      "seed": 1612297501
+    },
+    {
+      "id": "wall-fire",
+      "kind": "texture",
+      "file": "art/wall-fire.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall-fire",
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship, filling the whole frame edge to edge: dark gunmetal wall plating with a ragged breach torn through the lower half, bright orange flames burning inside the cavity behind it and licking out through the hole, glowing embers, the plating around the breach scorched black and lit orange by the fire, thick soot rising above it, sharp focus, natural colour, a game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1499310333
     },
     {
       "id": "deckhead",
@@ -215,7 +348,7 @@
         512
       ],
       "use": "ceiling",
-      "prompt": "an orthographic photograph looking straight up at one square section of a starship corridor ceiling filling the whole frame edge to edge: dark gunmetal ceiling panels, a cable tray with bundled cables down the middle, two pipes with flanged joints, one dead rectangular light fitting with a cracked diffuser, dust, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "prompt": "an orthographic photograph looking straight up at one square section of corridor ceiling inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal ceiling panels, one panel missing with torn insulation and loose cables hanging out of the gap, a corroded cable tray, two pipes with flanged joints, one dead rectangular light fitting with a smashed diffuser, soot and dust, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
       "pick": 3,
       "seed": 839844283
     },
@@ -230,7 +363,7 @@
         512
       ],
       "use": "door",
-      "prompt": "a front-on orthographic photograph of one square leaf of a heavy sliding starship bulkhead door filling the whole frame edge to edge: thick pale grey steel with two diagonal reinforcing bars, a row of large bolts down each side, a recessed hand grip, chipped paint and scratches, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "prompt": "a front-on orthographic photograph of one square leaf of a heavy sliding bulkhead door inside a wrecked starship, filling the whole frame edge to edge: thick grey steel with two diagonal reinforcing bars, a row of large bolts down each side, a recessed hand grip, deep claw scratches across it, dents, chipped paint and streaks of corrosion, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
       "pick": 4,
       "seed": 1469760565
     },
@@ -245,8 +378,8 @@
         512
       ],
       "use": "duct",
-      "prompt": "a top-down orthographic photograph of one square floor ventilation grate of a starship filling the whole frame edge to edge: a heavy pale grey steel frame with thick parallel slats over a black shaft, a bolt in each corner, the slats bent apart near the middle, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
-      "pick": 3,
+      "prompt": "a top-down orthographic photograph of one square floor ventilation grate inside a wrecked starship, filling the whole frame edge to edge: a heavy corroded steel frame with thick parallel slats over a black shaft, a bolt in each corner, the middle slats bent upward and apart from below, scratches and grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
       "seed": 1693258531
     },
     {
@@ -388,7 +521,7 @@
         900
       ],
       "use": "title",
-      "prompt": "a vast dead starship drifting in deep space, seen from far off its aft quarter: a long dark industrial hull of slab-sided modules, gantries and sensor masts, eleven years dead, some hull plates missing, no engine glow and no lit windows, a thin rim of cold starlight along its upper edge, sparse faint stars, black void filling the left third of the frame, a very small boarding craft with a teal thruster glow closing on an airlock near the stern, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "prompt": "a vast wrecked starship drifting dead in deep space, seen from off its aft quarter: a long dark industrial hull of slab-sided modules, gantries and broken sensor masts, great ragged holes torn in its flank with twisted plating peeled outward, the dull orange glow of fires still burning deep inside two of the breaches, a slow cloud of debris and hull fragments trailing beside it, no engine glow and no lit windows, sparse faint stars, black void filling the left third of the frame, a very small boarding craft closing on an airlock near the stern, cinematic still, realistic, deep blacks, firelight and cold shadow, high contrast, fine film grain, wordless and untitled, full-bleed",
       "pick": 2,
       "seed": 1116139403
     },
@@ -403,7 +536,7 @@
         720
       ],
       "use": "mission:dead-reckoning",
-      "prompt": "the dead archive room of a derelict starship: tall rows of dark data stacks receding into darkness on both sides, one upright console in the centre holding a softly glowing teal cylindrical core in steel clamps, frost and dust on every surface, cables hanging from the ceiling, the pale beam of a helmet lamp cutting through drifting dust from the doorway in the foreground, one small amber warning light, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "prompt": "the ruined archive room of a wrecked starship: tall rows of data stacks on both sides, several toppled against each other and gutted, long deep claw gouges slashed across the nearest stacks and the deck, a small fire burning in a pile of wreckage at the left throwing orange light, one upright console in the centre still holding a softly glowing cylindrical core in steel clamps, cables hanging from a torn ceiling, smoke and drifting dust, the pale beam of a helmet lamp from the doorway in the foreground, cinematic still, realistic, deep blacks, firelight and cold shadow, high contrast, fine film grain, wordless and untitled, full-bleed",
       "pick": 3,
       "seed": 1307579458
     },
@@ -418,8 +551,8 @@
         720
       ],
       "use": "mission:cold-berth",
-      "prompt": "the berth deck of a derelict starship: a long narrow lane between blocks of sealed sleeper berths stacked two high, frosted glass hatches in steel frames, a few hatches hanging open on empty berths, pale translucent shed husks stuck to the floor grating, a sealed bulkhead door at the far end with one amber lock light, the pale beam of a helmet lamp through cold mist, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
-      "pick": 4,
+      "prompt": "the ruined berth deck of a wrecked starship: a long narrow lane between blocks of sleeper berths stacked two high, most hatches smashed outward from inside with frosted glass in shards on the floor grating, deep claw gouges down the berth frames, pale translucent shed husks stuck to the floor, a sparking severed cable swinging from the ceiling, a small fire flickering inside one gutted berth, a sealed bulkhead door at the far end with one amber lock light, cold mist, cinematic still, realistic, deep blacks, firelight and cold shadow, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
       "seed": 554426087
     },
     {
@@ -433,8 +566,8 @@
         720
       ],
       "use": "mission:last-light",
-      "prompt": "the reactor room of a derelict starship: a tall cylindrical reactor core behind heavy bulkhead frames, one last containment ring still glowing a dim amber, everything else dark, catwalks and thick coolant pipes, a small armoured black recorder box on a pedestal in front of the core, dust drifting through the amber glow, deep shadows, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
-      "pick": 1,
+      "prompt": "the ruined reactor room of a wrecked starship: a tall cylindrical reactor core behind heavy buckled bulkhead frames, one last containment ring still glowing a dim amber, a collapsed catwalk hanging by one end, ruptured coolant pipes venting thin steam, scorch marks and claw gouges up the walls, small fires burning in the wreckage on the floor, a small armoured black recorder box on a pedestal in front of the core, smoke drifting through the glow, deep shadows, cinematic still, realistic, deep blacks, firelight and cold shadow, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
       "seed": 1065496381
     },
     {
@@ -541,6 +674,66 @@
       "prompt": "a splatter of thick dark red-black fluid on a floor, several small pools joined by drips, with scattered pale flakes of broken shell, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
       "pick": 1,
       "seed": 397944597
+    },
+    {
+      "id": "claw-marks-a",
+      "kind": "decal",
+      "file": "art/claw-marks-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "dress:claw",
+      "prompt": "four long parallel claw gouges raked across a floor, each a deep black ragged scratch tapering at both ends, a few small black chips beside them, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 1,
+      "seed": 1311729360
+    },
+    {
+      "id": "claw-marks-b",
+      "kind": "decal",
+      "file": "art/claw-marks-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "dress:claw",
+      "prompt": "three short deep curved black claw gouges side by side on a floor, ragged torn edges, like one swipe of a large clawed limb, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 3,
+      "seed": 1328506979
+    },
+    {
+      "id": "debris-a",
+      "kind": "decal",
+      "file": "art/debris-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "dress:debris",
+      "prompt": "a small scatter of wreckage lying on a floor: torn fragments of black scorched metal plate, a few dark bolts, a snapped length of black cable and charred flakes, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 2,
+      "seed": 1951224797
+    },
+    {
+      "id": "debris-b",
+      "kind": "decal",
+      "file": "art/debris-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "dress:debris",
+      "prompt": "a small heap of dark rubble lying on a floor: broken pieces of black pipe, a bent dark steel bracket, shards and grit spread around it, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 1,
+      "seed": 2001557654
     }
   ],
   "audio": {

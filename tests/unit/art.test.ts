@@ -4,8 +4,10 @@ import { describe, expect, it } from 'vitest'
 import { assets, getMission, imageEntry, imagesFor, listMissions, tileHash } from '../../src/data'
 import type { Event, Pos } from '../../src/engine'
 import { SCAR_CAP, addScars, scarsOf, type Scar } from '../../src/client/board/scars'
+import { DRESS_SHARE, FIRE_GAP, FIRE_MAX, variantOf, wreckOf } from '../../src/client/board/wreck'
+import { geoOf } from '../../src/engine/grid'
 import { lintManifest } from '../../tools/figures/lint-prompts.mjs'
-import { ASPECTS, KINDS, TEXTURE_MEAN, alphaFromLuma, buildArtJob, knownImageIds, lintImages, planArt, publishRecipe, seedFor, withPick } from '../../tools/art/lib.mjs'
+import { ASPECTS, KINDS, STEEL_RECOMB, TEXTURE_MEAN, alphaFromLuma, buildArtJob, knownImageIds, lintImages, planArt, publishRecipe, seedFor, withPick } from '../../tools/art/lib.mjs'
 import { main as genArt, parsePicks } from '../../tools/art/gen-art.mjs'
 
 const image = (id: string) => imageEntry(id)!
@@ -17,7 +19,7 @@ const collect = () => {
 
 describe('ART-1 the image manifest', () => {
   it('names every image after its file, with a known kind, aspect and size', () => {
-    expect(assets.images.length).toBeGreaterThanOrEqual(28)
+    expect(assets.images.length).toBeGreaterThanOrEqual(40)
     expect(new Set(assets.images.map((im) => im.id)).size).toBe(assets.images.length)
     for (const im of assets.images) {
       expect(im.file, im.id).toBe(`art/${im.id}.webp`)
@@ -58,9 +60,16 @@ describe('ART-2 coverage', () => {
     for (const m of listMissions()) expect(uses.has(`mission:${m.id}`), m.id).toBe(true)
     for (const u of ['debrief:warden-win', 'debrief:warden-loss', 'debrief:molt-win', 'debrief:molt-loss']) expect(uses.has(u), u).toBe(true)
   })
-  it('has a texture for every board surface and a decal for both scars', () => {
-    for (const u of ['floor', 'wall', 'ceiling', 'door', 'duct', 'scar:burn', 'scar:kill']) expect(uses.has(u), u).toBe(true)
-    expect(assets.images.filter((im) => im.use === 'floor').length).toBeGreaterThanOrEqual(4)
+  it('has a texture for every board surface, the burning breach, and decals for the scars and the dressing', () => {
+    for (const u of ['floor', 'wall', 'wall-fire', 'ceiling', 'door', 'duct', 'scar:burn', 'scar:kill', 'dress:claw', 'dress:debris']) expect(uses.has(u), u).toBe(true)
+    expect(assets.images.filter((im) => im.use === 'floor').length).toBeGreaterThanOrEqual(8)
+    expect(assets.images.filter((im) => im.use === 'wall').length).toBeGreaterThanOrEqual(5)
+  })
+  it('draws the sound plates more often than the ruined ones', () => {
+    const w = (id: string) => imageEntry(id)!.weight ?? 1
+    expect(w('deck-plate-a')).toBeGreaterThan(w('deck-plate-g'))
+    expect(w('wall-panel-a')).toBeGreaterThan(w('wall-panel-e'))
+    for (const im of assets.images) if (im.weight !== undefined) expect(im.kind, im.id).toBe('texture')
   })
   it('imagesFor returns the enabled images of a use in manifest order', () => {
     const floor = imagesFor('floor')
@@ -81,6 +90,47 @@ describe('ART-3 a square keeps its plate', () => {
       }
     expect(variants.size).toBe(4)
     expect(turns.size).toBe(4)
+  })
+})
+
+describe('ART-9 the wreck', () => {
+  it('variantOf picks in proportion to the weights and never leaves the table', () => {
+    const counts = [0, 0, 0]
+    for (let n = 0; n < 600; n++) counts[variantOf(n, [3, 2, 1])]!++
+    expect(counts).toEqual([300, 200, 100])
+    expect(variantOf(12345, [])).toBe(0)
+    expect(variantOf(7, [1])).toBe(0)
+    expect(variantOf(5, [0, 0])).toBe(0)
+  })
+  it('lights fires only in bulkheads that face the deck, apart from each other, the same every time', () => {
+    for (const m of listMissions()) {
+      const g = geoOf(m.id)
+      const w = wreckOf(m.id)
+      expect(w.fires.length, m.id).toBeGreaterThanOrEqual(3)
+      expect(w.fires.length, m.id).toBeLessThanOrEqual(FIRE_MAX)
+      for (const [x, y] of w.fires) {
+        expect(g.terrain[y]?.[x], `${m.id} ${x},${y}`).toBe('wall')
+        const open = [[0, -1], [1, 0], [0, 1], [-1, 0]].filter(([dx, dy]) => (g.terrain[y + dy!]?.[x + dx!] ?? 'wall') !== 'wall')
+        expect(open.length, `${m.id} ${x},${y}`).toBeGreaterThanOrEqual(1)
+        for (const [dx, dy] of open) expect(g.terrain[y + dy!]?.[x + dx!], 'not beside the airlock').not.toBe('airlock')
+      }
+      for (const a of w.fires) for (const b of w.fires) if (a !== b) expect(Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]))).toBeGreaterThanOrEqual(FIRE_GAP)
+      expect(wreckOf(m.id)).toBe(w)
+    }
+  })
+  it('dresses plain floor only, at about the stated share', () => {
+    const share = Object.values(DRESS_SHARE).reduce((a, b) => a + b, 0) / 100
+    for (const m of listMissions()) {
+      const g = geoOf(m.id)
+      const w = wreckOf(m.id)
+      let plain = 0
+      for (let y = 0; y < g.h; y++) for (let x = 0; x < g.w; x++) if (g.terrain[y]?.[x] === 'floor') plain++
+      for (const d of w.dress) expect(g.terrain[d.at[1]]?.[d.at[0]], `${m.id} ${d.at}`).toBe('floor')
+      expect(new Set(w.dress.map((d) => d.at.join(','))).size).toBe(w.dress.length)
+      expect(w.dress.length / plain).toBeGreaterThan(share * 0.5)
+      expect(w.dress.length / plain).toBeLessThan(share * 1.6)
+      expect(new Set(w.dress.map((d) => d.kind)).size).toBeGreaterThanOrEqual(3)
+    }
   })
 })
 
@@ -148,8 +198,11 @@ describe('ART-8 the Flux tooling', () => {
     expect(planArt(assets, { only: new Set(['scorch-mark']) }, none).map((im) => im.id)).toEqual(['scorch-mark'])
     expect(planArt(assets, { kind: 'decal' }, none).every((im) => im.kind === 'decal')).toBe(true)
   })
-  it('publishes each kind its own way: grey levelled textures, colour stills, decals with alpha from darkness', () => {
-    expect(publishRecipe(image('deck-plate-a'))).toMatchObject({ width: 512, height: 512, grey: true, normalise: true, mean: TEXTURE_MEAN, alphaFromDarkness: false })
+  it('publishes each kind its own way: levelled colour textures, stills as they are, decals with alpha from darkness', () => {
+    expect(publishRecipe(image('deck-plate-a'))).toMatchObject({ width: 512, height: 512, grey: false, mean: TEXTURE_MEAN, recomb: STEEL_RECOMB, alphaFromDarkness: false })
+    // the burning breach keeps its own exposure and colour
+    expect(publishRecipe(image('wall-fire')).mean).toBeUndefined()
+    expect(publishRecipe(image('wall-fire')).recomb).toBeUndefined()
     expect(publishRecipe(image('wall-panel-a'))).toMatchObject({ width: 512, height: 768 })
     expect(publishRecipe(image('title-wreck'))).toMatchObject({ width: 1600, height: 900, grey: false, alphaFromDarkness: false })
     expect(publishRecipe(image('scorch-mark'))).toMatchObject({ grey: false, alphaFromDarkness: true })
