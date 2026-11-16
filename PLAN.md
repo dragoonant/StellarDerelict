@@ -34,6 +34,7 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 | M5 | Figures and props (GPU PC session) | done 2026-11-12: 11 GLBs (Flux klein concepts, Hunyuan 2.1 shape / 2.0 paint), all enabled; gallery gate passed |
 | M6 | Audio (GPU PC session) | done 2026-11-12: 38 effects (54 files), 7 music states, 34 voice lines from the Audio Studio, levelled and enabled; not verified by ear |
 | M8 | Audio through ElevenLabs (owner's key, one day) | done 2026-11-15: every effect, track and line regenerated with ElevenLabs (sound effects v2, Eleven Music, Eleven v3 speech with six designed voices saved to the account), two new effects (`servo-turn`, `burn-out`), the carrier lines in each Warden's own voice, a briefing narration per mission; `tools/audio/gen-eleven.mjs`; spec 60 rewritten; not verified by ear |
+| M9 | Graphics pass (GPU PC, Flux Studio) | done 2026-11-15: 28 generated images (9 board textures, 8 faces, 8 stills, 3 scar decals; spec 70, ART-1..8): textured deck, bulkheads and deckhead tinted with the state colours, scars from engine events, key art as sensor feeds on the Title, Missions, Briefing and Debrief, faces on the roster, the strip and the visor, a link-preview card, `art.html`, `tools/art/gen-art.mjs`; not yet seen by the owner |
 | M7 | Polish, more missions, playable Molt, run layer | done 2026-11-14: Cold Berth and Last Light (specs 12, 13, balance rows CB-4, LL-4), the Molt seat (spec 50 MOLT-1..5) against the utility squad AI, the boarding run (spec 10 §15, R-1..R-5), a fuller debrief tallied from events, mission-generic Warden policy, `cpSpent` event; 204 unit tests, 27 e2e |
 
 ## Open questions for the owner
@@ -42,4 +43,6 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 2. (open 2026-11-14, renewed 2026-11-15) The audio is still not verified by ear: the owner's listen on `sounds.html` to the M8
    ElevenLabs set (six designed voices were adopted from their first preview unheard), then any re-rolls with
    `node tools/audio/gen-eleven.mjs --force --only <id>` while the key lasts, or `--design`/`--adopt` for another voice.
+4. (open 2026-11-15) The M9 art has not been seen by the owner: a look at `art.html` and at the live screens, then any
+   re-rolls with `npm run art:gen -- --only <id> --reroll 1` and `--pick <id>:<n>` in a GPU PC session.
 3. (open 2026-11-14) The Molt seat, the Missions screen, the boarding run and the two new missions have only been seen in SwiftShader screenshots, not on a real GPU.

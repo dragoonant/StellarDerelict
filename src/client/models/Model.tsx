@@ -5,9 +5,19 @@ import { Suspense, use, useEffect, useMemo, useSyncExternalStore, type ReactNode
 import { Color, Mesh, MeshStandardMaterial, type Material, type Object3D } from 'three'
 import { tokens } from '../tokens'
 import { modelStore, type ModelSnapshot, type ModelStore } from './store'
+import { artStore } from '../art/store'
 
 export function useModelProgress(): ModelSnapshot {
   return useSyncExternalStore(modelStore.subscribe, modelStore.snapshot)
+}
+
+/** Models and board textures together (KB rule 26: the start buttons wait for both, and say what they wait for). */
+export function useLoadProgress(): { ready: boolean; label: string } {
+  const m = useSyncExternalStore(modelStore.subscribe, modelStore.snapshot)
+  const a = useSyncExternalStore(artStore.subscribe, artStore.snapshot)
+  if (!m.ready) return { ready: false, label: `Loading models ${m.loaded}/${m.total}` }
+  if (!a.ready) return { ready: false, label: `Loading deck art ${a.loaded}/${a.total}` }
+  return { ready: true, label: '' }
 }
 
 function Instance({ store, slug, tint, children }: { store: ModelStore; slug: string; tint: boolean; children: ReactNode }) {

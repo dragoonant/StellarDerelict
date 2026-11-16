@@ -5,7 +5,8 @@ Credit the owner as **evilgouki**; never write a real name, email or home path a
 
 - **Read first:** `PLAN.md` (decisions D1–D8, do not re-ask), `STATUS.md` (current state), then only the spec a task needs:
   `docs/spec/00-architecture.md` (frozen contracts), `10-rules.md` (rules with ids and constants; §15 the boarding run),
-  `11-mission-dead-reckoning.md`, `12-mission-cold-berth.md`, `13-mission-last-light.md`, `40-ai.md`, `50-presentation.md`.
+  `11-mission-dead-reckoning.md`, `12-mission-cold-berth.md`, `13-mission-last-light.md`, `40-ai.md`, `50-presentation.md`,
+  `60-audio.md`, `70-art.md` (generated textures, faces, key art and scars; ids ART-n).
 - **Knowledge base:** `docs/knowledge-base/` (submodule; `git submodule update --init`). `rules.md` holds the owner's
   standing rules 1–27; `gotchas.md` the cross-project traps. Apply them without re-asking.
 - **This is an original game.** No names, designs, missions, art or rules text from any published game.
@@ -25,6 +26,7 @@ Credit the owner as **evilgouki**; never write a real name, email or home path a
 | `npm run validate:data` | Mission and rules data checks |
 | `npm run sim -- --games 1000` | Scripted self-play with invariants; prints the balance table (`--mission`, `--roster a,b`, `--override '<json>'`, `--override-file`) |
 | `npm run bench:ai` | AI gate (M4) |
+| `npm run art:gen -- --dry-run` | 2D art through the local Flux Studio from `src/data/assets.json` `images[]` (GPU PC only; `--only`, `--kind`, `--reroll`, `--pick id:n`, `--publish`, `--sheets`); review on `art.html` |
 | `npm run audio:eleven -- --dry-run` | Audio through ElevenLabs from `src/data/assets.json` (`ELEVENLABS_API_KEY` in the environment, never in a file; `--only`, `--force`, `--budget`, `--design`, `--adopt`, `--enable`); then `npm run audio:measure` |
 
 Gates before every push: typecheck, test, validate:data, sim (0 violations), e2e, build.

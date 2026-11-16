@@ -38,22 +38,23 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
 ## Screens
 
 - **Title.** Black field; a slow radar sweep (CSS conic gradient, 8 s) over a faint line drawing of the picked mission's
-  map (generated from the mission grid, not an image). Wordmark `STELLAR DERELICT` in spaced caps with a thin scanline
+  map (generated from the mission grid, not an image), and behind both the still of the wreck as a feed (spec 70 ART-4). Wordmark `STELLAR DERELICT` in spaced caps with a thin scanline
   flicker. Menu as a plain instrument list, left-aligned at the lower left: `CONTINUE` (only when a save exists; it names
   what it reopens, KB rule 22: mission, run progress, round, phase, Wardens alive, where the item is, which side you play,
   difficulty, when), `CONTINUE THE BOARDING RUN` (a run parked between missions: missions done, Wardens left, the next
   cut), `BOARDING RUN` (spec 10 §15), `SINGLE MISSION` (the Missions screen), `HOW TO PLAY`, `SETTINGS`. Footer line:
   "An original game by evilgouki". Starting either kind of game over a save asks once (Replace it / Keep it).
-- **Missions** (M7). One card per mission in run order: number, name, a line drawing of its deck, size, rounds and
-  arrival rates, and its objective in the mission's own words. A `PLAY AS` choice (Wardens / Molt) with one line on what
+- **Missions** (M7). One card per mission in run order: number, name, its still (spec 70), a line drawing of its deck,
+  size, rounds and arrival rates, and its objective in the mission's own words. A `PLAY AS` choice (Wardens / Molt) with one line on what
   the seat means. `BRIEF` opens the Briefing of the picked mission; `BACK`.
-- **Briefing.** The mission's brief text typed out as a transmission, and read aloud once by the comms officer when the
+- **Briefing.** The mission's still as a captioned feed and a face on every roster card (spec 70 ART-4, ART-5). The
+  mission's brief text typed out as a transmission, and read aloud once by the comms officer when the
   screen opens (spec 60 AUD-11; leaving the screen cuts the line); the squad roster as trace cards (in a run, only the
   survivors who board, with a line on missions done and plating patched); the objective line in the mission's words (for
   the Molt seat, inverted: no Warden leaves with the item); timer setting and Difficulty for the Warden seat, a note on the
   squad AI for the Molt seat; `CUT IN` (`LET THEM IN` on the Molt seat) starts the mission; `BACK` (`ABANDON THE RUN` in a run).
 - **Mission.** Full-screen 3D board with the HUD around it (below).
-- **Debrief** (M7, fuller). Headline in the mission's words: `<ITEM> RECOVERED` or `SIGNAL LOST` for the Wardens, `THE
+- **Debrief** (M7, fuller; M9: the still of the ending and a face on every Warden card, spec 70). Headline in the mission's words: `<ITEM> RECOVERED` or `SIGNAL LOST` for the Wardens, `THE
   HULL KEEPS ITS OWN` or `PREY ESCAPED` for the Molt; why it ended; the run line when in a run (missions done and who
   boards the next cut, or how the run ended); a stats table (mission, rounds, Wardens alive, Molt destroyed with the
   purge's share, repeater shots and hits, contacts resolved and how many were exposed by sight, command points spent,
@@ -63,7 +64,9 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
 
 ## The board (React Three Fiber, one persistent `<Canvas>` for the session)
 
-- **Deck.** Floor squares are dark plates with 1 px teal edge lines. Three brightness states, all open information:
+- **Deck.** (M9: plates, bulkheads, deckhead, door leaves and duct grates carry generated greyscale textures tinted with
+  the colours below, and the fight leaves scars on the plates: spec 70 ART-3, ART-6. Without the art it is as written here.)
+  Floor squares are dark plates with 1 px teal edge lines. Three brightness states, all open information:
   *seen now* (any Warden sees it, G-7): filled faint `--scan` with a bright edge; *mapped* (not seen now): `--scan-dim`
   edge only; walls are low dark extrusions (0.6 of a square high) with a `--trace` top edge so corridors read as
   channels and never hide a tile. The seen area is the player's read of LOS and of where pings cannot go.
@@ -101,7 +104,7 @@ on focus panels. Lines are 1 px. Motion is instrument-like: sweeps, pings, blink
   mission data: "Unseal the archive at the archive lock terminal", "Take the navigation core from the archive console",
   "Carry the manifest drive to the west airlock"; on the Molt seat, the arrival prompt or "Stop the carrier before the
   forward airlock").
-- **Squad strip** (bottom): one trace card per Warden, about 150 × 64: name and role, a scrolling heartbeat trace
+- **Squad strip** (bottom): one trace card per Warden, about 150 × 64: name and role, its face in the corner (spec 70 ART-5), a scrolling heartbeat trace
   (flat line when destroyed), AP pips, heat bar with the lock mark, plating state (`INTACT` / `BREACHED` in `--alarm`),
   watch and carrier marks. Tapping a card selects that Warden and centres the camera.
 - **Action bar** (above the strip, for the selected Warden): one button per action type that is currently legal, each

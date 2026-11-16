@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import type { Action, Pos, Seat, Setup, State, View } from '../engine'
 import type { Tier } from '../ai/tiers'
 import type { RunState } from './run'
+import type { Scar } from './board/scars'
 
 export type Screen = 'title' | 'missions' | 'briefing' | 'mission' | 'debrief'
 export type Speed = 'normal' | 'fast' | 'instant'
@@ -83,6 +84,8 @@ export interface GameStore {
   /** the side the person plays in the live mission (spec 50 "The Molt seat") */
   seat: Seat
   fx: Fx[]
+  /** marks the fight has left on the deck (spec 70 ART-6); presentation only, not saved */
+  scars: Scar[]
   animating: boolean
   log: LogLine[]
   kills: number
@@ -125,6 +128,7 @@ export const useStore = create<GameStore>(() => ({
   presented: null,
   seat: 'warden',
   fx: [],
+  scars: [],
   animating: false,
   log: [],
   kills: 0,

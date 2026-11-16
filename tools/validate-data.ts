@@ -137,6 +137,44 @@ const SPEC_SLUGS = ['warden-sergeant', 'warden-rifle-a', 'warden-rifle-b', 'ward
 const MUSIC_STATES = ['calm', 'tense', 'battle', 'alarm', 'victory', 'defeat', 'title']
 const PUBLIC = new URL('../public/assets/', import.meta.url)
 
+/** Spec 70 ART-1 and ART-2: the generated 2D art. */
+function checkImages(e: (msg: string) => void, onDisk: (file: string, what: string, enabled: boolean) => void): void {
+  const KINDS = ['texture', 'portrait', 'plate', 'decal']
+  const ASPECTS = ['1:1', '3:2', '2:3', '4:3', '3:4', '16:9', '9:16', '21:9']
+  const squad = (getMission('dead-reckoning')?.squad ?? []).map((u) => u.id)
+  const missionIds = listMissions().map((m) => m.id)
+  if (assets.art?.provider !== 'flux-studio' || !assets.art.model || !(assets.art.candidates >= 1)) e('art provider block is malformed')
+  const ids = new Set<string>()
+  const uses = new Set<string>()
+  for (const im of assets.images ?? []) {
+    if (ids.has(im.id)) e(`duplicate image ${im.id}`)
+    ids.add(im.id)
+    if (!KINDS.includes(im.kind)) e(`image ${im.id} has unknown kind ${im.kind}`)
+    if (im.file !== `art/${im.id}.webp`) e(`image ${im.id} file must be art/${im.id}.webp`)
+    if (!ASPECTS.includes(im.aspect)) e(`image ${im.id} has unknown aspect ${im.aspect}`)
+    if (!Array.isArray(im.size) || im.size.length !== 2 || !im.size.every((n) => Number.isInteger(n) && n >= 64 && n <= 2048)) e(`image ${im.id} needs a size of two whole numbers from 64 to 2048`)
+    if (!im.prompt || im.prompt.length < 40) e(`image ${im.id} has no prompt`)
+    if (typeof im.enabled !== 'boolean') e(`image ${im.id} needs a boolean enabled`)
+    if (!/^(floor|wall|ceiling|door|duct|title|unit:[a-z]+|model:[a-z-]+|mission:[a-z-]+|debrief:(warden|molt)-(win|loss)|scar:(burn|kill))$/.test(im.use)) e(`image ${im.id} has unknown use ${im.use}`)
+    if (im.kind === 'portrait') {
+      if (!im.ref || !assets.models.some((m) => m.slug === im.ref)) e(`portrait ${im.id} needs a ref naming a model`)
+    } else if (im.ref !== undefined) e(`image ${im.id}: only portraits take a ref`)
+    if (im.kind === 'texture' && !['floor', 'wall', 'ceiling', 'door', 'duct'].includes(im.use)) e(`texture ${im.id} must be used on a board surface`)
+    if (im.kind === 'decal' && !im.use.startsWith('scar:')) e(`decal ${im.id} must be a scar`)
+    if (im.enabled && (!Number.isInteger(im.pick) || !Number.isInteger(im.seed))) e(`image ${im.id} is enabled without a recorded pick and seed`)
+    if (im.use.startsWith('unit:') && !squad.includes(im.use.slice(5))) e(`image ${im.id} names an unknown squad member`)
+    if (im.use.startsWith('model:') && !assets.models.some((m) => m.slug === im.use.slice(6))) e(`image ${im.id} names an unknown model`)
+    if (im.use.startsWith('mission:') && !missionIds.includes(im.use.slice(8))) e(`image ${im.id} names an unknown mission`)
+    onDisk(im.file, `image ${im.id}`, im.enabled)
+    uses.add(im.use)
+  }
+  const need = ['floor', 'wall', 'ceiling', 'door', 'duct', 'title', 'scar:burn', 'scar:kill', 'debrief:warden-win', 'debrief:warden-loss', 'debrief:molt-win', 'debrief:molt-loss']
+  for (const w of squad) need.push(`unit:${w}`)
+  for (const m of assets.models) if (m.kind === 'stalker') need.push(`model:${m.slug}`)
+  for (const id of missionIds) need.push(`mission:${id}`)
+  for (const u of need) if (!uses.has(u)) e(`no image for ${u}`)
+}
+
 function checkAssets(): void {
   const e = (msg: string): void => err('assets', msg)
   const onDisk = (file: string, what: string, enabled: boolean): void => {
@@ -155,6 +193,7 @@ function checkAssets(): void {
     onDisk(m.file, `model ${m.slug}`, m.enabled)
   }
   for (const s of SPEC_SLUGS) if (!seen.has(s)) e(`model ${s} from spec 30 is missing`)
+  checkImages(e, onDisk)
   const ids = new Set<string>()
   for (const s of assets.sounds) {
     if (ids.has(s.id)) e(`duplicate sound ${s.id}`)

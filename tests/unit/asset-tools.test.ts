@@ -130,9 +130,11 @@ describe('AUD-8 audio generator plan', () => {
 describe('AUD-12 ElevenLabs generator', () => {
   const sound = (id: string) => assets.sounds.find((s) => s.id === id)!
   it('builds one sound-effect request per file, within the model limits of 0.5-30 s, looping the ambience', () => {
-    const r = sfxRequest(sound('repeater-shot'))
+    const r = sfxRequest(sound('repeater-lock'))
     expect(r.route).toMatch(/^\/v1\/sound-generation\?output_format=mp3_44100_128$/)
     expect(r.body).toMatchObject({ duration_seconds: 1.5, prompt_influence: 0.4, model_id: 'eleven_text_to_sound_v2' })
+    // the repeater shot states its own influence (its prompt was reworded after two near-silent takes, spec 60)
+    expect(sfxRequest(sound('repeater-shot')).body).toMatchObject({ duration_seconds: 1.5, prompt_influence: 0.6 })
     expect('loop' in r.body).toBe(false)
     expect(sfxRequest(sound('ambience')).body).toMatchObject({ loop: true, duration_seconds: 30 })
     expect(sfxRequest({ ...sound('ui-select'), seconds: 0.2 }).body.duration_seconds).toBe(0.5)

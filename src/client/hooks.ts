@@ -8,6 +8,7 @@ import { activeBot, botIdle, dispatchHuman, MISSION_ID, setSpeed, wardenSuggesti
 import type { RunState } from './run'
 import { botInfo } from './moltBot'
 import { modelStore } from './models/store'
+import { artStore } from './art/store'
 import { audioEngine } from './audio/engine'
 import { getStore, type Speed } from './store'
 
@@ -30,6 +31,8 @@ export interface SdHooks {
   idle(): Promise<void>
   /** generated models: which are enabled, load progress, failures, and how many of each are in the scene */
   models(): { enabled: string[]; loaded: number; total: number; failed: string[]; mounted: Record<string, number> }
+  /** generated 2D art (spec 70): enabled image ids, board textures loaded, failures, and the marks on the deck */
+  art(): { enabled: string[]; loaded: number; total: number; failed: string[]; scars: { kind: string; at: number[] }[] }
   /** audio: whether anything is enabled, ids played so far, files that failed to load */
   audio(): { enabled: boolean; played: string[]; failed: string[] }
   /** visor mode: on in the store, the camera blend (0 map, 1 visor), whose eyes, and the target the reticle has locked */
@@ -69,6 +72,10 @@ export function installHooks(): void {
     models: () => {
       const s = modelStore.snapshot()
       return { enabled: modelStore.enabledSlugs(), loaded: s.loaded, total: s.total, failed: s.failed.map((f) => f.slug), mounted: modelStore.mountedCounts() }
+    },
+    art: () => {
+      const a = artStore.snapshot()
+      return { enabled: artStore.enabledIds(), loaded: a.loaded, total: a.total, failed: a.failed.map((f) => f.id), scars: getStore().scars.map((c) => ({ kind: c.kind, at: [...c.at] })) }
     },
     audio: () => ({ enabled: audioEngine.anyEnabled(), played: [...audioEngine.played], failed: audioEngine.failures() }),
     visor: () => ({ on: getStore().visor, blend: visorRt.blend, unit: visorRt.unit, lock: visorRt.lock, look: { ...visorRt.look } }),

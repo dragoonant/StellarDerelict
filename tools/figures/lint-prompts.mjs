@@ -1,4 +1,4 @@
-// Prompt lint (KB rule 23 and the spec 30 brand ban). Fails on any banned word in any models[].prompt.
+// Prompt lint (KB rule 23 and the spec 30 brand ban). Fails on any banned word in any models[].prompt or images[].prompt.
 // The banned list lives only here, assembled from fragments so a repo-wide grep for the words stays clean.
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -52,6 +52,7 @@ export function lintPrompt(text) {
 export function lintManifest(manifest) {
   const bad = []
   for (const m of manifest.models) for (const word of lintPrompt(m.prompt)) bad.push({ slug: m.slug, word })
+  for (const im of manifest.images ?? []) for (const word of lintPrompt(im.prompt)) bad.push({ slug: im.id, word })
   return bad
 }
 
@@ -67,5 +68,5 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     for (const b of bad) console.error(`FAIL ${b.slug}: banned word "${b.word}"`)
     process.exit(1)
   }
-  console.log(`prompts ok: ${manifest.models.length} model prompt(s) clean`)
+  console.log(`prompts ok: ${manifest.models.length} model prompt(s) and ${(manifest.images ?? []).length} image prompt(s) clean`)
 }

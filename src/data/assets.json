@@ -108,6 +108,441 @@
       "prompt": "a short armoured data cylinder with a carry handle and a teal light band, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 2k triangles"
     }
   ],
+  "art": {
+    "provider": "flux-studio",
+    "model": "klein",
+    "candidates": 4
+  },
+  "images": [
+    {
+      "id": "deck-plate-a",
+      "kind": "texture",
+      "file": "art/deck-plate-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "prompt": "a top-down orthographic photograph of one square steel deck plate of a starship floor filling the whole frame edge to edge: a worn dark gunmetal floor panel with a narrow bevelled border, a fine raised diamond tread pattern across the whole centre, a countersunk bolt in each corner, light scratches and scuffs, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1206544536
+    },
+    {
+      "id": "deck-plate-b",
+      "kind": "texture",
+      "file": "art/deck-plate-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "prompt": "a top-down orthographic photograph of one square steel deck plate of a starship floor filling the whole frame edge to edge: a worn dark gunmetal floor panel with a narrow bevelled border, a square inspection hatch with a recessed pull ring in the centre, rows of small rivets, boot scuffs and a faint oil stain, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1223322155
+    },
+    {
+      "id": "deck-plate-c",
+      "kind": "texture",
+      "file": "art/deck-plate-c.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "prompt": "a top-down orthographic photograph of one square steel deck plate of a starship floor filling the whole frame edge to edge: a worn dark gunmetal floor panel with a narrow bevelled border, two long recessed cable trench covers running side by side with slotted screws, a strip of raised tread between them, scratches and wear, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1240099774
+    },
+    {
+      "id": "deck-plate-d",
+      "kind": "texture",
+      "file": "art/deck-plate-d.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "prompt": "a top-down orthographic photograph of one square steel deck plate of a starship floor filling the whole frame edge to edge: a worn dark gunmetal floor panel with a narrow bevelled border, four smaller pressed panels with ribbed centres, a round magnetic tie-down point in the middle, dents, scratches and grime in the seams, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1122656441
+    },
+    {
+      "id": "wall-panel-a",
+      "kind": "texture",
+      "file": "art/wall-panel-a.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "prompt": "a front-on orthographic photograph of one tall section of a starship corridor bulkhead wall filling the whole frame edge to edge: dark gunmetal pressed-steel wall panels with vertical ribs, a horizontal conduit run with clamps at mid height, a heavy kick plate along the bottom, rivet lines, grime streaks running down from the seams, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1545187025
+    },
+    {
+      "id": "wall-panel-b",
+      "kind": "texture",
+      "file": "art/wall-panel-b.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "prompt": "a front-on orthographic photograph of one tall section of a starship corridor bulkhead wall filling the whole frame edge to edge: dark gunmetal wall panels around a recessed equipment bay with a closed access hatch and two round gauges with blank faces, thick pipes running vertically along one side, a heavy kick plate along the bottom, scratches and grime, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1595519882
+    },
+    {
+      "id": "deckhead",
+      "kind": "texture",
+      "file": "art/deckhead.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "ceiling",
+      "prompt": "an orthographic photograph looking straight up at one square section of a starship corridor ceiling filling the whole frame edge to edge: dark gunmetal ceiling panels, a cable tray with bundled cables down the middle, two pipes with flanged joints, one dead rectangular light fitting with a cracked diffuser, dust, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 3,
+      "seed": 839844283
+    },
+    {
+      "id": "door-leaf",
+      "kind": "texture",
+      "file": "art/door-leaf.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "door",
+      "prompt": "a front-on orthographic photograph of one square leaf of a heavy sliding starship bulkhead door filling the whole frame edge to edge: thick pale grey steel with two diagonal reinforcing bars, a row of large bolts down each side, a recessed hand grip, chipped paint and scratches, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1469760565
+    },
+    {
+      "id": "duct-grille",
+      "kind": "texture",
+      "file": "art/duct-grille.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "duct",
+      "prompt": "a top-down orthographic photograph of one square floor ventilation grate of a starship filling the whole frame edge to edge: a heavy pale grey steel frame with thick parallel slats over a black shaft, a bolt in each corner, the slats bent apart near the middle, flat even lighting with no cast shadows and no perspective, sharp focus, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 3,
+      "seed": 1693258531
+    },
+    {
+      "id": "portrait-venn",
+      "kind": "portrait",
+      "file": "art/portrait-venn.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:venn",
+      "ref": "warden-sergeant",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; a raised ridge along the helmet crown, the left pauldron painted teal, the long haft of a shock maul resting on the right shoulder",
+      "pick": 2,
+      "seed": 1475713473
+    },
+    {
+      "id": "portrait-brandt",
+      "kind": "portrait",
+      "file": "art/portrait-brandt.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:brandt",
+      "ref": "warden-rifle-a",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; the boxy heat shroud of a twin-barrel repeater held upright beside the helmet",
+      "pick": 4,
+      "seed": 1876329719
+    },
+    {
+      "id": "portrait-okafor",
+      "kind": "portrait",
+      "file": "art/portrait-okafor.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:okafor",
+      "ref": "warden-rifle-b",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; turned to the right instead and looking back over the shoulder, a twin-barrel repeater lowered across the chest",
+      "pick": 3,
+      "seed": 563805481
+    },
+    {
+      "id": "portrait-riedel",
+      "kind": "portrait",
+      "file": "art/portrait-riedel.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:riedel",
+      "ref": "warden-scorcher",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; a fat fuel cylinder and a braided hose behind the left shoulder, soot across the chest plate, the blackened flared muzzle of a scorcher at the bottom of the frame",
+      "pick": 2,
+      "seed": 215835445
+    },
+    {
+      "id": "portrait-sato",
+      "kind": "portrait",
+      "file": "art/portrait-sato.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:sato",
+      "ref": "warden-tech",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; a short antenna mast and a cable reel on the pack, a folding interface arm with a data spike raised on the left forearm",
+      "pick": 2,
+      "seed": 970448569
+    },
+    {
+      "id": "portrait-stalker-a",
+      "kind": "portrait",
+      "file": "art/portrait-stalker-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "model:stalker-a",
+      "ref": "stalker-a",
+      "prompt": "Use the attached photo as the reference for the animal. A close-up of the head and raised forelimbs of the same alien predator in mid-moult: the same wedge-shaped eyeless skull with a split lower jaw and needle teeth, dark red-black new chitin showing through flaking pale old shell, coming out of the darkness of a derelict starship corridor straight at the camera, lit from below by one dim red emergency light, wet highlights on the new chitin, shallow depth of field, a still from a helmet camera, wordless",
+      "pick": 2,
+      "seed": 1033128202
+    },
+    {
+      "id": "portrait-stalker-b",
+      "kind": "portrait",
+      "file": "art/portrait-stalker-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "model:stalker-b",
+      "ref": "stalker-b",
+      "prompt": "Use the attached photo as the reference for the animal. A close-up of the head and raised forelimbs of the same alien predator in mid-moult: the same wedge-shaped eyeless skull with a split lower jaw and needle teeth, dark red-black new chitin showing through flaking pale old shell, coming out of the darkness of a derelict starship corridor straight at the camera, lit from below by one dim red emergency light, wet highlights on the new chitin, shallow depth of field, a still from a helmet camera, wordless, the head low and turned to one side, one scything forelimb reaching forward",
+      "pick": 3,
+      "seed": 982795345
+    },
+    {
+      "id": "portrait-stalker-c",
+      "kind": "portrait",
+      "file": "art/portrait-stalker-c.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "model:stalker-c",
+      "ref": "stalker-c",
+      "prompt": "Use the attached photo as the reference for the animal. A close-up of the head and raised forelimbs of the same alien predator in mid-moult: the same wedge-shaped eyeless skull with a split lower jaw and needle teeth, dark red-black new chitin showing through flaking pale old shell, coming out of the darkness of a derelict starship corridor straight at the camera, lit from below by one dim red emergency light, wet highlights on the new chitin, shallow depth of field, a still from a helmet camera, wordless, the split jaw wide open",
+      "pick": 4,
+      "seed": 999572964
+    },
+    {
+      "id": "title-wreck",
+      "kind": "plate",
+      "file": "art/title-wreck.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1600,
+        900
+      ],
+      "use": "title",
+      "prompt": "a vast dead starship drifting in deep space, seen from far off its aft quarter: a long dark industrial hull of slab-sided modules, gantries and sensor masts, eleven years dead, some hull plates missing, no engine glow and no lit windows, a thin rim of cold starlight along its upper edge, sparse faint stars, black void filling the left third of the frame, a very small boarding craft with a teal thruster glow closing on an airlock near the stern, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 1116139403
+    },
+    {
+      "id": "mission-dead-reckoning",
+      "kind": "plate",
+      "file": "art/mission-dead-reckoning.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "mission:dead-reckoning",
+      "prompt": "the dead archive room of a derelict starship: tall rows of dark data stacks receding into darkness on both sides, one upright console in the centre holding a softly glowing teal cylindrical core in steel clamps, frost and dust on every surface, cables hanging from the ceiling, the pale beam of a helmet lamp cutting through drifting dust from the doorway in the foreground, one small amber warning light, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 3,
+      "seed": 1307579458
+    },
+    {
+      "id": "mission-cold-berth",
+      "kind": "plate",
+      "file": "art/mission-cold-berth.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "mission:cold-berth",
+      "prompt": "the berth deck of a derelict starship: a long narrow lane between blocks of sealed sleeper berths stacked two high, frosted glass hatches in steel frames, a few hatches hanging open on empty berths, pale translucent shed husks stuck to the floor grating, a sealed bulkhead door at the far end with one amber lock light, the pale beam of a helmet lamp through cold mist, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 4,
+      "seed": 554426087
+    },
+    {
+      "id": "mission-last-light",
+      "kind": "plate",
+      "file": "art/mission-last-light.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "mission:last-light",
+      "prompt": "the reactor room of a derelict starship: a tall cylindrical reactor core behind heavy bulkhead frames, one last containment ring still glowing a dim amber, everything else dark, catwalks and thick coolant pipes, a small armoured black recorder box on a pedestal in front of the core, dust drifting through the amber glow, deep shadows, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 1,
+      "seed": 1065496381
+    },
+    {
+      "id": "debrief-recovered",
+      "kind": "plate",
+      "file": "art/debrief-recovered.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "debrief:warden-win",
+      "prompt": "inside a starship airlock looking outward: a small squad of armoured boarding troopers in heavy bone-grey hardsuits seen from behind, walking toward the bright open outer hatch and the docking collar of a boarding craft, the one in front carrying a softly glowing teal cylinder, haze in the light, long shadows on the deck plate behind them, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 1807420427
+    },
+    {
+      "id": "debrief-lost",
+      "kind": "plate",
+      "file": "art/debrief-lost.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "debrief:warden-loss",
+      "prompt": "a bone-grey armoured helmet with a cracked dark visor band lying on its side on a steel deck plate in an empty starship corridor, its small lamp still flickering, long claw gouges in the floor beside it, darkness beyond, one dim red emergency light far down the corridor, low camera close to the deck, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 897231532
+    },
+    {
+      "id": "debrief-molt-win",
+      "kind": "plate",
+      "file": "art/debrief-molt-win.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "debrief:molt-win",
+      "prompt": "a dark starship corridor seen from a low angle: pale translucent shed husks hanging from the pipes of the ceiling, long clawed limbs half seen in the darkness at the far end, a heavy twin-barrel weapon dropped on the deck plate in the foreground, one dim red emergency light, drifting dust, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 486987087
+    },
+    {
+      "id": "debrief-molt-loss",
+      "kind": "plate",
+      "file": "art/debrief-molt-loss.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "debrief:molt-loss",
+      "prompt": "the heavy outer door of a starship airlock sealed shut, seen from inside a dark corridor: long fresh claw gouges across the steel, a small round porthole in the door showing the teal thruster glow of a craft pulling away into black space, one dim red emergency light above the frame, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 1800278704
+    },
+    {
+      "id": "scorch-mark",
+      "kind": "decal",
+      "file": "art/scorch-mark.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "scar:burn",
+      "prompt": "a large black soot burn mark on a floor, roughly round with ragged feathered edges and streaks radiating outward, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 1,
+      "seed": 1998543309
+    },
+    {
+      "id": "ichor-splat-a",
+      "kind": "decal",
+      "file": "art/ichor-splat-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "scar:kill",
+      "prompt": "a splatter of thick dark red-black fluid on a floor, an uneven central pool with thrown droplets and long streaks to one side, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 2,
+      "seed": 448277454
+    },
+    {
+      "id": "ichor-splat-b",
+      "kind": "decal",
+      "file": "art/ichor-splat-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "scar:kill",
+      "prompt": "a splatter of thick dark red-black fluid on a floor, several small pools joined by drips, with scattered pale flakes of broken shell, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 1,
+      "seed": 397944597
+    }
+  ],
   "audio": {
     "provider": "elevenlabs",
     "models": {

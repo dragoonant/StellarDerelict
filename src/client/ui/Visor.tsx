@@ -10,6 +10,7 @@ import { visorRt } from '../board/visor'
 import { bearingOf, headingOf, nearestOnScreen } from '../board/visorModel'
 import { legalOf, setVisor, wardenOf } from '../session'
 import { useStore } from '../store'
+import { Face } from './Art'
 
 interface Target {
   id: string
@@ -36,6 +37,7 @@ function Readout({ w }: { w: WardenUnit }) {
   const locked = !scorcher && w.heat >= rules.repeater.heatLock
   return (
     <div className="visor__tag">
+      <Face unit={w.id} className="visor__face" />
       <b>{w.name}</b> <span>{roles[w.role].label}</span>
       <span className="visor__ap" aria-label={`Action points ${w.ap}`}>
         <b>AP</b>

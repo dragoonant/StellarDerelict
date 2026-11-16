@@ -12,7 +12,7 @@ import { tokens } from '../tokens'
 import { CameraRig } from './CameraRig'
 import { Deck, Fixtures } from './Deck'
 import { Units } from './Figures'
-import { Effects, TileLayer } from './Layers'
+import { Effects, Scars, TileLayer } from './Layers'
 import { dimsOf, inBoard, toWorldX, toWorldZ, worldTile, type Dims } from './layout'
 import { isTap } from './gesture'
 import { geoOf } from '../../engine/grid'
@@ -169,6 +169,7 @@ function Scene() {
       <CameraRig dims={dims} home={home} />
       <Deck mission={mission} dims={dims} seen={seen} />
       <Fixtures mission={mission} dims={dims} v={v} />
+      <Scars dims={dims} />
       <Marks dims={dims} v={v} />
       <Units dims={dims} v={v} />
       <Effects dims={dims} />

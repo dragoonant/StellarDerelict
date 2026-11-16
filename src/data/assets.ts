@@ -1,5 +1,5 @@
-// The asset manifest (spec 30 and 60): generated figures, props, sounds, music and voice. Everything starts disabled or
-// absent; the game falls back to procedural figures and silence for anything not enabled or not on disk.
+// The asset manifest (specs 30, 60 and 70): generated figures, props, 2D art, sounds, music and voice. Everything starts
+// disabled or absent; the game falls back to procedural figures, flat plates and silence for anything not enabled.
 import assetsJson from './assets.json'
 import type { Role } from './types'
 
@@ -19,6 +19,35 @@ export interface ModelEntry {
   maxTris?: number
   /** the full generation prompt: shared body plus the per-figure line */
   prompt: string
+}
+
+export type ImageKind = 'texture' | 'portrait' | 'plate' | 'decal'
+
+/** One generated image (spec 70). `use` says where the client shows it; nothing reads an image that is not enabled. */
+export interface ImageEntry {
+  id: string
+  kind: ImageKind
+  /** under public/assets/ */
+  file: string
+  /** flipped on by tools/art/gen-art.mjs --pick once the file is published */
+  enabled: boolean
+  aspect: string
+  /** published width and height in pixels */
+  size: [number, number]
+  /** floor | wall | ceiling | door | duct | unit:<id> | model:<slug> | title | mission:<id> | debrief:<seat>-<win|loss> | scar:<burn|kill> */
+  use: string
+  /** portraits: the model slug whose picked concept is attached to the image-edit job */
+  ref?: string
+  /** which candidate was published, and the seed of the job that made it */
+  pick?: number
+  seed?: number
+  prompt: string
+}
+
+export interface ArtProvider {
+  provider: 'flux-studio'
+  model: string
+  candidates: number
 }
 
 /** Event types the sound map understands, plus the three non-engine sources. */
@@ -85,6 +114,8 @@ export interface AudioProvider {
 
 export interface AssetManifest {
   models: ModelEntry[]
+  art: ArtProvider
+  images: ImageEntry[]
   audio: AudioProvider
   voices: Record<string, VoiceProfile>
   sounds: SoundEntry[]
@@ -98,6 +129,20 @@ export const MODEL_SLUGS: readonly string[] = assets.models.map((m) => m.slug)
 
 export function modelEntry(slug: string): ModelEntry | undefined {
   return assets.models.find((m) => m.slug === slug)
+}
+
+/** Enabled images whose `use` is exactly `use`, in manifest order (variants of one surface share a use). */
+export function imagesFor(use: string): ImageEntry[] {
+  return assets.images.filter((im) => im.enabled && im.use === use)
+}
+
+export function imageEntry(id: string): ImageEntry | undefined {
+  return assets.images.find((im) => im.id === id)
+}
+
+/** A stable small integer for a board square, for picking a texture variant and a quarter turn. */
+export function tileHash(x: number, y: number): number {
+  return fnv1a(`${x},${y}`)
 }
 
 function fnv1a(s: string): number {

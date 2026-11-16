@@ -1,5 +1,33 @@
 # STATUS (rewritten at each stage; trust `git log` over this file)
 
+**2026-11-15: M9 graphics pass (owner: "Let's do a graphics pass too. Use evilaegis. Flux. And Gemini if needed.").**
+28 images from the local Flux Studio on the GPU PC (FLUX.2 klein; Gemini was not needed), spec `docs/spec/70-art.md`
+(ART-1..8), about 1 MB shipped under `public/assets/art/`:
+
+- **The board.** Four deck plates, two bulkhead panels, a deckhead, a door leaf and a duct grate as greyscale textures
+  tinted with the same state colours as before (seen is still the bright plate; sealed, torn and purged keep their
+  colours), a plate texture on the wall tops, a vignette. A square keeps its plate and quarter turn (`tileHash`). The
+  visor now looks down a panelled corridor instead of flat faces. **Scars**: a splash where a stalker is destroyed, a burn
+  mark where a fire burns out, tallied from engine events (`src/client/board/scars.ts`), not saved.
+- **The screens.** The wreck behind the title sweep; a still on each mission card, on the Briefing (`LAST SURVEY STILL //
+  <place>`) and on the Debrief (one per ending and seat), each framed as a sensor feed; faces on the roster, the Debrief
+  cards (grey for the lost), the squad strip, the visor tag and the Molt seat's stalker cards. Each Warden's face is an
+  image edit of the concept its figure was built from.
+- **Plumbing.** `tools/art/gen-art.mjs` (`npm run art:gen`: dry run, `--reroll`, `--pick id:n` publishes and records pick
+  and seed, `--publish`, `--sheets`); candidates stay in `tools/out/art/` (gitignored). The start buttons wait for the deck
+  textures (`Loading deck art n/m`, KB rule 26); `?art=none`; `window.__sd.art()`; `art.html` for the owner's look;
+  `public/og.jpg` link-preview card and its meta tags. Validator and prompt lint cover `images[]`.
+- **Found on the way.** On screens taller than the window the Briefing's rows shrank to their `min-height` and the brief
+  ran into the objective line (phones, since M3): `grid-auto-rows: max-content`. A percentage-width `aspect-ratio` box is
+  mis-sized as a grid item; the feeds take their height from padding instead.
+- **Measured.** 28 jobs, 112 candidates, about 12 minutes of GPU (16 s per four at 1 MP, 26 s at 2 MP or for an image
+  edit); no failures, no re-rolls. Flux Studio was started for the batch and stopped after it.
+- **Gates:** typecheck, 234 unit tests (`tests/unit/art.test.ts` new), data validation, sim (300 games, 0 violations), 31 e2e tests
+  (`tests/e2e/art.spec.ts` new), build. Looked at on the real GPU (RTX 5080, headless Chromium on D3D11) at 1600 x 900,
+  844 x 390 and 390 x 844.
+- **Not verified:** the owner has not seen any of it (`art.html`, then the live screens); the audio is still not verified
+  by ear.
+
 **2026-11-15: M8 audio through ElevenLabs (owner's one-day key).** Every effect, track and voice line regenerated
 with ElevenLabs: sound effects v2 (one take per file, 61 files; the ambience as a 30 s `loop`), Eleven Music (seven
 instrumental states at the spec lengths), Eleven v3 speech with **six designed voices** saved to the account as

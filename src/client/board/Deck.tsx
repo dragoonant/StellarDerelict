@@ -1,17 +1,31 @@
 // The static deck: floor plates (instanced, three brightness states), wall extrusions (instanced), edge lines and the
 // fixtures (doors, terminals, console, ducts). Nothing here has a pointer handler (KB rule 25).
+// Spec 70: the plates, bulkheads, deckhead, door leaves and duct grilles carry generated greyscale textures, tinted with the
+// same state colours as before (a seen plate is still the bright one), and fall back to flat colour without them.
 import { useFrame } from '@react-three/fiber'
-import { useLayoutEffect, useMemo, useRef } from 'react'
-import type { Group, LineBasicMaterial, LineSegments, MeshBasicMaterial } from 'three'
+import { useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react'
+import type { Group, LineBasicMaterial, LineSegments, MeshBasicMaterial, Texture } from 'three'
 import { BoxGeometry, BufferAttribute, BufferGeometry, Color, InstancedMesh, Matrix4, Mesh, PlaneGeometry } from 'three'
 import { geoOf } from '../../engine/grid'
 import type { View } from '../../engine'
+import { tileHash } from '../../data'
+import { artStore, whiteTexture } from '../art/store'
 import { ModelFigure } from '../models/Model'
 import { getStore } from '../store'
 import { tokens } from '../tokens'
 import { WALL_H, toWorldX, toWorldZ, type Dims } from './layout'
 import { visorRt } from './visor'
 import { ease, VISOR_WALL_H } from './visorModel'
+
+/** Loaded board textures for one surface (spec 70); re-renders when the art store settles. Empty means flat colour. */
+export function useBoardTextures(use: string): Texture[] {
+  const snap = useSyncExternalStore(artStore.subscribe, artStore.snapshot)
+  return useMemo(() => artStore.textures(use), [use, snap])
+}
+
+/** A greyscale texture multiplies the tint, so textured surfaces get this much more tint to land at the flat colour's level. */
+const TEX_GAIN = { floor: 2.1, wall: 2.1, ceiling: 2.1, door: 1.7, duct: 1.1 }
+const scaled = (c: Color, k: number): Color => c.clone().multiplyScalar(k)
 
 /** How much taller walls (and door leaves) stand in the visor: the map's low walls would let a Warden see over every bulkhead. */
 export const visorRise = (): number => 1 + ease(visorRt.blend) * (VISOR_WALL_H / WALL_H - 1)
@@ -21,6 +35,9 @@ const C = {
   mapped: new Color(tokens.deck).lerp(new Color(tokens.scanDim), 0.45),
   wall: new Color(tokens.void).lerp(new Color(tokens.trace), 0.1),
   wallVisor: new Color(tokens.void).lerp(new Color(tokens.trace), 0.55),
+  // textured bulkhead faces: a faint read on the map, a clear one from inside the corridor
+  side: new Color(tokens.void).lerp(new Color(tokens.trace), 0.5),
+  sideVisor: new Color(tokens.deck).lerp(new Color(tokens.scanDim), 0.8),
   ceiling: new Color(tokens.void).lerp(new Color(tokens.trace), 0.18),
   lineSeen: new Color(tokens.scan),
   lineMapped: new Color(tokens.scanDim),
@@ -44,32 +61,61 @@ export function Deck({ mission, dims, seen }: { mission: string; dims: Dims; see
     return { floors, walls }
   }, [g])
 
-  const floorRef = useRef<InstancedMesh>(null)
-  const wallRef = useRef<InstancedMesh>(null)
+  const floorTex = useBoardTextures('floor')
+  const wallTex = useBoardTextures('wall')
+  const ceilTex = useBoardTextures('ceiling')
+  // one instanced mesh per texture variant: a square keeps its plate (and its quarter turn) for the whole mission
+  const floorSets = useMemo(() => {
+    const n = Math.max(1, floorTex.length)
+    const sets: [number, number][][] = Array.from({ length: n }, () => [])
+    for (const p of floors) (sets[tileHash(p[0], p[1]) % n] as [number, number][]).push(p)
+    return sets
+  }, [floors, floorTex.length])
+  const wallSets = useMemo(() => {
+    const n = Math.max(1, wallTex.length)
+    const sets: [number, number][][] = Array.from({ length: n }, () => [])
+    for (const p of walls) (sets[tileHash(p[0], p[1]) % n] as [number, number][]).push(p)
+    return sets
+  }, [walls, wallTex.length])
+  const floorRefs = useRef<(InstancedMesh | null)[]>([])
+  const wallRefs = useRef<(InstancedMesh | null)[]>([])
+  const sideMats = useRef<(MeshBasicMaterial | null)[]>([])
 
   const plate = useMemo(() => new PlaneGeometry(0.9, 0.9).rotateX(-Math.PI / 2), [])
   const box = useMemo(() => new BoxGeometry(1, WALL_H, 1).translate(0, WALL_H / 2, 0), [])
 
   useLayoutEffect(() => {
     const m = new Matrix4()
-    const f = floorRef.current
-    if (f) {
-      floors.forEach(([x, y], i) => f.setMatrixAt(i, m.makeTranslation(toWorldX(dims, x), 0.01, toWorldZ(dims, y))))
+    const turn = new Matrix4()
+    floorSets.forEach((set, k) => {
+      const f = floorRefs.current[k]
+      if (!f) return
+      set.forEach(([x, y], i) => {
+        // a quarter turn per square (only with a texture: the flat plate looks the same either way)
+        turn.makeRotationY(floorTex.length ? ((tileHash(x, y) >>> 4) % 4) * (Math.PI / 2) : 0)
+        f.setMatrixAt(i, m.makeTranslation(toWorldX(dims, x), 0.01, toWorldZ(dims, y)).multiply(turn))
+      })
       f.instanceMatrix.needsUpdate = true
-    }
-    const w = wallRef.current
-    if (w) {
-      walls.forEach(([x, y], i) => w.setMatrixAt(i, m.makeTranslation(toWorldX(dims, x), 0, toWorldZ(dims, y))))
+    })
+    wallSets.forEach((set, k) => {
+      const w = wallRefs.current[k]
+      if (!w) return
+      set.forEach(([x, y], i) => w.setMatrixAt(i, m.makeTranslation(toWorldX(dims, x), 0, toWorldZ(dims, y))))
       w.instanceMatrix.needsUpdate = true
-    }
-  }, [floors, walls, dims])
+    })
+  }, [floorSets, wallSets, dims, floorTex.length])
 
   useLayoutEffect(() => {
-    const f = floorRef.current
-    if (!f) return
-    floors.forEach(([x, y], i) => f.setColorAt(i, seen.has(`${x},${y}`) ? C.seen : C.mapped))
-    if (f.instanceColor) f.instanceColor.needsUpdate = true
-  }, [floors, seen])
+    const k0 = floorTex.length ? TEX_GAIN.floor : 1
+    const cs = scaled(C.seen, k0)
+    const cm = scaled(C.mapped, k0)
+    floorSets.forEach((set, k) => {
+      const f = floorRefs.current[k]
+      if (!f) return
+      set.forEach(([x, y], i) => f.setColorAt(i, seen.has(`${x},${y}`) ? cs : cm))
+      if (f.instanceColor) f.instanceColor.needsUpdate = true
+    })
+  }, [floorSets, seen, floorTex.length])
 
   // 1 px edge lines: bright where seen now, dim where only mapped
   const lines = useMemo(() => {
@@ -147,17 +193,29 @@ export function Deck({ mission, dims, seen }: { mission: string; dims: Dims; see
   }, [walls, dims, g])
   // the visor's deckhead: a dark plate over the whole deck at wall height, with the floor's grid echoed faintly on it
   const ceil = useMemo(() => new PlaneGeometry(dims.w, dims.h).rotateX(Math.PI / 2), [dims])
+  // the deckhead texture repeats once a square
+  const ceilMap = useMemo(() => {
+    const t = ceilTex[0]?.clone()
+    if (!t) return null
+    t.repeat.set(dims.w, dims.h)
+    t.needsUpdate = true
+    return t
+  }, [ceilTex, dims])
   const ceilRef = useRef<Group>(null)
   const ceilLines = useRef<LineBasicMaterial>(null)
   const topsRef = useRef<Group>(null)
   const edgesRef = useRef<LineSegments>(null)
-  const wallMat = useRef<MeshBasicMaterial>(null)
+  const topMats = useRef<(MeshBasicMaterial | null)[]>([])
   useFrame(() => {
     const rise = visorRise()
     const e = ease(visorRt.blend)
-    if (wallRef.current) wallRef.current.scale.y = rise
+    for (const w of wallRefs.current) if (w) w.scale.y = rise
     if (topsRef.current) topsRef.current.scale.y = rise
-    if (wallMat.current) wallMat.current.color.copy(C.wall).lerp(C.wallVisor, e)
+    for (const tm of topMats.current) if (tm) tm.color.copy(C.wall).lerp(C.wallVisor, e).multiplyScalar(tm.map ? TEX_GAIN.wall * 1.6 : 1)
+    // a bulkhead texture is drawn for the tall wall of the visor; the low wall of the map shows its foot, unstretched
+    const part = Math.min(1, (WALL_H * rise) / VISOR_WALL_H)
+    for (const t of wallTex) t.repeat.y = part
+    for (const sm of sideMats.current) if (sm) sm.color.copy(C.side).lerp(C.sideVisor, e).multiplyScalar(TEX_GAIN.wall)
     const cg = ceilRef.current
     if (cg) {
       cg.visible = e > 0.5
@@ -174,15 +232,34 @@ export function Deck({ mission, dims, seen }: { mission: string; dims: Dims; see
 
   return (
     <group>
-      <instancedMesh ref={floorRef} args={[plate, undefined, floors.length]} frustumCulled={false}>
-        <meshBasicMaterial />
-      </instancedMesh>
+      {floorSets.map((set, k) =>
+        set.length === 0 ? null : (
+          <instancedMesh key={`f${k}-${set.length}-${floorTex.length}`} ref={(m) => void (floorRefs.current[k] = m)} args={[plate, undefined, set.length]} frustumCulled={false}>
+            <meshBasicMaterial map={floorTex[k] ?? whiteTexture()} />
+          </instancedMesh>
+        ),
+      )}
       <lineSegments geometry={lines} frustumCulled={false}>
         <lineBasicMaterial vertexColors />
       </lineSegments>
-      <instancedMesh ref={wallRef} args={[box, undefined, walls.length]} frustumCulled={false}>
-        <meshBasicMaterial ref={wallMat} color={C.wall} />
-      </instancedMesh>
+      {wallSets.map((set, k) =>
+        set.length === 0 ? null : wallTex[k] ? (
+          // box faces are +x, -x, +y, -y, +z, -z: the four sides carry the bulkhead texture, the top and bottom stay flat
+          <instancedMesh key={`w${k}-${set.length}-t`} ref={(m) => void (wallRefs.current[k] = m)} args={[box, undefined, set.length]} frustumCulled={false}>
+            {[0, 1, 2, 3, 4, 5].map((face) =>
+              face === 2 || face === 3 ? (
+                <meshBasicMaterial key={face} attach={`material-${face}`} ref={face === 2 ? (m) => void (topMats.current[k] = m) : undefined} map={face === 2 ? (floorTex[floorTex.length - 1] ?? null) : null} color={C.wall} />
+              ) : (
+                <meshBasicMaterial key={face} attach={`material-${face}`} ref={face === 0 ? (m) => void (sideMats.current[k] = m) : undefined} map={wallTex[k]} color={C.side} />
+              ),
+            )}
+          </instancedMesh>
+        ) : (
+          <instancedMesh key={`w${k}-${set.length}`} ref={(m) => void (wallRefs.current[k] = m)} args={[box, undefined, set.length]} frustumCulled={false}>
+            <meshBasicMaterial ref={(m) => void (topMats.current[k] = m)} color={C.wall} />
+          </instancedMesh>
+        ),
+      )}
       <group ref={topsRef}>
         <lineSegments geometry={wallTops} frustumCulled={false}>
           <lineBasicMaterial color={C.trace} />
@@ -193,7 +270,7 @@ export function Deck({ mission, dims, seen }: { mission: string; dims: Dims; see
       </lineSegments>
       <group ref={ceilRef} visible={false}>
         <mesh geometry={ceil} frustumCulled={false}>
-          <meshBasicMaterial color={C.ceiling} />
+          <meshBasicMaterial key={ceilMap ? 'tex' : 'flat'} map={ceilMap} color={ceilMap ? scaled(C.ceiling, TEX_GAIN.ceiling) : C.ceiling} />
         </mesh>
         <lineSegments geometry={lines} position-y={-0.03} scale-y={-1} frustumCulled={false}>
           <lineBasicMaterial ref={ceilLines} color={C.trace} transparent opacity={0} depthWrite={false} />
@@ -215,7 +292,9 @@ function Door({ mission, dims, at, v }: { mission: string; dims: Dims; at: [numb
   const leaf = useRef<Group>(null)
   // the leaf closes the passage, bridging wall to wall: along z when walls lie north and south of the door, else along x
   const acrossZ = isWallAt(mission, at[0], at[1] - 1) && isWallAt(mission, at[0], at[1] + 1)
+  const leafTex = useBoardTextures('door')[0] ?? null
   const col = !d ? tokens.scan : d.torn ? tokens.molt : d.sealed ? tokens.alarm : tokens.scan
+  const leafCol = useMemo(() => (leafTex ? scaled(new Color(col), TEX_GAIN.door) : new Color(col)), [col, leafTex])
   const open = d ? d.open || d.torn : false
   useFrame((_, dt) => {
     const goal = open ? 1 : 0
@@ -237,11 +316,11 @@ function Door({ mission, dims, at, v }: { mission: string; dims: Dims; at: [numb
     <group ref={leaf} position={[toWorldX(dims, at[0]), 0, toWorldZ(dims, at[1])]} rotation-y={acrossZ ? Math.PI / 2 : 0}>
       <mesh ref={stubA} position={[-0.25, 0.28, 0]}>
         <boxGeometry args={[0.5, 0.5, 0.1]} />
-        <meshBasicMaterial color={col} />
+        <meshBasicMaterial key={leafTex ? 'tex' : 'flat'} map={leafTex} color={leafCol} />
       </mesh>
       <mesh ref={stubB} position={[0.25, 0.28, 0]}>
         <boxGeometry args={[0.5, 0.5, 0.1]} />
-        <meshBasicMaterial color={col} />
+        <meshBasicMaterial key={leafTex ? 'tex' : 'flat'} map={leafTex} color={leafCol} />
       </mesh>
       <mesh ref={lock} position={[0, 0.62, 0]}>
         <boxGeometry args={[0.18, 0.16, 0.14]} />
@@ -326,7 +405,18 @@ const grille = (() => {
   return parts
 })()
 
+const grate = new PlaneGeometry(0.86, 0.86).rotateX(-Math.PI / 2).translate(0, 0.022, 0)
+
 function Duct({ dims, at, purged }: { dims: Dims; at: [number, number]; purged: boolean }) {
+  const tex = useBoardTextures('duct')[0] ?? null
+  // a dark grate with a red cast (a duct is where contacts arrive); a purged one goes cold
+  const col = useMemo(() => scaled(new Color(tokens.void).lerp(new Color(purged ? tokens.trace : tokens.molt), purged ? 0.9 : 0.42), TEX_GAIN.duct * 1.2), [purged])
+  if (tex)
+    return (
+      <mesh geometry={grate} position={[toWorldX(dims, at[0]), 0, toWorldZ(dims, at[1])]}>
+        <meshBasicMaterial map={tex} color={col} transparent opacity={0.92} />
+      </mesh>
+    )
   return (
     <group position={[toWorldX(dims, at[0]), 0, toWorldZ(dims, at[1])]}>
       {grille.map((geo, i) => (

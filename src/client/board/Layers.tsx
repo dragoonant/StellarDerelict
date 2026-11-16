@@ -3,9 +3,11 @@
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { AdditiveBlending, BoxGeometry, InstancedMesh, Matrix4, Mesh, PlaneGeometry, Vector3 } from 'three'
-import type { MeshBasicMaterial } from 'three'
+import type { MeshBasicMaterial, Texture } from 'three'
 import type { Pos } from '../../engine'
 import { setStore, useStore, type Fx } from '../store'
+import { useBoardTextures } from './Deck'
+import type { Scar } from './scars'
 import { tokens } from '../tokens'
 import { toWorldX, toWorldZ, type Dims } from './layout'
 
@@ -29,6 +31,57 @@ export function TileLayer({ dims, squares, color, opacity, y = 0.03, flicker = 0
     <instancedMesh key={squares.length} ref={ref} args={[plane, undefined, squares.length]} frustumCulled={false}>
       <meshBasicMaterial ref={mat} color={color} transparent opacity={opacity} fog={false} depthWrite={false} blending={AdditiveBlending} />
     </instancedMesh>
+  )
+}
+
+const mark = new PlaneGeometry(0.98, 0.98).rotateX(-Math.PI / 2)
+
+function ScarSet({ dims, scars, tex, y, opacity }: { dims: Dims; scars: Scar[]; tex: Texture; y: number; opacity: number }) {
+  const ref = useRef<InstancedMesh>(null)
+  useLayoutEffect(() => {
+    const m = ref.current
+    if (!m) return
+    const t = new Matrix4()
+    const turn = new Matrix4()
+    scars.forEach((s, i) => {
+      // a turn and a small shift per mark, so two splashes on one square do not sit exactly on each other
+      turn.makeRotationY(((s.n >>> 2) % 8) * (Math.PI / 4))
+      const dx = (((s.n >>> 5) % 5) - 2) * 0.03
+      const dz = (((s.n >>> 8) % 5) - 2) * 0.03
+      m.setMatrixAt(i, t.makeTranslation(toWorldX(dims, s.at[0]) + dx, y + (i % 4) * 0.0005, toWorldZ(dims, s.at[1]) + dz).multiply(turn))
+    })
+    m.instanceMatrix.needsUpdate = true
+  }, [scars, dims, y])
+  return (
+    <instancedMesh ref={ref} args={[mark, undefined, scars.length]} frustumCulled={false}>
+      <meshBasicMaterial map={tex} transparent opacity={opacity} depthWrite={false} />
+    </instancedMesh>
+  )
+}
+
+/** Marks the fight has left on the deck (spec 70 ART-6): burn marks and splashes, drawn only when their decals are loaded. */
+export function Scars({ dims }: { dims: Dims }) {
+  const scars = useStore((s) => s.scars)
+  const burnTex = useBoardTextures('scar:burn')
+  const killTex = useBoardTextures('scar:kill')
+  const sets = useMemo(() => {
+    const out: { key: string; scars: Scar[]; tex: Texture; y: number; opacity: number }[] = []
+    const split = (kind: Scar['kind'], texs: Texture[], y: number, opacity: number): void => {
+      texs.forEach((tex, k) => {
+        const mine = scars.filter((s) => s.kind === kind && s.n % texs.length === k)
+        if (mine.length) out.push({ key: `${kind}${k}-${mine.length}`, scars: mine, tex, y, opacity })
+      })
+    }
+    split('burn', burnTex, 0.021, 0.68)
+    split('kill', killTex, 0.023, 0.9)
+    return out
+  }, [scars, burnTex, killTex])
+  return (
+    <group>
+      {sets.map((s) => (
+        <ScarSet key={s.key} dims={dims} scars={s.scars} tex={s.tex} y={s.y} opacity={s.opacity} />
+      ))}
+    </group>
   )
 }
 

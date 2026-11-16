@@ -29,6 +29,7 @@ import {
 } from '../session'
 import { setStore, useStore, type ArmKind, type Side } from '../store'
 import { Segmented } from './Screens'
+import { Face } from './Art'
 
 const LEFT: Record<Facing, Facing> = { N: 'W', W: 'S', S: 'E', E: 'N' }
 const RIGHT: Record<Facing, Facing> = { N: 'E', E: 'S', S: 'W', W: 'N' }
@@ -108,6 +109,7 @@ function TraceCard({ u, selected, carrier, own }: { u: WardenUnit; selected: boo
   const locked = !scorcher && u.heat >= rules.repeater.heatLock
   return (
     <button type="button" className={`trace ${selected ? 'sel' : ''} ${u.alive ? '' : 'down'}`} data-unit={u.id} aria-pressed={selected} disabled={!u.alive} onClick={() => (own ? selectWarden(u.id, true) : setStore({ inspect: u.at, selected: null }))}>
+      <Face unit={u.id} className="trace__face" />
       <span className="trace__name">{u.name}</span>
       <span className="trace__role">{roles[u.role].label}</span>
       <Heartbeat dead={!u.alive} />
@@ -153,6 +155,7 @@ function ContactCard({ u, selected }: { u: ViewUnit; selected: boolean }) {
   const maxAp = ping ? rules.pingAp : rules.stalkerAp
   return (
     <button type="button" className={`trace trace--molt ${selected ? 'sel' : ''}`} data-unit={u.id} aria-pressed={selected} onClick={() => selectUnit(u.id, true)}>
+      {!ping && <Face stalker={u.id} className="trace__face" />}
       <span className="trace__name">{ping ? `Contact ${u.id.toUpperCase()}` : `Stalker ${u.id.toUpperCase()}`}</span>
       <span className="trace__role">{ping ? (typeof u.stalkers === 'number' ? `hides ${u.stalkers}` : 'unresolved') : 'stalker'}</span>
       <span className="trace__ap" aria-label={`Action points ${u.ap}`}>

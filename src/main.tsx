@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { App } from './client/App'
 import { initAudio } from './client/audio/director'
 import { modelStore } from './client/models/store'
+import { artStore } from './client/art/store'
 import { initSession } from './client/session'
 import './client/theme.css'
 
@@ -17,6 +18,7 @@ const gallery = new URLSearchParams(location.search).has('gallery')
 
 // KB rule 26: every enabled model starts downloading when the app opens.
 modelStore.preloadEnabled()
+artStore.preload()
 if (!gallery) {
   initSession()
   initAudio()

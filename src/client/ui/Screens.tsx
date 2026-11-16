@@ -9,7 +9,9 @@ import { TIER_LABEL, tierOfSetup, type Tier } from '../../ai/tiers'
 import { emptyTally, setStore, useStore, type Speed, type TimerSetting } from '../store'
 import { roundLabel } from '../describe'
 import { currentMission, tally, type RunState } from '../run'
-import { useModelProgress } from '../models/Model'
+import { useLoadProgress, useModelProgress } from '../models/Model'
+import { artStore } from '../art/store'
+import { Face, Feed } from './Art'
 import { AudioControls } from './AudioControls'
 
 function TitleMap({ mission }: { mission: string }) {
@@ -42,7 +44,7 @@ export function Title() {
   const howTo = useStore((s) => s.howTo)
   const settingsOpen = useStore((s) => s.settingsOpen)
   const missionPick = useStore((s) => s.missionPick)
-  const models = useModelProgress()
+  const models = useLoadProgress()
   const [intent, setIntent] = useState<'run' | 'single'>('single')
 
   const summary = useMemo(() => {
@@ -78,6 +80,7 @@ export function Title() {
 
   return (
     <main className="title" data-screen="title">
+      <Feed use="title" className="title__plate" />
       <div className="title__rings" />
       <TitleMap mission={missionPick} />
       <div className="title__sweep" />
@@ -116,13 +119,13 @@ export function Title() {
           <>
             {saveRead.kind === 'ok' && (
               <button type="button" onClick={() => continueSave()} data-act="continue" className="title__continue" disabled={!models.ready}>
-                {models.ready ? 'Continue' : `Loading models ${models.loaded}/${models.total}`}
+                {models.ready ? 'Continue' : models.label}
                 <small>{summary}</small>
               </button>
             )}
             {runRead && saveRead.kind !== 'ok' && (
               <button type="button" onClick={continueRun} data-act="continue-run" className="title__continue" disabled={!models.ready}>
-                {models.ready ? 'Continue the boarding run' : `Loading models ${models.loaded}/${models.total}`}
+                {models.ready ? 'Continue the boarding run' : models.label}
                 <small>{runSummary}</small>
               </button>
             )}
@@ -253,6 +256,11 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
             Model {f.slug} failed to load ({f.reason}); the procedural figure is used instead.
           </p>
         ))}
+        {artStore.snapshot().failed.map((f) => (
+          <p key={f.id} className="diag" role="status">
+            Image {f.id} {f.reason}; the screen goes without it.
+          </p>
+        ))}
       </div>
       <button type="button" onClick={onClose}>
         Close
@@ -296,6 +304,7 @@ export function Missions() {
             <button type="button" className={`mcard ticks ${missionPick === m.id ? 'on' : ''}`} aria-pressed={missionPick === m.id} data-mission={m.id} onClick={() => pickMission(m.id)}>
               <span className="mcard__n">{String(i + 1).padStart(2, '0')}</span>
               <strong>{m.name}</strong>
+              <Feed use={`mission:${m.id}`} className="mcard__plate" />
               <MapThumb m={m} />
               <span className="dim">
                 {m.grid[0]?.length ?? 0} x {m.grid.length} deck, {m.roundLimit} rounds, {m.arrivals.normal} contacts a round ({m.arrivals.alarm} on alarm)
@@ -327,7 +336,7 @@ export function Briefing() {
   const m = getMission(run ? currentMission(run) : missionPick)
   const settings = useStore((s) => s.settings)
   const difficulty = useStore((s) => s.difficulty)
-  const models = useModelProgress()
+  const models = useLoadProgress()
   const [shown, setShown] = useState(0)
   const brief = m?.brief ?? ''
   useEffect(() => {
@@ -351,6 +360,7 @@ export function Briefing() {
         <p className="eyebrow">{run ? `${run.name} // boarding run, mission ${run.index + 1} of ${run.missions.length}` : `Transmission // ${seat === 'molt' ? 'the hull' : 'Lantern Squad'}`}</p>
         <h2>{m.name}</h2>
       </header>
+      <Feed use={`mission:${m.id}`} className="side-plate" caption={`Last survey still // ${m.objective.place}`} />
       <p className="brief" aria-label="Mission brief">
         {brief.slice(0, shown)}
         <span className="caret" />
@@ -367,7 +377,8 @@ export function Briefing() {
       )}
       <ul className="roster" aria-label="Squad roster">
         {roster.map((s) => (
-          <li key={s.id} className="card">
+          <li key={s.id} className="card card--face">
+            <Face unit={s.id} />
             <strong>{s.name}</strong>
             <span>{roles[s.role].label}</span>
             <span className="dim">{roles[s.role].weapon === 'scorcher' ? `Scorcher, ${rules.scorcher.charges} charges` : 'Repeater'}</span>
@@ -385,7 +396,7 @@ export function Briefing() {
       )}
       <div className="row">
         <button type="button" className="primary" onClick={startMission} data-act="cut-in" disabled={!models.ready}>
-          {models.ready ? (seat === 'warden' ? 'Cut in' : 'Let them in') : `Loading models ${models.loaded}/${models.total}`}
+          {models.ready ? (seat === 'warden' ? 'Cut in' : 'Let them in') : models.label}
         </button>
         <button type="button" onClick={back}>
           {run ? 'Abandon the run' : 'Back'}
@@ -428,6 +439,7 @@ export function Debrief() {
   return (
     <main className="debrief" data-screen="debrief" data-run={run ? run.status : 'none'}>
       <h2 className={won ? 'win' : 'lose'}>{heading}</h2>
+      <Feed use={`debrief:${seat}-${won ? 'win' : 'loss'}`} className="side-plate" caption={won ? 'Feed // closing frame' : 'Feed // last frame received'} />
       <p className="line">{why}</p>
       {runLine && (
         <p className="line runline" data-testid="run-line">
@@ -472,7 +484,8 @@ export function Debrief() {
           const t = stats.byWarden[u.id] ?? emptyTally()
           const scorcher = roles[u.role].weapon === 'scorcher'
           return (
-            <li key={u.id} className={`card ${u.alive ? '' : 'down'}`} data-unit={u.id}>
+            <li key={u.id} className={`card card--face ${u.alive ? '' : 'down'}`} data-unit={u.id}>
+              <Face unit={u.id} />
               <strong>{u.name}</strong>
               <span>{u.alive ? (u.breached ? 'Breached, alive' : 'Intact') : 'Lost'}</span>
               <span className="dim">{scorcher ? `${t.scorches} burst${t.scorches === 1 ? '' : 's'}` : `${t.shots} shot${t.shots === 1 ? '' : 's'}, ${t.hits} hit${t.hits === 1 ? '' : 's'}${t.watchShots ? ` (${t.watchShots} on watch)` : ''}`}</span>

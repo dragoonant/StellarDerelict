@@ -5,6 +5,7 @@ import type { Event, Pos, View, ViewUnit } from '../engine'
 import { geoOf } from '../engine/grid'
 import { onPresented, onPresentedInstant } from './audio/director'
 import { getStore, setStore, type Fx, type Speed } from './store'
+import { addScars, scarsOf } from './board/scars'
 
 export const SPEED_FACTOR: Record<Speed, number> = { normal: 1, fast: 0.4, instant: 0 }
 
@@ -35,6 +36,15 @@ let queue: Job[] = []
 let running = false
 let epoch = 0
 let nextFx = 1
+let nextScar = 1
+
+/** Marks left on the deck by these events (spec 70 ART-6). `burning` is the burning squares before them. */
+function scar(events: Event[], burning: readonly Pos[]): void {
+  const more = scarsOf(events, burning)
+  if (more.length === 0) return
+  setStore((s) => ({ scars: addScars(s.scars, more, nextScar) }))
+  nextScar += more.length
+}
 let waiters: (() => void)[] = []
 
 export const directorBusy = (): boolean => running || queue.length > 0
@@ -49,7 +59,7 @@ export function resetDirector(): void {
   epoch++
   queue = []
   running = false
-  setStore({ fx: [], animating: false })
+  setStore({ fx: [], scars: [], animating: false })
   const w = waiters
   waiters = []
   w.forEach((r) => r())
@@ -195,11 +205,15 @@ async function run(): Promise<void> {
         const now = performance.now()
         const withIds: Fx[] = fxs.map((x) => ({ ...x, id: nextFx++, born: now }))
         setStore((s) => ({ presented: patch(before, ev), fx: [...s.fx.filter((x) => now - x.born < x.ms + 50), ...withIds] }))
+        scar([ev], before.burn)
         onPresented(ev, before)
         const wait = (BEAT_MS[ev.type] ?? 0) * f
         if (wait > 0) await sleep(wait)
       }
-    } else onPresentedInstant(job.events, getStore().presented)
+    } else {
+      scar(job.events, getStore().presented?.burn ?? [])
+      onPresentedInstant(job.events, getStore().presented)
+    }
     if (mine !== epoch) return
     setStore({ presented: job.final })
   }
@@ -216,6 +230,7 @@ export function present(events: Event[], final: View): void {
   queue.push({ events, final })
   if (SPEED_FACTOR[getStore().settings.speed] === 0 && !running) {
     queue = []
+    scar(events, getStore().presented?.burn ?? [])
     onPresentedInstant(events, getStore().presented)
     setStore({ presented: final })
     return
