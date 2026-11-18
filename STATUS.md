@@ -22,7 +22,8 @@ ship, ruined walls, fires, claw marks etc").** PLAN D9. The board art was made a
 - **Measured:** 25 jobs, 100 candidates, about 9 minutes of GPU, no failures or re-rolls. 40 images, 1.6 MB shipped.
 - **Gates:** typecheck, 238 unit tests, data validation, prompt lint, sim (300 games, 0 violations), 31 e2e tests, build.
   Looked at on the real GPU (headless Chromium on D3D11).
-- **Not verified:** the owner has not seen this pass yet; the audio is still not verified by ear.
+- **Owner, 2026-11-18:** "Looks right", from the five before and after pictures (`docs/shots/m10-*.jpg`). Not yet played
+  by the owner on the live screens; the audio is still not verified by ear.
 
 **2026-11-15: M9 graphics pass (owner: "Let's do a graphics pass too. Use evilaegis. Flux. And Gemini if needed.").**
 28 images from the local Flux Studio on the GPU PC (FLUX.2 klein; Gemini was not needed), spec `docs/spec/70-art.md`
