@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs'
-import { listMissions, rules, roles, assets, getMission } from '../src/data'
+import { listMissions, rules, roles, assets, getMission, runDef } from '../src/data'
 import { EVENT_SOUNDS } from '../src/client/audio/soundMap'
 import type { Mission } from '../src/data'
 
@@ -103,11 +103,78 @@ function checkMission(m: Mission): void {
   if (!Number.isInteger(m.roundLimit) || m.roundLimit < 1) err(id, 'bad round limit')
   if (m.arrivals.normal < 0 || m.arrivals.alarm < 0) err(id, 'bad arrivals')
   if (m.grid.join('').split('').some((c) => c === 'D' || c === 'B') === false && m.terminals.length) err(id, 'terminals but no doors')
+  // the mission's words for the core, its room and the exit (the UI never says "core" to the player unless the mission does)
+  if (!m.objective || !m.objective.item?.trim() || !m.objective.place?.trim() || !m.objective.exit?.trim()) err(id, 'objective needs item, place and exit')
+  // formation hints for the Warden policy stand on walkable squares with a real facing
+  for (const [name, slots] of Object.entries(m.aiHints ?? {}))
+    for (const s of slots ?? []) {
+      if (!walkable(at(s[0], s[1]))) err(id, `aiHints.${name} slot (${s[0]},${s[1]}) is not walkable`)
+      if (!['N', 'E', 'S', 'W'].includes(s[2])) err(id, `aiHints.${name} slot (${s[0]},${s[1]}) has a bad facing`)
+    }
+  if (!m.squad.every((q, i) => m.squad.findIndex((o) => o.id === q.id) === i)) err(id, 'duplicate squad ids')
+}
+
+function checkRun(): void {
+  const seen = new Set<string>()
+  for (const id of runDef.missions) {
+    if (!getMission(id)) err('run', `names unknown mission ${id}`)
+    if (seen.has(id)) err('run', `lists ${id} twice`)
+    seen.add(id)
+  }
+  if (runDef.missions.length < 2) err('run', 'a run needs at least two missions')
+  // R-2: one squad plays the whole run, so every mission must field the same five members
+  const first = getMission(runDef.missions[0] ?? '')
+  for (const id of runDef.missions) {
+    const m = getMission(id)
+    if (!m || !first) continue
+    const a = first.squad.map((q) => `${q.id}:${q.role}`).sort().join(' ')
+    const b = m.squad.map((q) => `${q.id}:${q.role}`).sort().join(' ')
+    if (a !== b) err('run', `${id} fields a different squad from ${first.id}`)
+  }
 }
 
 const SPEC_SLUGS = ['warden-sergeant', 'warden-rifle-a', 'warden-rifle-b', 'warden-scorcher', 'warden-tech', 'stalker-a', 'stalker-b', 'stalker-c', 'terminal', 'console', 'core']
 const MUSIC_STATES = ['calm', 'tense', 'battle', 'alarm', 'victory', 'defeat', 'title']
 const PUBLIC = new URL('../public/assets/', import.meta.url)
+
+/** Spec 70 ART-1 and ART-2: the generated 2D art. */
+function checkImages(e: (msg: string) => void, onDisk: (file: string, what: string, enabled: boolean) => void): void {
+  const KINDS = ['texture', 'portrait', 'plate', 'decal']
+  const ASPECTS = ['1:1', '3:2', '2:3', '4:3', '3:4', '16:9', '9:16', '21:9']
+  const squad = (getMission('dead-reckoning')?.squad ?? []).map((u) => u.id)
+  const missionIds = listMissions().map((m) => m.id)
+  if (assets.art?.provider !== 'flux-studio' || !assets.art.model || !(assets.art.candidates >= 1)) e('art provider block is malformed')
+  const ids = new Set<string>()
+  const uses = new Set<string>()
+  for (const im of assets.images ?? []) {
+    if (ids.has(im.id)) e(`duplicate image ${im.id}`)
+    ids.add(im.id)
+    if (!KINDS.includes(im.kind)) e(`image ${im.id} has unknown kind ${im.kind}`)
+    if (im.file !== `art/${im.id}.webp`) e(`image ${im.id} file must be art/${im.id}.webp`)
+    if (!ASPECTS.includes(im.aspect)) e(`image ${im.id} has unknown aspect ${im.aspect}`)
+    if (!Array.isArray(im.size) || im.size.length !== 2 || !im.size.every((n) => Number.isInteger(n) && n >= 64 && n <= 2048)) e(`image ${im.id} needs a size of two whole numbers from 64 to 2048`)
+    if (!im.prompt || im.prompt.length < 40) e(`image ${im.id} has no prompt`)
+    if (typeof im.enabled !== 'boolean') e(`image ${im.id} needs a boolean enabled`)
+    if (!/^(floor|wall|wall-fire|ceiling|door|duct|title|unit:[a-z]+|model:[a-z-]+|mission:[a-z-]+|debrief:(warden|molt)-(win|loss)|scar:(burn|kill)|dress:(claw|debris))$/.test(im.use)) e(`image ${im.id} has unknown use ${im.use}`)
+    if (im.kind === 'portrait') {
+      if (!im.ref || !assets.models.some((m) => m.slug === im.ref)) e(`portrait ${im.id} needs a ref naming a model`)
+    } else if (im.ref !== undefined) e(`image ${im.id}: only portraits take a ref`)
+    if (im.kind === 'texture' && !['floor', 'wall', 'wall-fire', 'ceiling', 'door', 'duct'].includes(im.use)) e(`texture ${im.id} must be used on a board surface`)
+    if (im.kind === 'decal' && !im.use.startsWith('scar:') && !im.use.startsWith('dress:')) e(`decal ${im.id} must be a scar or dressing`)
+    if (im.weight !== undefined && (im.kind !== 'texture' || !Number.isInteger(im.weight) || im.weight < 1 || im.weight > 9)) e(`image ${im.id} has a bad weight (board textures only, 1 to 9)`)
+    if (im.enabled && (!Number.isInteger(im.pick) || !Number.isInteger(im.seed))) e(`image ${im.id} is enabled without a recorded pick and seed`)
+    if (im.use.startsWith('unit:') && !squad.includes(im.use.slice(5))) e(`image ${im.id} names an unknown squad member`)
+    if (im.use.startsWith('model:') && !assets.models.some((m) => m.slug === im.use.slice(6))) e(`image ${im.id} names an unknown model`)
+    if (im.use.startsWith('mission:') && !missionIds.includes(im.use.slice(8))) e(`image ${im.id} names an unknown mission`)
+    onDisk(im.file, `image ${im.id}`, im.enabled)
+    uses.add(im.use)
+  }
+  const need = ['floor', 'wall', 'wall-fire', 'ceiling', 'door', 'duct', 'title', 'scar:burn', 'scar:kill', 'dress:claw', 'dress:debris', 'debrief:warden-win', 'debrief:warden-loss', 'debrief:molt-win', 'debrief:molt-loss']
+  for (const w of squad) need.push(`unit:${w}`)
+  for (const m of assets.models) if (m.kind === 'stalker') need.push(`model:${m.slug}`)
+  for (const id of missionIds) need.push(`mission:${id}`)
+  for (const u of need) if (!uses.has(u)) e(`no image for ${u}`)
+}
 
 function checkAssets(): void {
   const e = (msg: string): void => err('assets', msg)
@@ -127,13 +194,15 @@ function checkAssets(): void {
     onDisk(m.file, `model ${m.slug}`, m.enabled)
   }
   for (const s of SPEC_SLUGS) if (!seen.has(s)) e(`model ${s} from spec 30 is missing`)
+  checkImages(e, onDisk)
   const ids = new Set<string>()
   for (const s of assets.sounds) {
     if (ids.has(s.id)) e(`duplicate sound ${s.id}`)
     ids.add(s.id)
     if (s.bus !== 'sfx') e(`sound ${s.id} bus must be sfx`)
     if (!(s.gain > 0 && s.gain <= 1.5)) e(`sound ${s.id} has a bad gain`)
-    if (!(s.seconds >= 0.3 && s.seconds <= 47)) e(`sound ${s.id} seconds must be within the studio's 1-47 s (0.3 minimum for interface sounds)`)
+    if (!(s.seconds >= 0.3 && s.seconds <= 30)) e(`sound ${s.id} seconds must be within the sound-effect model's 0.5-30 s (0.3 minimum for interface sounds)`)
+    if (s.promptInfluence !== undefined && !(s.promptInfluence >= 0 && s.promptInfluence <= 1)) e(`sound ${s.id} promptInfluence must be 0-1`)
     if (!s.files.length || s.files.some((f) => !f.startsWith('audio/sfx/'))) e(`sound ${s.id} files must be under audio/sfx/`)
     if (![...Object.keys(EVENT_SOUNDS), 'ui', 'timer', 'always'].includes(s.event)) e(`sound ${s.id} names unknown event ${s.event}`)
     if (!s.prompt) e(`sound ${s.id} has no prompt`)
@@ -144,24 +213,44 @@ function checkAssets(): void {
     if (!m.file.startsWith('audio/music/') || !(m.bpm >= 10 && m.bpm <= 300) || !(m.seconds >= 10 && m.seconds <= 240)) e(`music ${m.state} is malformed`)
     onDisk(m.file, `music ${m.state}`, m.enabled)
   }
+  if (assets.audio?.provider !== 'elevenlabs' || !assets.audio.models?.sfx || !assets.audio.models?.music || !assets.audio.models?.tts) e('audio provider block is malformed')
   const squad = new Set((getMission('dead-reckoning')?.squad ?? []).map((u) => u.id))
+  for (const [sp, p] of Object.entries(assets.voices ?? {})) {
+    if (sp !== 'comms' && !squad.has(sp)) e(`voices table names unknown speaker ${sp}`)
+    if (!/^[A-Za-z0-9]{10,}$/.test(p.voiceId ?? '') || !p.name || !p.design || !p.model) e(`voice profile ${sp} is malformed`)
+  }
+  for (const w of [...squad, 'comms']) if (!assets.voices?.[w]) e(`speaker ${w} has no voice profile`)
   const vids = new Set<string>()
+  const CARRIER = ['core-taken', 'core-dropped', 'core-picked', 'carrier-breached']
   for (const v of assets.voice) {
     if (vids.has(v.id)) e(`duplicate voice ${v.id}`)
     vids.add(v.id)
-    if (v.speaker !== 'carrier' && !squad.has(v.speaker)) e(`voice ${v.id} names unknown speaker ${v.speaker}`)
-    if (!v.text.trim() || v.text.length > 80) e(`voice ${v.id} text must be 1-80 characters`)
+    if (!assets.voices?.[v.speaker]) e(`voice ${v.id} names unknown speaker ${v.speaker}`)
+    if (!v.id.startsWith(v.speaker === 'comms' ? 'briefing-' : `${v.speaker}-`)) e(`voice ${v.id} must be named after its speaker`)
+    const briefing = v.event === 'briefing'
+    if (!v.text.trim() || v.text.length > (briefing ? 400 : 80)) e(`voice ${v.id} text must be 1-${briefing ? 400 : 80} characters`)
     if (!v.file.startsWith('audio/voice/') || !v.voiceDesign) e(`voice ${v.id} is malformed`)
+    if (v.voiceDesign !== assets.voices?.[v.speaker]?.design) e(`voice ${v.id} voiceDesign differs from its speaker's profile`)
+    if (v.delivery !== undefined && !/^\[[a-z ]+\]$/.test(v.delivery)) e(`voice ${v.id} delivery must be an audio tag like [urgent]`)
+    if (briefing) {
+      const m = getMission(v.when ?? '')
+      if (!m) e(`briefing voice ${v.id} names unknown mission ${v.when}`)
+      else if (m.brief !== v.text) e(`briefing voice ${v.id} text differs from the mission brief`)
+    } else if (!Object.keys(EVENT_SOUNDS).includes(v.event)) e(`voice ${v.id} names unknown event ${v.event}`)
     onDisk(v.file, `voice ${v.id}`, v.enabled)
   }
-  for (const w of squad) if (assets.voice.filter((v) => v.speaker === w).length !== 6) e(`${w} needs exactly six voice lines`)
-  if (assets.voice.filter((v) => v.speaker === 'carrier').length !== 4) e('the carrier needs exactly four voice lines')
+  for (const w of squad) {
+    if (assets.voice.filter((v) => v.speaker === w && v.when !== 'carrier').length !== 6) e(`${w} needs exactly six voice lines of their own`)
+    for (const c of CARRIER) if (!vids.has(`${w}-${c}`)) e(`${w} is missing the carrier line ${c}`)
+  }
+  for (const m of listMissions()) if (!vids.has(`briefing-${m.id}`)) e(`mission ${m.id} has no briefing narration`)
 }
 
 checkRules()
 checkAssets()
 const missions = listMissions()
 for (const m of missions) checkMission(m)
+checkRun()
 if (errors.length) {
   for (const e of errors) console.error('FAIL', e)
   process.exit(1)

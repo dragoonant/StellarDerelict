@@ -108,6 +108,681 @@
       "prompt": "a short armoured data cylinder with a carry handle and a teal light band, dark gunmetal, wordless, matte realistic paint, full object in view, white background, under 2k triangles"
     }
   ],
+  "art": {
+    "provider": "flux-studio",
+    "model": "klein",
+    "candidates": 4
+  },
+  "images": [
+    {
+      "id": "deck-plate-a",
+      "kind": "texture",
+      "file": "art/deck-plate-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 3,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, a raised diamond tread pattern worn smooth and bright in the middle, a countersunk bolt in each corner with a bloom of corrosion around it, grime packed into the tread, long scuffs, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1206544536
+    },
+    {
+      "id": "deck-plate-b",
+      "kind": "texture",
+      "file": "art/deck-plate-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 3,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, a square inspection hatch in the centre bent up at one corner, rows of small rivets, a wide dried oil stain, boot scuffs and grit, flaking grey paint, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1223322155
+    },
+    {
+      "id": "deck-plate-c",
+      "kind": "texture",
+      "file": "art/deck-plate-c.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 2,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, two long recessed cable trench covers side by side, one cover missing so that dusty black cables show in the trench, slotted screws, dents, grime and corrosion in the seams, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 3,
+      "seed": 1240099774
+    },
+    {
+      "id": "deck-plate-d",
+      "kind": "texture",
+      "file": "art/deck-plate-d.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 3,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, four smaller pressed panels with ribbed centres, one of them cracked across and sunk, a round tie-down point in the middle, dents, scratches, soot and grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1122656441
+    },
+    {
+      "id": "deck-plate-e",
+      "kind": "texture",
+      "file": "art/deck-plate-e.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 2,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, four long deep parallel claw gouges raked diagonally right across the plate, bright bare torn metal with curled edges inside each gouge, chipped paint around them, grime and scuffs, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1139434060
+    },
+    {
+      "id": "deck-plate-f",
+      "kind": "texture",
+      "file": "art/deck-plate-f.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 1,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, burnt by an old fire: most of the plate blackened with soot, paint blistered and peeled, blue and straw heat discolouration at the edges of the burn, a scatter of pale ash, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 2,
+      "seed": 1156211679
+    },
+    {
+      "id": "deck-plate-g",
+      "kind": "texture",
+      "file": "art/deck-plate-g.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 1,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, buckled and split: a ragged torn hole near the middle with the steel peeled upward, dark pipes and frayed wiring visible below, bent rivets, grit and small fragments around the hole, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 2,
+      "seed": 1172989298
+    },
+    {
+      "id": "deck-plate-h",
+      "kind": "texture",
+      "file": "art/deck-plate-h.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "floor",
+      "weight": 1,
+      "prompt": "a top-down orthographic photograph of one square steel deck plate from the floor of a wrecked starship abandoned for many years, filling the whole frame edge to edge: a battered dark gunmetal floor panel with a narrow bevelled border, a large old dried dark brown-black stain spread across it with drag marks leading off one edge, thin pale translucent flakes of shed shell stuck in the stain, scratches and grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1055545965
+    },
+    {
+      "id": "wall-panel-a",
+      "kind": "texture",
+      "file": "art/wall-panel-a.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "weight": 3,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating with vertical ribs, a horizontal conduit run with clamps at mid height, a heavy kick plate along the bottom, rivet lines, long streaks of corrosion and grime running down from the seams, flaking paint, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1545187025
+    },
+    {
+      "id": "wall-panel-b",
+      "kind": "texture",
+      "file": "art/wall-panel-b.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "weight": 3,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating around a recessed equipment bay with a dented access hatch hanging from one hinge and two round gauges with cracked blank faces, thick corroded pipes running vertically along one side, a heavy kick plate along the bottom, grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1595519882
+    },
+    {
+      "id": "wall-panel-c",
+      "kind": "texture",
+      "file": "art/wall-panel-c.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "weight": 2,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating raked by huge claws: five long deep parallel gouges slashed diagonally across the whole panel, the steel torn open to bright bare metal with curled ragged edges, paint chipped away around them, a heavy kick plate along the bottom, grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1578742263
+    },
+    {
+      "id": "wall-panel-d",
+      "kind": "texture",
+      "file": "art/wall-panel-d.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "weight": 2,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating burnt out by an old fire: the panel blackened with soot in a tall fan shape rising from the floor, paint blistered and peeled, a melted cable run sagging across it, heat-warped plating, pale ash on the kick plate, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 2,
+      "seed": 1629075120
+    },
+    {
+      "id": "wall-panel-e",
+      "kind": "texture",
+      "file": "art/wall-panel-e.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall",
+      "weight": 2,
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal wall plating torn open: a ragged hole ripped through the middle of the panel with the plating peeled outward, bent structural ribs behind it, severed cables and a broken pipe hanging out of the dark cavity, claw scratches around the hole, debris on the kick plate, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 2,
+      "seed": 1612297501
+    },
+    {
+      "id": "wall-fire",
+      "kind": "texture",
+      "file": "art/wall-fire.webp",
+      "enabled": true,
+      "aspect": "2:3",
+      "size": [
+        512,
+        768
+      ],
+      "use": "wall-fire",
+      "prompt": "a front-on orthographic photograph of one tall section of corridor bulkhead wall inside a wrecked starship, filling the whole frame edge to edge: dark gunmetal wall plating with a ragged breach torn through the lower half, bright orange flames burning inside the cavity behind it and licking out through the hole, glowing embers, the plating around the breach scorched black and lit orange by the fire, thick soot rising above it, sharp focus, natural colour, a game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1499310333
+    },
+    {
+      "id": "deckhead",
+      "kind": "texture",
+      "file": "art/deckhead.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "ceiling",
+      "prompt": "an orthographic photograph looking straight up at one square section of corridor ceiling inside a wrecked starship abandoned for many years, filling the whole frame edge to edge: dark gunmetal ceiling panels, one panel missing with torn insulation and loose cables hanging out of the gap, a corroded cable tray, two pipes with flanged joints, one dead rectangular light fitting with a smashed diffuser, soot and dust, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 3,
+      "seed": 839844283
+    },
+    {
+      "id": "door-leaf",
+      "kind": "texture",
+      "file": "art/door-leaf.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "door",
+      "prompt": "a front-on orthographic photograph of one square leaf of a heavy sliding bulkhead door inside a wrecked starship, filling the whole frame edge to edge: thick grey steel with two diagonal reinforcing bars, a row of large bolts down each side, a recessed hand grip, deep claw scratches across it, dents, chipped paint and streaks of corrosion, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 4,
+      "seed": 1469760565
+    },
+    {
+      "id": "duct-grille",
+      "kind": "texture",
+      "file": "art/duct-grille.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "duct",
+      "prompt": "a top-down orthographic photograph of one square floor ventilation grate inside a wrecked starship, filling the whole frame edge to edge: a heavy corroded steel frame with thick parallel slats over a black shaft, a bolt in each corner, the middle slats bent upward and apart from below, scratches and grime, flat even lighting with no cast shadows and no perspective, sharp focus, natural colour, a square game texture, wordless and unmarked, full-bleed",
+      "pick": 1,
+      "seed": 1693258531
+    },
+    {
+      "id": "portrait-venn",
+      "kind": "portrait",
+      "file": "art/portrait-venn.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:venn",
+      "ref": "warden-sergeant",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; a raised ridge along the helmet crown, the left pauldron painted teal, the long haft of a shock maul resting on the right shoulder",
+      "pick": 2,
+      "seed": 1475713473
+    },
+    {
+      "id": "portrait-brandt",
+      "kind": "portrait",
+      "file": "art/portrait-brandt.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:brandt",
+      "ref": "warden-rifle-a",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; the boxy heat shroud of a twin-barrel repeater held upright beside the helmet",
+      "pick": 4,
+      "seed": 1876329719
+    },
+    {
+      "id": "portrait-okafor",
+      "kind": "portrait",
+      "file": "art/portrait-okafor.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:okafor",
+      "ref": "warden-rifle-b",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; turned to the right instead and looking back over the shoulder, a twin-barrel repeater lowered across the chest",
+      "pick": 3,
+      "seed": 563805481
+    },
+    {
+      "id": "portrait-riedel",
+      "kind": "portrait",
+      "file": "art/portrait-riedel.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:riedel",
+      "ref": "warden-scorcher",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; a fat fuel cylinder and a braided hose behind the left shoulder, soot across the chest plate, the blackened flared muzzle of a scorcher at the bottom of the frame",
+      "pick": 2,
+      "seed": 215835445
+    },
+    {
+      "id": "portrait-sato",
+      "kind": "portrait",
+      "file": "art/portrait-sato.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "unit:sato",
+      "ref": "warden-tech",
+      "prompt": "Use the attached photo as the reference for the armour. A close-up head-and-shoulders portrait of the same armoured boarding trooper: the same smooth helmet with one wide amber visor band and no face, the same heavy rounded pauldrons, pack and matte bone-grey paint, turned a little to the left, the helmet and shoulders filling the frame, inside a dark derelict starship corridor, cold dim teal light from one side, a faint amber glow from the visor band, drifting dust, shallow depth of field, a still from a helmet camera, sharp focus on the visor, wordless and unmarked armour; a short antenna mast and a cable reel on the pack, a folding interface arm with a data spike raised on the left forearm",
+      "pick": 2,
+      "seed": 970448569
+    },
+    {
+      "id": "portrait-stalker-a",
+      "kind": "portrait",
+      "file": "art/portrait-stalker-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "model:stalker-a",
+      "ref": "stalker-a",
+      "prompt": "Use the attached photo as the reference for the animal. A close-up of the head and raised forelimbs of the same alien predator in mid-moult: the same wedge-shaped eyeless skull with a split lower jaw and needle teeth, dark red-black new chitin showing through flaking pale old shell, coming out of the darkness of a derelict starship corridor straight at the camera, lit from below by one dim red emergency light, wet highlights on the new chitin, shallow depth of field, a still from a helmet camera, wordless",
+      "pick": 2,
+      "seed": 1033128202
+    },
+    {
+      "id": "portrait-stalker-b",
+      "kind": "portrait",
+      "file": "art/portrait-stalker-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "model:stalker-b",
+      "ref": "stalker-b",
+      "prompt": "Use the attached photo as the reference for the animal. A close-up of the head and raised forelimbs of the same alien predator in mid-moult: the same wedge-shaped eyeless skull with a split lower jaw and needle teeth, dark red-black new chitin showing through flaking pale old shell, coming out of the darkness of a derelict starship corridor straight at the camera, lit from below by one dim red emergency light, wet highlights on the new chitin, shallow depth of field, a still from a helmet camera, wordless, the head low and turned to one side, one scything forelimb reaching forward",
+      "pick": 3,
+      "seed": 982795345
+    },
+    {
+      "id": "portrait-stalker-c",
+      "kind": "portrait",
+      "file": "art/portrait-stalker-c.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "model:stalker-c",
+      "ref": "stalker-c",
+      "prompt": "Use the attached photo as the reference for the animal. A close-up of the head and raised forelimbs of the same alien predator in mid-moult: the same wedge-shaped eyeless skull with a split lower jaw and needle teeth, dark red-black new chitin showing through flaking pale old shell, coming out of the darkness of a derelict starship corridor straight at the camera, lit from below by one dim red emergency light, wet highlights on the new chitin, shallow depth of field, a still from a helmet camera, wordless, the split jaw wide open",
+      "pick": 4,
+      "seed": 999572964
+    },
+    {
+      "id": "title-wreck",
+      "kind": "plate",
+      "file": "art/title-wreck.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1600,
+        900
+      ],
+      "use": "title",
+      "prompt": "a vast wrecked starship drifting dead in deep space, seen from off its aft quarter: a long dark industrial hull of slab-sided modules, gantries and broken sensor masts, great ragged holes torn in its flank with twisted plating peeled outward, the dull orange glow of fires still burning deep inside two of the breaches, a slow cloud of debris and hull fragments trailing beside it, no engine glow and no lit windows, sparse faint stars, black void filling the left third of the frame, a very small boarding craft closing on an airlock near the stern, cinematic still, realistic, deep blacks, firelight and cold shadow, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 1116139403
+    },
+    {
+      "id": "mission-dead-reckoning",
+      "kind": "plate",
+      "file": "art/mission-dead-reckoning.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "mission:dead-reckoning",
+      "prompt": "the ruined archive room of a wrecked starship: tall rows of data stacks on both sides, several toppled against each other and gutted, long deep claw gouges slashed across the nearest stacks and the deck, a small fire burning in a pile of wreckage at the left throwing orange light, one upright console in the centre still holding a softly glowing cylindrical core in steel clamps, cables hanging from a torn ceiling, smoke and drifting dust, the pale beam of a helmet lamp from the doorway in the foreground, cinematic still, realistic, deep blacks, firelight and cold shadow, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 3,
+      "seed": 1307579458
+    },
+    {
+      "id": "mission-cold-berth",
+      "kind": "plate",
+      "file": "art/mission-cold-berth.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "mission:cold-berth",
+      "prompt": "the ruined berth deck of a wrecked starship: a long narrow lane between blocks of sleeper berths stacked two high, most hatches smashed outward from inside with frosted glass in shards on the floor grating, deep claw gouges down the berth frames, pale translucent shed husks stuck to the floor, a sparking severed cable swinging from the ceiling, a small fire flickering inside one gutted berth, a sealed bulkhead door at the far end with one amber lock light, cold mist, cinematic still, realistic, deep blacks, firelight and cold shadow, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 554426087
+    },
+    {
+      "id": "mission-last-light",
+      "kind": "plate",
+      "file": "art/mission-last-light.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "mission:last-light",
+      "prompt": "the ruined reactor room of a wrecked starship: a tall cylindrical reactor core behind heavy buckled bulkhead frames, one last containment ring still glowing a dim amber, a collapsed catwalk hanging by one end, ruptured coolant pipes venting thin steam, scorch marks and claw gouges up the walls, small fires burning in the wreckage on the floor, a small armoured black recorder box on a pedestal in front of the core, smoke drifting through the glow, deep shadows, cinematic still, realistic, deep blacks, firelight and cold shadow, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 1065496381
+    },
+    {
+      "id": "debrief-recovered",
+      "kind": "plate",
+      "file": "art/debrief-recovered.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "debrief:warden-win",
+      "prompt": "inside a starship airlock looking outward: a small squad of armoured boarding troopers in heavy bone-grey hardsuits seen from behind, walking toward the bright open outer hatch and the docking collar of a boarding craft, the one in front carrying a softly glowing teal cylinder, haze in the light, long shadows on the deck plate behind them, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 1807420427
+    },
+    {
+      "id": "debrief-lost",
+      "kind": "plate",
+      "file": "art/debrief-lost.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "debrief:warden-loss",
+      "prompt": "a bone-grey armoured helmet with a cracked dark visor band lying on its side on a steel deck plate in an empty starship corridor, its small lamp still flickering, long claw gouges in the floor beside it, darkness beyond, one dim red emergency light far down the corridor, low camera close to the deck, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 897231532
+    },
+    {
+      "id": "debrief-molt-win",
+      "kind": "plate",
+      "file": "art/debrief-molt-win.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "debrief:molt-win",
+      "prompt": "a dark starship corridor seen from a low angle: pale translucent shed husks hanging from the pipes of the ceiling, long clawed limbs half seen in the darkness at the far end, a heavy twin-barrel weapon dropped on the deck plate in the foreground, one dim red emergency light, drifting dust, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 486987087
+    },
+    {
+      "id": "debrief-molt-loss",
+      "kind": "plate",
+      "file": "art/debrief-molt-loss.webp",
+      "enabled": true,
+      "aspect": "16:9",
+      "size": [
+        1280,
+        720
+      ],
+      "use": "debrief:molt-loss",
+      "prompt": "the heavy outer door of a starship airlock sealed shut, seen from inside a dark corridor: long fresh claw gouges across the steel, a small round porthole in the door showing the teal thruster glow of a craft pulling away into black space, one dim red emergency light above the frame, cinematic still, realistic, deep blacks, cold teal light, high contrast, fine film grain, wordless and untitled, full-bleed",
+      "pick": 2,
+      "seed": 1800278704
+    },
+    {
+      "id": "scorch-mark",
+      "kind": "decal",
+      "file": "art/scorch-mark.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "scar:burn",
+      "prompt": "a large black soot burn mark on a floor, roughly round with ragged feathered edges and streaks radiating outward, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 1,
+      "seed": 1998543309
+    },
+    {
+      "id": "ichor-splat-a",
+      "kind": "decal",
+      "file": "art/ichor-splat-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "scar:kill",
+      "prompt": "a splatter of thick dark red-black fluid on a floor, an uneven central pool with thrown droplets and long streaks to one side, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 2,
+      "seed": 448277454
+    },
+    {
+      "id": "ichor-splat-b",
+      "kind": "decal",
+      "file": "art/ichor-splat-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "scar:kill",
+      "prompt": "a splatter of thick dark red-black fluid on a floor, several small pools joined by drips, with scattered pale flakes of broken shell, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 1,
+      "seed": 397944597
+    },
+    {
+      "id": "claw-marks-a",
+      "kind": "decal",
+      "file": "art/claw-marks-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "dress:claw",
+      "prompt": "four long parallel claw gouges raked across a floor, each a deep black ragged scratch tapering at both ends, a few small black chips beside them, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 1,
+      "seed": 1311729360
+    },
+    {
+      "id": "claw-marks-b",
+      "kind": "decal",
+      "file": "art/claw-marks-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "dress:claw",
+      "prompt": "three short deep curved black claw gouges side by side on a floor, ragged torn edges, like one swipe of a large clawed limb, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 3,
+      "seed": 1328506979
+    },
+    {
+      "id": "debris-a",
+      "kind": "decal",
+      "file": "art/debris-a.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "dress:debris",
+      "prompt": "a small scatter of wreckage lying on a floor: torn fragments of black scorched metal plate, a few dark bolts, a snapped length of black cable and charred flakes, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 2,
+      "seed": 1951224797
+    },
+    {
+      "id": "debris-b",
+      "kind": "decal",
+      "file": "art/debris-b.webp",
+      "enabled": true,
+      "aspect": "1:1",
+      "size": [
+        512,
+        512
+      ],
+      "use": "dress:debris",
+      "prompt": "a small heap of dark rubble lying on a floor: broken pieces of black pipe, a bent dark steel bracket, shards and grit spread around it, seen from directly above, flat even lighting, centred with a wide empty margin on every side, isolated on a plain pure white background, wordless",
+      "pick": 1,
+      "seed": 2001557654
+    }
+  ],
+  "audio": {
+    "provider": "elevenlabs",
+    "models": {
+      "sfx": "eleven_text_to_sound_v2",
+      "music": "music_v1",
+      "tts": "eleven_v3",
+      "design": "eleven_ttv_v3"
+    }
+  },
+  "voices": {
+    "venn": {
+      "voiceId": "OgtzKBp1vkxno913pKKz",
+      "name": "Stellar Derelict Sgt. Maro Venn",
+      "model": "eleven_v3",
+      "design": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
+    },
+    "brandt": {
+      "voiceId": "MnUww8gvYDIK07LZOpF8",
+      "name": "Stellar Derelict Ilse Brandt",
+      "model": "eleven_v3",
+      "design": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
+    },
+    "okafor": {
+      "voiceId": "be8rIXK1kZq8Wl6AyWxY",
+      "name": "Stellar Derelict Teo Okafor",
+      "model": "eleven_v3",
+      "design": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
+    },
+    "riedel": {
+      "voiceId": "IcjC7ajPLTbTt8goPK3f",
+      "name": "Stellar Derelict Kass Riedel",
+      "model": "eleven_v3",
+      "design": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
+    },
+    "sato": {
+      "voiceId": "OzdWuUzuDhbiyUzlFXP1",
+      "name": "Stellar Derelict Juno Sato",
+      "model": "eleven_v3",
+      "design": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
+    },
+    "comms": {
+      "voiceId": "5p4E1QCcFH5jMGiv8x5V",
+      "name": "Stellar Derelict Comms officer",
+      "model": "eleven_v3",
+      "design": "A middle-aged ship communications officer, gender-neutral, with a flat, tired, measured voice reading a mission transmission over a long-range radio link: unhurried, clear, no warmth, slight static."
+    }
+  },
   "sounds": [
     {
       "id": "repeater-shot",
@@ -121,14 +796,16 @@
       "gain": 0.9,
       "bus": "sfx",
       "seconds": 1.5,
-      "prompt": "two fast heavy slugs from a twin-barrel autogun in a metal corridor, dry punchy transient, short metallic tail, no music, no voices",
+      "prompt": "a loud twin-barrel autogun firing two heavy rounds in quick succession inside a steel corridor, a sharp cracking report at full volume, close to the microphone, short metallic ring-off, no music, no voices",
+      "promptInfluence": 0.6,
       "negative": "music, voices, speech, noise, distortion"
     },
     {
       "id": "repeater-hit",
       "files": [
         "audio/sfx/repeater-hit-1.mp3",
-        "audio/sfx/repeater-hit-2.mp3"
+        "audio/sfx/repeater-hit-2.mp3",
+        "audio/sfx/repeater-hit-3.mp3"
       ],
       "event": "fired",
       "enabled": true,
@@ -182,7 +859,8 @@
       "id": "scorch",
       "files": [
         "audio/sfx/scorch-1.mp3",
-        "audio/sfx/scorch-2.mp3"
+        "audio/sfx/scorch-2.mp3",
+        "audio/sfx/scorch-3.mp3"
       ],
       "event": "scorched",
       "enabled": true,
@@ -190,6 +868,19 @@
       "bus": "sfx",
       "seconds": 3,
       "prompt": "a heavy flame projector burst in a narrow corridor, roar and whoosh, crackling tail, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
+      "id": "burn-out",
+      "files": [
+        "audio/sfx/burn-out.mp3"
+      ],
+      "event": "burnCleared",
+      "enabled": true,
+      "gain": 0.5,
+      "bus": "sfx",
+      "seconds": 2,
+      "prompt": "the last flames of a chemical fire on deck plate dying down, crackle and hiss fading to ticking metal, no music, no voices",
       "negative": "music, voices, speech, noise, distortion"
     },
     {
@@ -312,10 +1003,25 @@
       "negative": "music, voices, speech, noise, distortion"
     },
     {
+      "id": "servo-turn",
+      "files": [
+        "audio/sfx/servo-turn-1.mp3",
+        "audio/sfx/servo-turn-2.mp3"
+      ],
+      "event": "turned",
+      "enabled": true,
+      "gain": 0.3,
+      "bus": "sfx",
+      "seconds": 0.6,
+      "prompt": "a small armour servo whirring as a heavy suit turns on the spot, one short motor movement with a soft stop, close, no music, no voices",
+      "negative": "music, voices, speech, noise, distortion"
+    },
+    {
       "id": "ping",
       "files": [
         "audio/sfx/ping-1.mp3",
-        "audio/sfx/ping-2.mp3"
+        "audio/sfx/ping-2.mp3",
+        "audio/sfx/ping-3.mp3"
       ],
       "event": "pingArrived",
       "enabled": true,
@@ -398,7 +1104,8 @@
       "id": "door-tear",
       "files": [
         "audio/sfx/door-tear-1.mp3",
-        "audio/sfx/door-tear-2.mp3"
+        "audio/sfx/door-tear-2.mp3",
+        "audio/sfx/door-tear-3.mp3"
       ],
       "event": "tearRolled",
       "enabled": true,
@@ -553,7 +1260,8 @@
       "bus": "sfx",
       "seconds": 0.4,
       "prompt": "a small dry instrument click, no music, no voices",
-      "negative": "music, voices, speech, noise, distortion"
+      "negative": "music, voices, speech, noise, distortion",
+      "promptInfluence": 0.6
     },
     {
       "id": "ui-arm",
@@ -634,8 +1342,8 @@
       "enabled": true,
       "gain": 0.35,
       "bus": "sfx",
-      "seconds": 40,
-      "prompt": "the inside of a dead ship: low hull groans, distant ticking, air through broken ducts, no music, no voices",
+      "seconds": 30,
+      "prompt": "the inside of a dead ship, a seamless loop: low hull groans, distant ticking, air through broken ducts, no music, no voices",
       "negative": "music, voices, speech, noise, distortion",
       "loop": true
     }
@@ -706,7 +1414,7 @@
       "enabled": true,
       "text": "Moving.",
       "file": "audio/voice/venn-moved.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
     },
     {
       "id": "venn-revealed",
@@ -715,7 +1423,8 @@
       "enabled": true,
       "text": "Contact. Eyes up, Lantern.",
       "file": "audio/voice/venn-revealed.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "venn-locked",
@@ -724,7 +1433,7 @@
       "enabled": true,
       "text": "Repeater's cooked. Venting it.",
       "file": "audio/voice/venn-locked.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
     },
     {
       "id": "venn-breached",
@@ -733,7 +1442,8 @@
       "enabled": true,
       "text": "Plate's open. Still standing.",
       "file": "audio/voice/venn-breached.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "venn-watch-set",
@@ -742,17 +1452,59 @@
       "enabled": true,
       "text": "Holding here. Watching the lane.",
       "file": "audio/voice/venn-watch-set.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio."
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
     },
     {
-      "id": "venn-phase-started",
+      "id": "venn-cp-spent",
       "speaker": "venn",
-      "event": "phaseStarted",
+      "event": "cpSpent",
       "enabled": true,
       "text": "Command points are mine. Make them count.",
-      "file": "audio/voice/venn-phase-started.mp3",
-      "voiceDesign": "A man in his fifties with a low, gravelly baritone: calm, weary command voice, clipped and unhurried, a little nasal through a helmet radio.",
+      "file": "audio/voice/venn-cp-spent.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
       "when": "seat:warden"
+    },
+    {
+      "id": "venn-core-taken",
+      "speaker": "venn",
+      "enabled": true,
+      "event": "coreTaken",
+      "when": "carrier",
+      "text": "Core is on me. Lantern, on me.",
+      "file": "audio/voice/venn-core-taken.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
+    },
+    {
+      "id": "venn-core-dropped",
+      "speaker": "venn",
+      "enabled": true,
+      "event": "coreDropped",
+      "when": "carrier",
+      "text": "Core is down. Somebody take it.",
+      "file": "audio/voice/venn-core-dropped.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
+      "delivery": "[shouts]"
+    },
+    {
+      "id": "venn-core-picked",
+      "speaker": "venn",
+      "enabled": true,
+      "event": "corePicked",
+      "when": "carrier",
+      "text": "I have the core again. Moving.",
+      "file": "audio/voice/venn-core-picked.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio."
+    },
+    {
+      "id": "venn-carrier-breached",
+      "speaker": "venn",
+      "enabled": true,
+      "event": "breached",
+      "when": "carrier",
+      "text": "Plate's open and I still have the core.",
+      "file": "audio/voice/venn-carrier-breached.mp3",
+      "voiceDesign": "A man in his fifties with a low, gravelly baritone: a calm, weary squad-leader voice, clipped and unhurried, slightly nasal as if heard through a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "brandt-moved",
@@ -761,7 +1513,7 @@
       "enabled": true,
       "text": "Copy. Shifting.",
       "file": "audio/voice/brandt-moved.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
     },
     {
       "id": "brandt-revealed",
@@ -770,7 +1522,8 @@
       "enabled": true,
       "text": "Something ahead. I have it.",
       "file": "audio/voice/brandt-revealed.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "brandt-locked",
@@ -779,7 +1532,7 @@
       "enabled": true,
       "text": "Barrels are seized.",
       "file": "audio/voice/brandt-locked.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
     },
     {
       "id": "brandt-breached",
@@ -788,7 +1541,8 @@
       "enabled": true,
       "text": "Seal is cracked. Hissing.",
       "file": "audio/voice/brandt-breached.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "brandt-watch-set",
@@ -797,7 +1551,7 @@
       "enabled": true,
       "text": "On watch.",
       "file": "audio/voice/brandt-watch-set.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
     },
     {
       "id": "brandt-vented",
@@ -806,7 +1560,49 @@
       "enabled": true,
       "text": "Venting. Give me a breath.",
       "file": "audio/voice/brandt-vented.mp3",
-      "voiceDesign": "A woman in her thirties with a dry alto: steady, deadpan and economical, speaks quietly and never rushes."
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
+    },
+    {
+      "id": "brandt-core-taken",
+      "speaker": "brandt",
+      "enabled": true,
+      "event": "coreTaken",
+      "when": "carrier",
+      "text": "Core secured. Moving.",
+      "file": "audio/voice/brandt-core-taken.mp3",
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
+    },
+    {
+      "id": "brandt-core-dropped",
+      "speaker": "brandt",
+      "enabled": true,
+      "event": "coreDropped",
+      "when": "carrier",
+      "text": "Dropped it. Core is loose.",
+      "file": "audio/voice/brandt-core-dropped.mp3",
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio.",
+      "delivery": "[shouts]"
+    },
+    {
+      "id": "brandt-core-picked",
+      "speaker": "brandt",
+      "enabled": true,
+      "event": "corePicked",
+      "when": "carrier",
+      "text": "Core is back with me.",
+      "file": "audio/voice/brandt-core-picked.mp3",
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio."
+    },
+    {
+      "id": "brandt-carrier-breached",
+      "speaker": "brandt",
+      "enabled": true,
+      "event": "breached",
+      "when": "carrier",
+      "text": "Seal cracked. Core is still on me.",
+      "file": "audio/voice/brandt-carrier-breached.mp3",
+      "voiceDesign": "A woman in her thirties with a dry, level alto: steady, deadpan and economical, speaks quietly and never rushes, a squad trooper heard through a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "okafor-moved",
@@ -815,7 +1611,7 @@
       "enabled": true,
       "text": "On the move.",
       "file": "audio/voice/okafor-moved.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
     },
     {
       "id": "okafor-revealed",
@@ -824,7 +1620,8 @@
       "enabled": true,
       "text": "Contact, contact. Eyes on it.",
       "file": "audio/voice/okafor-revealed.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "okafor-locked",
@@ -833,7 +1630,7 @@
       "enabled": true,
       "text": "Gun is locked. Need a second.",
       "file": "audio/voice/okafor-locked.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
     },
     {
       "id": "okafor-breached",
@@ -842,7 +1639,8 @@
       "enabled": true,
       "text": "Suit is breached. Keep it quick.",
       "file": "audio/voice/okafor-breached.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "okafor-watch-set",
@@ -851,7 +1649,7 @@
       "enabled": true,
       "text": "Covering this door.",
       "file": "audio/voice/okafor-watch-set.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
     },
     {
       "id": "okafor-vented",
@@ -860,7 +1658,49 @@
       "enabled": true,
       "text": "Venting heat. One moment.",
       "file": "audio/voice/okafor-vented.mp3",
-      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm."
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
+    },
+    {
+      "id": "okafor-core-taken",
+      "speaker": "okafor",
+      "enabled": true,
+      "event": "coreTaken",
+      "when": "carrier",
+      "text": "Got the core. Let's go, let's go.",
+      "file": "audio/voice/okafor-core-taken.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
+    },
+    {
+      "id": "okafor-core-dropped",
+      "speaker": "okafor",
+      "enabled": true,
+      "event": "coreDropped",
+      "when": "carrier",
+      "text": "Core's down! Grab it, somebody.",
+      "file": "audio/voice/okafor-core-dropped.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio.",
+      "delivery": "[shouts]"
+    },
+    {
+      "id": "okafor-core-picked",
+      "speaker": "okafor",
+      "enabled": true,
+      "event": "corePicked",
+      "when": "carrier",
+      "text": "Got it back. Moving.",
+      "file": "audio/voice/okafor-core-picked.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio."
+    },
+    {
+      "id": "okafor-carrier-breached",
+      "speaker": "okafor",
+      "enabled": true,
+      "event": "breached",
+      "when": "carrier",
+      "text": "Suit's breached. Core is still with me.",
+      "file": "audio/voice/okafor-carrier-breached.mp3",
+      "voiceDesign": "A man in his late twenties with a warm, quick tenor: alert and restrained, a thin edge of nerves under practised calm, a squad trooper speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "riedel-moved",
@@ -869,7 +1709,7 @@
       "enabled": true,
       "text": "Going.",
       "file": "audio/voice/riedel-moved.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
     },
     {
       "id": "riedel-revealed",
@@ -878,7 +1718,8 @@
       "enabled": true,
       "text": "There it is.",
       "file": "audio/voice/riedel-revealed.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "riedel-locked",
@@ -887,7 +1728,7 @@
       "enabled": true,
       "text": "Nozzle is dry. Not now.",
       "file": "audio/voice/riedel-locked.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
     },
     {
       "id": "riedel-breached",
@@ -896,7 +1737,8 @@
       "enabled": true,
       "text": "Suit is torn open. Still burning.",
       "file": "audio/voice/riedel-breached.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "riedel-watch-set",
@@ -905,7 +1747,7 @@
       "enabled": true,
       "text": "Staying put. Fuel is hot.",
       "file": "audio/voice/riedel-watch-set.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
     },
     {
       "id": "riedel-scorched",
@@ -914,7 +1756,49 @@
       "enabled": true,
       "text": "Burn it all. Clear the lane.",
       "file": "audio/voice/riedel-scorched.mp3",
-      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences."
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
+    },
+    {
+      "id": "riedel-core-taken",
+      "speaker": "riedel",
+      "enabled": true,
+      "event": "coreTaken",
+      "when": "carrier",
+      "text": "Core's mine. Move.",
+      "file": "audio/voice/riedel-core-taken.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
+    },
+    {
+      "id": "riedel-core-dropped",
+      "speaker": "riedel",
+      "enabled": true,
+      "event": "coreDropped",
+      "when": "carrier",
+      "text": "Core's on the deck.",
+      "file": "audio/voice/riedel-core-dropped.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio.",
+      "delivery": "[shouts]"
+    },
+    {
+      "id": "riedel-core-picked",
+      "speaker": "riedel",
+      "enabled": true,
+      "event": "corePicked",
+      "when": "carrier",
+      "text": "Got it. Go.",
+      "file": "audio/voice/riedel-core-picked.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio."
+    },
+    {
+      "id": "riedel-carrier-breached",
+      "speaker": "riedel",
+      "enabled": true,
+      "event": "breached",
+      "when": "carrier",
+      "text": "Torn open. Core stays with me.",
+      "file": "audio/voice/riedel-carrier-breached.mp3",
+      "voiceDesign": "A woman in her forties with a husky mezzo and a rough rasp: blunt, flat and heavy, short sentences, a flame-trooper speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "sato-moved",
@@ -923,7 +1807,7 @@
       "enabled": true,
       "text": "Understood. Going.",
       "file": "audio/voice/sato-moved.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
       "id": "sato-revealed",
@@ -932,7 +1816,8 @@
       "enabled": true,
       "text": "Movement on the board.",
       "file": "audio/voice/sato-revealed.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio.",
+      "delivery": "[urgent]"
     },
     {
       "id": "sato-locked",
@@ -941,7 +1826,7 @@
       "enabled": true,
       "text": "Heat limit hit. Venting.",
       "file": "audio/voice/sato-locked.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
       "id": "sato-breached",
@@ -950,7 +1835,8 @@
       "enabled": true,
       "text": "Pressure is dropping in my suit.",
       "file": "audio/voice/sato-breached.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio.",
+      "delivery": "[pained]"
     },
     {
       "id": "sato-watch-set",
@@ -959,7 +1845,7 @@
       "enabled": true,
       "text": "Watching. Sensors are up.",
       "file": "audio/voice/sato-watch-set.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
       "id": "sato-terminal-used",
@@ -968,47 +1854,79 @@
       "enabled": true,
       "text": "Console answered. Input accepted.",
       "file": "audio/voice/sato-terminal-used.mp3",
-      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy."
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
-      "id": "carrier-core-taken",
-      "speaker": "carrier",
+      "id": "sato-core-taken",
+      "speaker": "sato",
+      "enabled": true,
       "event": "coreTaken",
-      "enabled": true,
-      "text": "Core is mine. Moving.",
-      "file": "audio/voice/carrier-core-taken.mp3",
-      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
-      "when": "carrier"
+      "when": "carrier",
+      "text": "Core released and secured. Moving.",
+      "file": "audio/voice/sato-core-taken.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
-      "id": "carrier-core-dropped",
-      "speaker": "carrier",
+      "id": "sato-core-dropped",
+      "speaker": "sato",
+      "enabled": true,
       "event": "coreDropped",
-      "enabled": true,
-      "text": "Core is down! Somebody grab it.",
-      "file": "audio/voice/carrier-core-dropped.mp3",
-      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
-      "when": "carrier"
+      "when": "carrier",
+      "text": "Core is loose on the deck.",
+      "file": "audio/voice/sato-core-dropped.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio.",
+      "delivery": "[shouts]"
     },
     {
-      "id": "carrier-core-picked",
-      "speaker": "carrier",
+      "id": "sato-core-picked",
+      "speaker": "sato",
+      "enabled": true,
       "event": "corePicked",
-      "enabled": true,
-      "text": "Got it. Back on the move.",
-      "file": "audio/voice/carrier-core-picked.mp3",
-      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
-      "when": "carrier"
+      "when": "carrier",
+      "text": "Core recovered. Moving.",
+      "file": "audio/voice/sato-core-picked.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio."
     },
     {
-      "id": "carrier-breached",
-      "speaker": "carrier",
-      "event": "breached",
+      "id": "sato-carrier-breached",
+      "speaker": "sato",
       "enabled": true,
-      "text": "Carrier is breached. Core is still with me.",
-      "file": "audio/voice/carrier-breached.mp3",
-      "voiceDesign": "An adult voice, level and neutral, focused and slightly out of breath, as if speaking while running, over a squad radio.",
-      "when": "carrier"
+      "event": "breached",
+      "when": "carrier",
+      "text": "Pressure dropping. Core is still secure.",
+      "file": "audio/voice/sato-carrier-breached.mp3",
+      "voiceDesign": "A young woman in her twenties with a light, clear soprano: precise, brisk and focused, slightly breathy, a technician speaking over a helmet radio.",
+      "delivery": "[pained]"
+    },
+    {
+      "id": "briefing-dead-reckoning",
+      "speaker": "comms",
+      "enabled": true,
+      "event": "briefing",
+      "when": "dead-reckoning",
+      "text": "The Halcyon Drift went dark eleven years ago. Its navigation core still holds where it had been. Cut in at the aft airlock, pull the core from the archive, and carry it back out before the hull lets go.",
+      "file": "audio/voice/briefing-dead-reckoning.mp3",
+      "voiceDesign": "A middle-aged ship communications officer, gender-neutral, with a flat, tired, measured voice reading a mission transmission over a long-range radio link: unhurried, clear, no warmth, slight static."
+    },
+    {
+      "id": "briefing-cold-berth",
+      "speaker": "comms",
+      "enabled": true,
+      "event": "briefing",
+      "when": "cold-berth",
+      "text": "The berth deck is where the Drift's crew went to sleep and never woke. The manifest drive in the berth control room says who they were and what they carried. Cut in at the west airlock, work the lanes between the berth blocks, and bring the drive out before the Molt close the galleries.",
+      "file": "audio/voice/briefing-cold-berth.mp3",
+      "voiceDesign": "A middle-aged ship communications officer, gender-neutral, with a flat, tired, measured voice reading a mission transmission over a long-range radio link: unhurried, clear, no warmth, slight static."
+    },
+    {
+      "id": "briefing-last-light",
+      "speaker": "comms",
+      "enabled": true,
+      "event": "briefing",
+      "when": "last-light",
+      "text": "The reactor deck is the last of the Drift still warm, and the Molt nest closest to it. The reactor's black box holds the final hours of the ship. Cut in at the forward airlock, run the spine through two sealed bulkheads, and get the box out before the swarm wakes in force.",
+      "file": "audio/voice/briefing-last-light.mp3",
+      "voiceDesign": "A middle-aged ship communications officer, gender-neutral, with a flat, tired, measured voice reading a mission transmission over a long-range radio link: unhurried, clear, no warmth, slight static."
     }
   ]
 }

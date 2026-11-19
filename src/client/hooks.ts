@@ -5,8 +5,11 @@ import { viewApi } from './board/viewApi'
 import { visorRt } from './board/visor'
 import { dimsOf, toWorldX, toWorldZ } from './board/layout'
 import { activeBot, botIdle, dispatchHuman, MISSION_ID, setSpeed, wardenSuggestion } from './session'
+import type { RunState } from './run'
 import { botInfo } from './moltBot'
 import { modelStore } from './models/store'
+import { artStore } from './art/store'
+import { wreckOf } from './board/wreck'
 import { audioEngine } from './audio/engine'
 import { getStore, type Speed } from './store'
 
@@ -21,17 +24,21 @@ export interface SdHooks {
   project(x: number, y: number, height?: number): { x: number; y: number } | null
   camera(): ReturnType<typeof viewApi.camera>
   setView(p: { x?: number; z?: number; az?: number; zoom?: number; tilt?: number }): void
+  /** glide the camera over a tile (tests tap tiles that would otherwise sit under a HUD panel) */
+  centre(x: number, y: number): void
   speed(v: Speed): void
   /** the Molt bot: its tier, whether decisions come from the worker or the main thread, and how many were asked for */
   bot(): { tier: string; mode: string; reason: string; decisions: number }
   idle(): Promise<void>
   /** generated models: which are enabled, load progress, failures, and how many of each are in the scene */
   models(): { enabled: string[]; loaded: number; total: number; failed: string[]; mounted: Record<string, number> }
+  /** generated 2D art (spec 70): enabled image ids, board textures loaded, failures, and the marks on the deck */
+  art(): { enabled: string[]; loaded: number; total: number; failed: string[]; scars: { kind: string; at: number[] }[]; fires: number[][]; dress: number }
   /** audio: whether anything is enabled, ids played so far, files that failed to load */
   audio(): { enabled: boolean; played: string[]; failed: string[] }
   /** visor mode: on in the store, the camera blend (0 map, 1 visor), whose eyes, and the target the reticle has locked */
   visor(): { on: boolean; blend: number; unit: string | null; lock: string | null; look: { yaw: number; pitch: number } }
-  ui(): { screen: string; selected: string | null; armed: string | null; actions: number; log: number; timerLeft: number; hover: [number, number] | null }
+  ui(): { screen: string; seat: string; mission: string | null; selected: string | null; armed: string | null; actions: number; log: number; timerLeft: number; hover: [number, number] | null; run: RunState | null }
 }
 
 declare global {
@@ -52,6 +59,7 @@ export function installHooks(): void {
     project: (x, y, h = 0) => viewApi.project(toWorldX(dims(), x), h, toWorldZ(dims(), y)),
     camera: () => viewApi.camera(),
     setView: (p) => viewApi.setView(p),
+    centre: (x, y) => viewApi.flyTo(toWorldX(dims(), x), toWorldZ(dims(), y)),
     speed: (v) => setSpeed(v),
     bot: () => ({ tier: activeBot(), ...botInfo() }),
     idle: () =>
@@ -66,11 +74,15 @@ export function installHooks(): void {
       const s = modelStore.snapshot()
       return { enabled: modelStore.enabledSlugs(), loaded: s.loaded, total: s.total, failed: s.failed.map((f) => f.slug), mounted: modelStore.mountedCounts() }
     },
+    art: () => {
+      const a = artStore.snapshot()
+      return { enabled: artStore.enabledIds(), loaded: a.loaded, total: a.total, failed: a.failed.map((f) => f.id), scars: getStore().scars.map((c) => ({ kind: c.kind, at: [...c.at] })), fires: artStore.entries('wall-fire').length ? wreckOf(getStore().state?.mission ?? MISSION_ID).fires.map((f) => [...f]) : [], dress: wreckOf(getStore().state?.mission ?? MISSION_ID).dress.length }
+    },
     audio: () => ({ enabled: audioEngine.anyEnabled(), played: [...audioEngine.played], failed: audioEngine.failures() }),
     visor: () => ({ on: getStore().visor, blend: visorRt.blend, unit: visorRt.unit, lock: visorRt.lock, look: { ...visorRt.look } }),
     ui: () => {
       const s = getStore()
-      return { screen: s.screen, selected: s.selected, armed: s.armed?.kind ?? null, actions: s.actions.length, log: s.log.length, timerLeft: s.timerLeft, hover: s.hover }
+      return { screen: s.screen, seat: s.seat, mission: s.state?.mission ?? null, selected: s.selected, armed: s.armed?.kind ?? null, actions: s.actions.length, log: s.log.length, timerLeft: s.timerLeft, hover: s.hover, run: s.run }
     },
   }
 }

@@ -1,6 +1,8 @@
 import { deepStrictEqual } from 'node:assert'
+import { readFileSync } from 'node:fs'
 import { makeRand } from '../src/ai/random'
-import { listMissions, getMission } from '../src/data'
+import { listMissions, getMission, registerMission } from '../src/data'
+import type { Mission } from '../src/data'
 import { createGame, legalActions, query, step, view } from '../src/engine'
 import type { Action, Board, State } from '../src/engine'
 import { checkInvariants } from './invariants'
@@ -16,10 +18,21 @@ const games = Number(arg('games', '100'))
 const seed0 = Number(arg('seed', '1'))
 const missionId = arg('mission', 'dead-reckoning')
 const checkEvery = Number(arg('check-every', '8'))
+// --roster venn,sato,riedel: the squad members who board (a run's survivors, R-2)
+const roster = arg('roster', '')
 const STALL = 3000
 if (!getMission(missionId)) {
   console.error(`unknown mission ${missionId}; known: ${listMissions().map((m) => m.id).join(', ')}`)
   process.exit(2)
+}
+// --override '{"arrivals":{"normal":3},"roundLimit":20}': try mission numbers without editing the file (balance rows, spec 10 section 13)
+const override = arg('override', '')
+const overrideFile = arg('override-file', '')
+if (override || overrideFile) {
+  const base = getMission(missionId) as Mission
+  const patch = JSON.parse(overrideFile ? readFileSync(overrideFile, 'utf8') : override) as Partial<Mission>
+  registerMission({ ...structuredClone(base), ...patch, arrivals: { ...base.arrivals, ...(patch.arrivals ?? {}) } })
+  console.log(`override: ${override || overrideFile}`)
 }
 
 const reasons: Record<string, number> = {}
@@ -36,7 +49,7 @@ const key = (a: Action): string => JSON.stringify(a)
 
 for (let g = 0; g < games; g++) {
   const seed = seed0 + g
-  let s: State = createGame({ mission: missionId, seed })
+  let s: State = createGame(roster ? { mission: missionId, seed, options: { roster: roster.split(',') } } : { mission: missionId, seed })
   const rand = makeRand(seed)
   let n = 0
   const note = (msg: string): void => {

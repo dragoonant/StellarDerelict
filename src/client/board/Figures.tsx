@@ -57,9 +57,11 @@ const FAN_R = 6
 const fanGeo = new BufferGeometry().setAttribute('position', new Float32BufferAttribute([0, 0, 0, -FAN_R, 0, -FAN_R, FAN_R, 0, -FAN_R], 3))
 const fanEdge = new BufferGeometry().setAttribute('position', new Float32BufferAttribute([0, 0, 0, -FAN_R, 0, -FAN_R, 0, 0, 0, FAN_R, 0, -FAN_R], 3))
 
-let qTex: CanvasTexture | null = null
-function questionTexture(): CanvasTexture {
-  if (qTex) return qTex
+const glyphTex = new Map<string, CanvasTexture>()
+/** A one-glyph sprite texture: '?' for an unresolved contact, its stalker count on the Molt seat (E-7: that view carries it). */
+function glyphTexture(glyph: string): CanvasTexture {
+  const hit = glyphTex.get(glyph)
+  if (hit) return hit
   const c = document.createElement('canvas')
   c.width = c.height = 64
   const x = c.getContext('2d')
@@ -68,10 +70,11 @@ function questionTexture(): CanvasTexture {
     x.font = '700 48px "IBM Plex Mono", monospace'
     x.textAlign = 'center'
     x.textBaseline = 'middle'
-    x.fillText('?', 32, 36)
+    x.fillText(glyph, 32, 36)
   }
-  qTex = new CanvasTexture(c)
-  return qTex
+  const t = new CanvasTexture(c)
+  glyphTex.set(glyph, t)
+  return t
 }
 
 // facing wedge on the tile: a solid triangle in front of the figure (forward is -z)
@@ -184,7 +187,7 @@ function WardenFigure({ dims, u, slug, selected, carrier }: { dims: Dims; u: War
   )
 }
 
-function StalkerFigure({ dims, u }: { dims: Dims; u: ViewUnit }) {
+function StalkerFigure({ dims, u, selected }: { dims: Dims; u: ViewUnit; selected: boolean }) {
   const ref = useSmoothPlacement(dims, u.at, u.id, null)
   return (
     <group ref={ref}>
@@ -192,6 +195,12 @@ function StalkerFigure({ dims, u }: { dims: Dims; u: ViewUnit }) {
         <circleGeometry args={[0.46, 20]} />
         <meshBasicMaterial color={tokens.molt} transparent opacity={0.35} fog={false} depthWrite={false} />
       </mesh>
+      {selected && (
+        <mesh position={[0, 0.035, 0]} rotation-x={-Math.PI / 2}>
+          <ringGeometry args={[0.4, 0.48, 24]} />
+          <meshBasicMaterial color={tokens.lit} transparent opacity={0.9} fog={false} blending={AdditiveBlending} depthWrite={false} />
+        </mesh>
+      )}
       <ModelFigure
         slug={stalkerSlug(u.id)}
         fallback={
@@ -204,12 +213,13 @@ function StalkerFigure({ dims, u }: { dims: Dims; u: ViewUnit }) {
   )
 }
 
-function PingMarker({ dims, u }: { dims: Dims; u: ViewUnit }) {
+function PingMarker({ dims, u, selected }: { dims: Dims; u: ViewUnit; selected: boolean }) {
   const ref = useSmoothPlacement(dims, u.at, u.id, null)
   const ring = useRef<Mesh>(null)
   const ripple = useRef<Mesh>(null)
   const sprite = useRef<Sprite>(null)
-  const tex = useMemo(() => questionTexture(), [])
+  const glyph = u.kind === 'ping' && typeof u.stalkers === 'number' ? String(u.stalkers) : '?'
+  const tex = useMemo(() => glyphTexture(glyph), [glyph])
   useFrame(({ clock }) => {
     const t = clock.elapsedTime
     if (ring.current) ring.current.scale.setScalar(1 + 0.12 * Math.sin(t * 4))
@@ -233,6 +243,12 @@ function PingMarker({ dims, u }: { dims: Dims; u: ViewUnit }) {
       <sprite ref={sprite} position={[0, 0.55, 0]} scale={[0.5, 0.5, 1]}>
         <spriteMaterial map={tex} transparent fog={false} depthWrite={false} />
       </sprite>
+      {selected && (
+        <mesh position={[0, 0.045, 0]} rotation-x={-Math.PI / 2}>
+          <ringGeometry args={[0.42, 0.5, 28]} />
+          <meshBasicMaterial color={tokens.lit} transparent opacity={0.9} fog={false} blending={AdditiveBlending} depthWrite={false} />
+        </mesh>
+      )}
     </group>
   )
 }
@@ -268,9 +284,9 @@ export function Units({ dims, v }: { dims: Dims; v: View }) {
         u.kind === 'warden' ? (
           <WardenFigure key={u.id} dims={dims} u={u} slug={wardenSlug(u.role, rifle.get(u.id) ?? 0)} selected={selected === u.id} carrier={v.core.carrier === u.id} />
         ) : u.kind === 'stalker' ? (
-          <StalkerFigure key={u.id} dims={dims} u={u} />
+          <StalkerFigure key={u.id} dims={dims} u={u} selected={selected === u.id} />
         ) : (
-          <PingMarker key={u.id} dims={dims} u={u} />
+          <PingMarker key={u.id} dims={dims} u={u} selected={selected === u.id} />
         ),
       )}
       {v.core.where === 'loose' && v.core.at && <LooseCore dims={dims} at={v.core.at as [number, number]} />}

@@ -18,7 +18,9 @@
     "figures:concepts": "node tools/figures/gen-concepts.mjs",
     "figures:inputs": "node tools/figures/make-hunyuan-inputs.mjs",
     "models:optimize": "node tools/models/optimize.mjs",
+    "art:gen": "node tools/art/gen-art.mjs",
     "audio:gen": "node tools/audio/gen-audio.mjs",
+    "audio:eleven": "node tools/audio/gen-eleven.mjs",
     "audio:measure": "node tools/audio/measure-audio.mjs"
   },
   "dependencies": {

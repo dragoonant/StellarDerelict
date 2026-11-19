@@ -76,7 +76,21 @@ function row(parent: HTMLElement, file: string, title: string, meta: string, pro
 
 async function main(): Promise<void> {
   const measure = await loadMeasure()
-  root.append(el('h1', 'sx__title', 'Stellar Derelict sounds'), el('p', 'line line--dim', 'Not verified by ear until the owner has listened here. Entries stay disabled in src/data/assets.json until they pass.'))
+  root.append(
+    el('h1', 'sx__title', 'Stellar Derelict sounds'),
+    el('p', 'line line--dim', 'Not verified by ear until the owner has listened here. Entries stay disabled in src/data/assets.json until they pass.'),
+    el('p', 'line line--dim', `Generated with ${assets.audio.provider}: effects ${assets.audio.models.sfx}, music ${assets.audio.models.music}, speech ${assets.audio.models.tts}. Levels from public/assets/audio/measure.json.`),
+  )
+  const cast = el('section')
+  cast.append(el('h2', undefined, `Voices (${Object.keys(assets.voices).length})`))
+  for (const [speaker, p] of Object.entries(assets.voices)) {
+    const r = el('article', 'sx')
+    const head = el('div', 'sx__head')
+    head.append(el('strong', undefined, speaker), el('span', 'dim', `${p.name}, ${p.model}, voice ${p.voiceId}`))
+    r.append(head, el('p', 'sx__prompt', p.design))
+    cast.append(r)
+  }
+  root.append(cast)
   const sfx = el('section')
   sfx.append(el('h2', undefined, `Effects (${assets.sounds.length})`))
   for (const s of assets.sounds)
@@ -86,7 +100,7 @@ async function main(): Promise<void> {
   for (const m of assets.music) row(mus, m.file, m.state, `${m.bpm} bpm, ${m.seconds}s${m.enabled ? ', enabled' : ', disabled'}`, m.prompt, '', measure)
   const voc = el('section')
   voc.append(el('h2', undefined, `Voice (${assets.voice.length})`))
-  for (const v of assets.voice) row(voc, v.file, v.id, `${v.speaker}, ${v.event}${v.when ? ' / ' + v.when : ''}${v.enabled ? ', enabled' : ', disabled'}`, `"${v.text}" - ${v.voiceDesign}`, '', measure)
+  for (const v of assets.voice) row(voc, v.file, v.id, `${v.speaker} (${assets.voices[v.speaker]?.name ?? 'no voice'}), ${v.event}${v.when ? ' / ' + v.when : ''}${v.enabled ? ', enabled' : ', disabled'}`, `${v.delivery ? v.delivery + ' ' : ''}"${v.text}"`, '', measure)
   root.append(sfx, mus, voc)
 }
 void main()

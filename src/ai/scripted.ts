@@ -1,8 +1,8 @@
 /**
  * Scripted policies for the sim and the balance record. They are decent, not clever: the real AI is a later milestone.
- * The Warden policy is written for Dead Reckoning (terminal ids and slots are named below); the Molt policy is generic.
+ * Both policies read the mission's terminals, sealed doors and optional `aiHints` slots through `missionPlan`, so they play any mission.
  */
-import { getMission } from '../data'
+import { getMission, type Slot } from '../data'
 import { query } from '../engine'
 import type { Action, Board, Facing, Pos, StalkerUnit, ViewUnit, WardenUnit } from '../engine'
 
@@ -124,34 +124,68 @@ function stepInto(b: Board, u: ViewUnit, next: Pos): Action | null {
 // Warden policy
 // ---------------------------------------------------------------------------------------------
 
-export type Slot = [number, number, Facing]
-export const FLANK_TERMINAL = 'flank-doors'
-export const LOCK_TERMINAL = 'archive-lock'
-export const FLANK_DOORS: Pos[] = [
-  [10, 6],
-  [18, 6],
-  [23, 14],
-]
-export const ARCHIVE_DOOR: Pos = [14, 4]
-export const STAGING: Slot[] = [
-  [10, 14, 'E'],
-  [11, 14, 'E'],
-  [12, 14, 'E'],
-  [13, 14, 'E'],
-]
-export const DEEP: Slot[] = [
-  [1, 13, 'E'],
-  [1, 15, 'E'],
-  [1, 14, 'E'],
-  [2, 13, 'E'],
-  [2, 15, 'E'],
-]
-export const ARMS: Slot[] = [
-  [13, 6, 'W'],
-  [15, 6, 'E'],
-  [12, 6, 'W'],
-  [16, 6, 'E'],
-]
+export type { Slot } from '../data'
+
+/**
+ * What the Warden policies need to know about a mission, read from its data (spec 40 "Any mission"): the terminal that
+ * unseals the doors that start sealed (the lock), the other bulkhead terminal nearest the airlock and its doors (the
+ * flanks), and the optional formation slots from `aiHints`. Cached per mission id.
+ */
+export interface MissionPlan {
+  lockTerminal: string | null
+  sealedDoors: Pos[]
+  flankTerminal: string | null
+  flankDoors: Pos[]
+  staging: Slot[]
+  arms: Slot[]
+  core: Slot[]
+  deep: Slot[]
+}
+
+const planCache = new Map<string, MissionPlan>()
+
+export function missionPlan(b: Board): MissionPlan {
+  const hit = planCache.get(b.mission)
+  if (hit) return hit
+  const m = getMission(b.mission)
+  const empty: MissionPlan = { lockTerminal: null, sealedDoors: [], flankTerminal: null, flankDoors: [], staging: [], arms: [], core: [], deep: [] }
+  if (!m) return empty
+  const sealedDoors: Pos[] = m.sealed.map((d) => [d[0], d[1]])
+  const isSealed = (d: Pos): boolean => sealedDoors.some((q) => eq(q, d))
+  const bulkheads = m.terminals.filter((t) => t.system === 'bulkheads')
+  let lock: (typeof bulkheads)[number] | null = null
+  let lockN = 0
+  for (const t of bulkheads) {
+    const n = (t.doors ?? []).filter(isSealed).length
+    if (n > lockN) {
+      lock = t
+      lockN = n
+    }
+  }
+  const airD = airDistances(b)
+  let flank: (typeof bulkheads)[number] | null = null
+  let flankD = Infinity
+  for (const t of bulkheads) {
+    if (lock && t.id === lock.id) continue
+    const d = Math.min(...ORTHO.map((o) => airD.get(`${t.at[0] + o[0]},${t.at[1] + o[1]}`) ?? Infinity))
+    if (d < flankD) {
+      flankD = d
+      flank = t
+    }
+  }
+  const plan: MissionPlan = {
+    lockTerminal: lock?.id ?? null,
+    sealedDoors,
+    flankTerminal: flank?.id ?? null,
+    flankDoors: (flank?.doors ?? []).filter((d) => !isSealed(d)).map((d): Pos => [d[0], d[1]]),
+    staging: (m.aiHints?.staging ?? []).map((x) => [x[0], x[1], x[2]] as Slot),
+    arms: (m.aiHints?.arms ?? []).map((x) => [x[0], x[1], x[2]] as Slot),
+    core: (m.aiHints?.core ?? m.aiHints?.arms ?? []).map((x) => [x[0], x[1], x[2]] as Slot),
+    deep: (m.aiHints?.deep ?? []).map((x) => [x[0], x[1], x[2]] as Slot),
+  }
+  planCache.set(b.mission, plan)
+  return plan
+}
 
 export type GoalFn = (x: number, y: number, f: Facing) => boolean
 
@@ -266,13 +300,19 @@ export type Stage = 'flanks' | 'unlock' | 'core' | 'carry' | 'pickup'
 export function stageOf(b: Board): Stage {
   if (b.core.where === 'carried') return 'carry'
   if (b.core.where === 'loose') return 'pickup'
-  const doorsDone = FLANK_DOORS.every((d) => {
+  const P = missionPlan(b)
+  const doorsDone = P.flankDoors.every((d) => {
     const s = b.doors[key(d)]
     return !s || s.sealed || s.open || s.torn
   })
   if (!doorsDone && b.round <= 4) return 'flanks'
-  if (b.doors[key(ARCHIVE_DOOR)]?.sealed) return 'unlock'
+  if (lockSealed(b)) return 'unlock'
   return 'core'
+}
+
+/** Any door that started sealed is still sealed (the lock terminal has work left). */
+export function lockSealed(b: Board): boolean {
+  return missionPlan(b).sealedDoors.some((d) => b.doors[key(d)]?.sealed)
 }
 
 export function airDistances(b: Board): Map<string, number> {
@@ -386,6 +426,7 @@ export const wardenPolicyV1: Policy = (b) => {
   }
   // pass B: objective
   const stage = stageOf(b)
+  const P = missionPlan(b)
   const tech = ws.find((w) => w.role === 'tech')
   const goals = new Map<string, { goal: GoalFn | null; op: 'terminal' | 'core' | null; useCp: boolean }>()
   const airD = airDistances(b)
@@ -400,7 +441,7 @@ export const wardenPolicyV1: Policy = (b) => {
     return best?.w ?? null
   }
   let operator: WardenUnit | null = null
-  const terminal = stage === 'flanks' ? terminalPos(b, FLANK_TERMINAL) : terminalPos(b, LOCK_TERMINAL)
+  const terminal = stage === 'flanks' ? terminalPos(b, P.flankTerminal ?? '') : terminalPos(b, P.lockTerminal ?? '')
   if (stage === 'flanks' || stage === 'unlock') {
     if (terminal) {
       operator = pick(adjacentGoal(terminal, b), tech)
@@ -429,17 +470,18 @@ export const wardenPolicyV1: Policy = (b) => {
   const escorts = ws.filter((w) => !operator || w.id !== operator.id)
   escorts.forEach((w, i) => {
     let g: GoalFn | null = null
-    if (stage === 'flanks') g = slotGoal(STAGING[i % STAGING.length] as Slot)
-    else if (stage === 'unlock' || stage === 'core') g = slotGoal(ARMS[i % ARMS.length] as Slot)
+    if (stage === 'flanks' && P.staging.length) g = slotGoal(P.staging[i % P.staging.length] as Slot)
+    else if (stage === 'unlock' && P.arms.length) g = slotGoal(P.arms[i % P.arms.length] as Slot)
+    else if (stage === 'core' && P.core.length) g = slotGoal(P.core[i % P.core.length] as Slot)
     else if (stage === 'carry' && operator) {
       const cd = airD.get(key(operator.at)) ?? 999
       const wd = airD.get(key(w.at)) ?? 999
       const car = operator.at
-      const inArms = ARMS.some((a) => a[0] === w.at[0] && a[1] === w.at[1])
+      const inArms = P.arms.some((a) => a[0] === w.at[0] && a[1] === w.at[1])
       if (cd < wd) g = (x, y) => (x !== car[0] || y !== car[1]) && manh([x, y], car) <= 3 && (airD.get(`${x},${y}`) ?? 999) >= cd && airD.get(`${x},${y}`) !== 0
       else if (inArms) g = null
-      else if (manh(w.at, car) <= 4) g = slotGoal(DEEP[i % DEEP.length] as Slot)
-      else g = slotGoal(ARMS[i % ARMS.length] as Slot)
+      else if (manh(w.at, car) <= 4 && P.deep.length) g = slotGoal(P.deep[i % P.deep.length] as Slot)
+      else if (P.arms.length) g = slotGoal(P.arms[i % P.arms.length] as Slot)
     }
     goals.set(w.id, { goal: g, op: null, useCp: false })
   })
@@ -456,7 +498,7 @@ export const wardenPolicyV1: Policy = (b) => {
         if (query.why(b, a) === null) return a
       } else if (g.op === 'terminal') {
         const opts = query.terminalOps(b, w.id).filter((o) => o.available)
-        const want = stage === 'flanks' ? opts.find((o) => o.op === 'seal' && o.door && FLANK_DOORS.some((d) => eq(d, o.door as Pos))) : opts.find((o) => o.op === 'unseal' && o.door && eq(o.door, ARCHIVE_DOOR))
+        const want = stage === 'flanks' ? opts.find((o) => o.op === 'seal' && o.door && P.flankDoors.some((d) => eq(d, o.door as Pos))) : opts.find((o) => o.op === 'unseal' && o.door && P.sealedDoors.some((d) => eq(d, o.door as Pos)))
         if (want) {
           const a: Action = want.door
             ? { type: 'terminal', unit: w.id, terminal: want.terminal, op: want.op, door: want.door }

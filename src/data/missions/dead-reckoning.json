@@ -3,6 +3,12 @@
   "name": "Dead Reckoning",
   "wreck": "the survey tender Halcyon Drift",
   "brief": "The Halcyon Drift went dark eleven years ago. Its navigation core still holds where it had been. Cut in at the aft airlock, pull the core from the archive, and carry it back out before the hull lets go.",
+  "objective": { "item": "navigation core", "place": "archive", "exit": "aft airlock" },
+  "aiHints": {
+    "staging": [[10, 14, "E"], [11, 14, "E"], [12, 14, "E"], [13, 14, "E"]],
+    "arms": [[13, 6, "W"], [15, 6, "E"], [12, 6, "W"], [16, 6, "E"]],
+    "deep": [[1, 13, "E"], [1, 15, "E"], [1, 14, "E"], [2, 13, "E"], [2, 15, "E"]]
+  },
   "legend": {
     "#": "wall",
     ".": "floor",

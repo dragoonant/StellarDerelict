@@ -29,8 +29,9 @@ Two sides: the **Wardens** (armoured boarders, seat `warden`) and the **Molt** (
 | `ductWatchRadius` | 3 | P-2 |
 | `revealRadius` | 2 | P-6 |
 | `timer.base`, `timer.perWarden` | 45, 15 | K-1 |
+| `run.minSquad` | 2 | R-3 |
 
-Mission numbers (round limit, arrivals, the ping bag) live in the mission file (spec 11).
+Mission numbers (round limit, arrivals, the ping bag) live in the mission file (specs 11, 12, 13).
 
 ## 1. Grid and sight
 
@@ -196,8 +197,10 @@ One Warden carries the scorcher instead of a repeater.
 
 ## 13. Balance record
 
-Fill in from `npm run sim` (spec 00). Target for the first mission: scripted Wardens beat scripted Molt in 35–55% of
-1,000 games. Change one constant at a time and keep every row.
+Fill in from `npm run sim` (spec 00). Target for every mission with the full squad: the utility Wardens beat the regular
+Molt in 35–55% of the games. Change one constant at a time and keep every row. Cold Berth's rows are in spec 12 and Last
+Light's in spec 13 (`--mission`, `--override`, `--override-file` and `--roster` on the sim try a mission's numbers, a map
+variant or a short-handed squad without editing the files).
 
 | Id | Date | Change | Warden win % | Notes |
 |---|---|---|---|---|
@@ -240,6 +243,22 @@ Against Wardens that clear blockers (shoot what stands in the route, scorch, bri
 of results. Blocking by unseen pings is therefore not dominant for a competent squad; it only beats a squad that has no way through. If a person
 turns out to be stopped by it, a rule to answer it would be: a Warden adjacent to a ping may probe it (1 AP, forced reveal P-7), which lets a squad that
 cannot see round a corner clear a plugged corridor. Proposed only; not implemented.
+
+## 15. The boarding run (client rules over the engine)
+
+A run is the game's campaign: the missions of `src/data/run.json` in order, played by one squad. The engine knows nothing
+of it beyond the `roster` option (E-0); `src/client/run.ts` carries the roster and the tally between missions.
+
+- **R-1** A run is the listed missions in order, on the Warden seat, at one difficulty chosen on the first Briefing.
+- **R-2** The squad that boards a mission is the Wardens alive at the end of the one before (the whole squad for the
+  first). Plating is repaired between missions: every boarding Warden starts intact. Squad order is kept.
+- **R-3** A lost mission ends the run. A won mission that leaves fewer than `run.minSquad` Wardens alive also ends it:
+  the squad pulls out.
+- **R-4** The run is complete when the last mission is won. Its tally (missions won, Wardens lost, Molt destroyed, rounds
+  used) is the sum of its missions' debriefs.
+- **R-5** Every mission's seed derives from the run's one seed and the mission's index, so a run replays from one number.
+
+The Missions screen also offers any mission alone, on either seat (spec 50 "The Molt seat"); a single mission is not a run.
 
 ## 14. Rulings
 

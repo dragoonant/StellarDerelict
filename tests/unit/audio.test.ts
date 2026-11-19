@@ -7,7 +7,7 @@ import { BufferCache } from '../../src/client/audio/bufferCache'
 import { VariantRotator, VoiceGate } from '../../src/client/audio/limits'
 import { musicState, type MusicInput } from '../../src/client/audio/music'
 import { parseAudioSettings, DEFAULT_AUDIO } from '../../src/client/audio/settings'
-import { AMBIENCE, EVENT_SOUNDS, TIMER_SOUND, UI_SOUNDS, dedupeInstant, silentEvents, soundsFor, voiceFor } from '../../src/client/audio/soundMap'
+import { AMBIENCE, EVENT_SOUNDS, TIMER_SOUND, UI_SOUNDS, briefingLine, dedupeInstant, silentEvents, soundsFor, voiceFor } from '../../src/client/audio/soundMap'
 
 const base = (): View => view(createGame({ mission: 'dead-reckoning', seed: 1 }), 'warden')
 const soundIds = new Set(assets.sounds.map((s) => s.id))
@@ -21,6 +21,7 @@ const SAMPLES: { [K in Event['type']]: Extract<Event, { type: K }> } = {
   doorChanged: { type: 'doorChanged', door: [1, 1], state: 'open' },
   fired: { type: 'fired', unit: 'venn', target: 's1', dice: [4, 4], need: 4, hit: true, heat: 1, watch: false },
   locked: { type: 'locked', unit: 'brandt' },
+  cpSpent: { type: 'cpSpent', unit: 'venn', cp: 1, left: 2 },
   vented: { type: 'vented', unit: 'okafor', heldCp: false },
   watchSet: { type: 'watchSet', unit: 'sato' },
   watchEnded: { type: 'watchEnded', unit: 'sato', why: 'phase' },
@@ -53,7 +54,7 @@ describe('AUD-1 every engine event is mapped or explicitly silent', () => {
     for (const ev of Object.values(SAMPLES)) for (const id of soundsFor(ev, v)) expect(soundIds.has(id), `${ev.type} -> ${id}`).toBe(true)
   })
   it('the silent list is the documented one', () => {
-    expect(silentEvents().sort()).toEqual(['burnCleared', 'pingHeld', 'roundEnded', 'turned', 'watchEnded'])
+    expect(silentEvents().sort()).toEqual(['cpSpent', 'pingHeld', 'roundEnded', 'watchEnded'])
   })
   it('every manifest sound is reachable from an event, the interface, the timer or the ambience', () => {
     const v = base()
@@ -90,24 +91,44 @@ describe('AUD-1 every engine event is mapped or explicitly silent', () => {
     expect(soundsFor({ ...SAMPLES.moved, unit: 'p1' }, withS)).toEqual(['ping'])
     expect(soundsFor(SAMPLES.meleeFought, withS)).toEqual(['maul'])
     expect(soundsFor({ ...SAMPLES.meleeFought, outcome: 'tie' }, withS)).toEqual(['melee-hit'])
+    expect(soundsFor(SAMPLES.turned, withS)).toEqual(['servo-turn'])
+    expect(soundsFor(SAMPLES.burnCleared, withS)).toEqual(['burn-out'])
   })
 })
 
 describe('AUD-2 voice lines', () => {
-  it('has six lines for each Warden and four for the carrier, all short and original-length', () => {
-    for (const w of ['venn', 'brandt', 'okafor', 'riedel', 'sato']) expect(assets.voice.filter((v) => v.speaker === w)).toHaveLength(6)
-    expect(assets.voice.filter((v) => v.speaker === 'carrier')).toHaveLength(4)
-    for (const v of assets.voice) expect(v.text.length).toBeLessThan(60)
+  it('has six lines of their own and four carrier lines for each Warden, a briefing per mission, every line spoken by a designed voice', () => {
+    for (const w of ['venn', 'brandt', 'okafor', 'riedel', 'sato']) {
+      expect(assets.voice.filter((v) => v.speaker === w && v.when !== 'carrier')).toHaveLength(6)
+      expect(assets.voice.filter((v) => v.speaker === w && v.when === 'carrier').map((v) => v.id).sort()).toEqual([`${w}-carrier-breached`, `${w}-core-dropped`, `${w}-core-picked`, `${w}-core-taken`])
+      expect(assets.voices[w]?.voiceId).toMatch(/^[A-Za-z0-9]{10,}$/)
+    }
+    expect(assets.voice.filter((v) => v.speaker === 'comms').map((v) => v.when).sort()).toEqual(['cold-berth', 'dead-reckoning', 'last-light'])
+    for (const v of assets.voice) expect(v.text.length).toBeLessThan(v.event === 'briefing' ? 400 : 60)
+    expect(assets.audio.provider).toBe('elevenlabs')
   })
-  it('keys lines to the unit that acted, and the carrier lines to the core events', () => {
+  it('keys lines to the unit that acted; the carrier speaks of the core in their own voice (AUD-10)', () => {
     const v = base()
     expect(voiceFor({ ...SAMPLES.moved, unit: 'brandt' }, v)).toBe('brandt-moved')
     expect(voiceFor(SAMPLES.locked, v)).toBe('brandt-locked')
     expect(voiceFor(SAMPLES.scorched, v)).toBe('riedel-scorched')
     expect(voiceFor(SAMPLES.terminalUsed, v)).toBe('sato-terminal-used')
-    expect(voiceFor(SAMPLES.coreTaken, v)).toBe('carrier-core-taken')
+    expect(voiceFor(SAMPLES.coreTaken, v)).toBe('venn-core-taken')
+    expect(voiceFor({ ...SAMPLES.corePicked, unit: 'sato' }, v)).toBe('sato-core-picked')
+    const carried: View = { ...v, core: { where: 'carried', at: null, carrier: 'okafor' } }
+    expect(voiceFor(SAMPLES.coreDropped, carried)).toBe('okafor-core-dropped')
+    expect(voiceFor(SAMPLES.coreDropped, v)).toBeNull()
+    expect(voiceFor({ ...SAMPLES.breached, unit: 'okafor' }, carried)).toBe('okafor-carrier-breached')
+    expect(voiceFor({ ...SAMPLES.breached, unit: 'okafor' }, v)).toBe('okafor-breached')
+    expect(voiceFor(SAMPLES.cpSpent, v)).toBe('venn-cp-spent')
+    expect(voiceFor(SAMPLES.phaseStarted, v)).toBeNull()
     expect(voiceFor(SAMPLES.fired, v)).toBeNull()
     expect(voiceFor({ ...SAMPLES.moved, unit: 'ghost' }, v)).toBeNull()
+  })
+  it('AUD-11 the comms officer has a briefing for every mission and none for a stranger', () => {
+    expect(briefingLine('dead-reckoning')).toBe('briefing-dead-reckoning')
+    expect(briefingLine('last-light')).toBe('briefing-last-light')
+    expect(briefingLine('nowhere')).toBeNull()
   })
   it('the nearest living Warden calls a contact', () => {
     const v = base()

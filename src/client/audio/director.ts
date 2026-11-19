@@ -5,7 +5,8 @@ import type { Event, View } from '../../engine'
 import { getStore, useStore, type GameStore } from '../store'
 import { audioEngine } from './engine'
 import { musicState } from './music'
-import { AMBIENCE, TIMER_SOUND, TIMER_WARN_S, UI_SOUNDS, dedupeInstant, soundsFor, voiceFor } from './soundMap'
+import { AMBIENCE, TIMER_SOUND, TIMER_WARN_S, UI_SOUNDS, briefingLine, dedupeInstant, soundsFor, voiceFor } from './soundMap'
+import { currentMission } from '../run'
 
 let fight = false
 let acked = new Set<string>()
@@ -19,10 +20,12 @@ function bump(ev: Event): void {
 
 function play(ev: Event, view: View | null): void {
   for (const id of soundsFor(ev, view)) audioEngine.playSfx(id)
-  if (ev.type === 'moved' && acked.has(ev.unit)) return
+  // one movement acknowledgement per Warden per phase, and one command-point line per phase
+  const ackKey = ev.type === 'moved' ? ev.unit : ev.type === 'cpSpent' ? 'cp' : null
+  if (ackKey && acked.has(ackKey)) return
   const v = voiceFor(ev, view)
   if (v) {
-    if (ev.type === 'moved') acked.add(ev.unit)
+    if (ackKey) acked.add(ackKey)
     audioEngine.playVoice(v)
   }
 }
@@ -64,6 +67,11 @@ export function initAudio(): void {
       audioEngine.playSfx(UI_SOUNDS.confirm)
       audioEngine.startAmbience()
     } else if (s.screen !== 'mission' && p.screen === 'mission') audioEngine.stopAmbience()
+    // the comms officer reads the brief once when the Briefing opens; leaving the screen cuts it (AUD-11)
+    if (s.screen === 'briefing' && p.screen !== 'briefing') {
+      const line = briefingLine(s.run ? currentMission(s.run) : s.missionPick)
+      if (line) audioEngine.playVoice(line)
+    } else if (s.screen !== 'briefing' && p.screen === 'briefing') audioEngine.stopVoice()
     if (s.selected && s.selected !== p.selected) audioEngine.playSfx(UI_SOUNDS.select)
     if (s.armed && !p.armed) audioEngine.playSfx(UI_SOUNDS.arm)
     if (s.notice && s.notice !== p.notice) audioEngine.playSfx(UI_SOUNDS.deny)

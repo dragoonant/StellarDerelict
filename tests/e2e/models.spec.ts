@@ -56,7 +56,7 @@ test('?models=warden-tech with the file missing: falls back, one warning, a line
   })
   await page.route('**/assets/models/warden-tech.glb', (route) => route.fulfill({ status: 404, body: 'no' }))
   await page.goto('/?models=warden-tech')
-  await expect(page.getByRole('button', { name: /board the halcyon drift/i })).toBeEnabled()
+  await expect(page.getByRole('button', { name: /^single mission/i })).toBeEnabled()
   await page.getByRole('button', { name: /settings/i }).click()
   await expect(page.getByRole('status')).toContainText('warden-tech')
   expect(warnings.filter((w) => w.includes('warden-tech'))).toHaveLength(1)

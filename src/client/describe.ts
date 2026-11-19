@@ -1,5 +1,5 @@
 // Radio-style log lines and inspector text, in our own words. Every number comes from an event or from the engine.
-import { roles, rules } from '../data'
+import { roles, rules, type Objective } from '../data'
 import { geoOf } from '../engine/grid'
 import { query } from '../engine'
 import type { Board, Event, Pos, ViewUnit } from '../engine'
@@ -9,6 +9,11 @@ const at = (p: Pos): string => `${p[0]},${p[1]}`
 const cap = (t: string): string => t.charAt(0).toUpperCase() + t.slice(1)
 const pad = (n: number): string => String(n).padStart(2, '0')
 export const roundLabel = (n: number): string => pad(n)
+
+/** The mission's own words for the core, its room and the exit (spec 50: the player never reads the engine's names). */
+export function objectiveWords(b: Board): Objective {
+  return geoOf(b.mission).mission.objective
+}
 
 export function nameOf(b: Board, id: string): string {
   const u = b.units.find((x) => x.id === id)
@@ -31,9 +36,9 @@ export interface Line {
 /** A short place description for a door square, from the mission data where it names one. */
 export function doorName(b: Board, p: Pos): string {
   const g = geoOf(b.mission)
-  if (g.mission.sealed.some((q) => q[0] === p[0] && q[1] === p[1])) return 'the archive bulkhead'
+  if (g.mission.sealed.some((q) => q[0] === p[0] && q[1] === p[1])) return `the ${g.mission.objective.place} bulkhead`
   const t = query.terrain(b, p)
-  if (t === 'bulkhead') return `flank bulkhead ${at(p)}`
+  if (t === 'bulkhead') return `bulkhead ${at(p)}`
   const nearAirlock = [[1, 0], [-1, 0], [0, 1], [0, -1]].some((d) => query.terrain(b, [p[0] + (d[0] as number), p[1] + (d[1] as number)]) === 'airlock')
   return nearAirlock ? 'the airlock door' : `door ${at(p)}`
 }
@@ -75,6 +80,8 @@ export function describeEvent(ev: Event, b: Board): Line | null {
       }
     case 'locked':
       return { side: 'warden', text: `${n(ev.unit)}'s repeater locks on heat.` }
+    case 'cpSpent':
+      return { side: 'warden', text: `${n(ev.unit)} draws ${ev.cp} command point${ev.cp === 1 ? '' : 's'} (${ev.left} left).` }
     case 'vented':
       return { side: 'warden', text: `${n(ev.unit)} vents the repeater.` }
     case 'watchSet':
@@ -115,17 +122,17 @@ export function describeEvent(ev: Event, b: Board): Line | null {
     case 'purged':
       return { side: 'sys', text: `The ${ev.section.replace(/-/g, ' ')} is purged; ${ev.ducts.length} duct${ev.ducts.length === 1 ? '' : 's'} closed for good.` }
     case 'coreTaken':
-      return { side: 'warden', text: `${n(ev.unit)} has the core.` }
+      return { side: 'warden', text: `${n(ev.unit)} has the ${objectiveWords(b).item}.` }
     case 'coreDropped':
-      return { side: 'molt', text: `The core falls at ${at(ev.at)}.` }
+      return { side: 'molt', text: `The ${objectiveWords(b).item} falls at ${at(ev.at)}.` }
     case 'corePicked':
-      return { side: 'warden', text: `${n(ev.unit)} recovers the core.` }
+      return { side: 'warden', text: `${n(ev.unit)} recovers the ${objectiveWords(b).item}.` }
     case 'alarm':
-      return { side: 'molt', text: 'ALARM: the hull knows the core is moving.' }
+      return { side: 'molt', text: `ALARM: the hull knows the ${objectiveWords(b).item} is moving.` }
     case 'roundEnded':
       return { side: 'sys', text: `Round ${pad(ev.round)} ends.` }
     case 'gameOver':
-      return { side: 'sys', text: ev.winner === 'warden' ? 'The core is out. Mission complete.' : ev.reason === 'time' ? 'The hull lets go. Mission lost.' : 'No Warden left standing. Mission lost.' }
+      return { side: 'sys', text: ev.winner === 'warden' ? `The ${objectiveWords(b).item} is out. Mission complete.` : ev.reason === 'time' ? 'The hull lets go. Mission lost.' : 'No Warden left standing. Mission lost.' }
   }
 }
 
@@ -137,12 +144,12 @@ export interface Inspected {
 const TERRAIN_NAME: Record<string, string> = {
   wall: 'Bulkhead wall',
   floor: 'Deck plating',
-  airlock: 'Aft airlock (the way out)',
+  airlock: 'Airlock (the way out)',
   duct: 'Molt duct',
   door: 'Door',
   bulkhead: 'Bulkhead door',
   terminal: 'Terminal',
-  console: 'Archive console',
+  console: 'Console',
 }
 
 /** What is on a square, for the inspector panel. `by` is the selected Warden, for odds. */
@@ -150,7 +157,8 @@ export function inspectSquare(b: Board, p: Pos, by: string | null): Inspected {
   const g = geoOf(b.mission)
   const t = query.terrain(b, p)
   const lines: string[] = []
-  let title = TERRAIN_NAME[t] ?? t
+  const words = g.mission.objective
+  let title = t === 'console' ? `${cap(words.place)} console` : t === 'airlock' ? `${cap(words.exit)} (the way out)` : (TERRAIN_NAME[t] ?? t)
   const u: ViewUnit | undefined = b.units.find((x) => (x.kind !== 'warden' || x.alive) && x.at[0] === p[0] && x.at[1] === p[1])
   const door = b.doors[at(p)]
   if (t === 'terminal') {
@@ -158,7 +166,7 @@ export function inspectSquare(b: Board, p: Pos, by: string | null): Inspected {
     if (def) title = def.name
     lines.push(b.usedTerminals.includes(def?.id ?? '') ? 'Used.' : 'Face it from the square beside it to run an operation.')
   }
-  if (t === 'console') lines.push(b.core.where === 'console' ? 'The navigation core is inside.' : 'Empty. The core has been taken.')
+  if (t === 'console') lines.push(b.core.where === 'console' ? `The ${words.item} is inside.` : `Empty. The ${words.item} has been taken.`)
   if (door) {
     lines.push(door.torn ? 'Torn open for good.' : door.sealed ? 'SEALED: cannot be opened until unsealed at a terminal.' : door.open ? 'Open.' : 'Closed: blocks movement and sight.')
   }
@@ -168,14 +176,14 @@ export function inspectSquare(b: Board, p: Pos, by: string | null): Inspected {
     if (query.isLit(b, p)) lines.push('Lit: stalkers here are easier to hit.')
     if (b.burn.some((x) => x[0] === p[0] && x[1] === p[1])) lines.push('Burning until the next Warden phase.')
   }
-  if (b.core.where === 'loose' && b.core.at && b.core.at[0] === p[0] && b.core.at[1] === p[1]) lines.push('The core lies here.')
+  if (b.core.where === 'loose' && b.core.at && b.core.at[0] === p[0] && b.core.at[1] === p[1]) lines.push(`The ${words.item} lies here.`)
   if (u) {
     if (u.kind === 'warden') {
       title = u.name
       lines.unshift(`${roles[u.role].label}. Facing ${u.facing}. AP ${u.ap}. ${u.breached ? 'Plating BREACHED.' : 'Plating intact.'}${u.watch ? ' On watch.' : ''}`)
     } else if (u.kind === 'stalker') {
       title = nameOf(b, u.id)
-      lines.unshift('Molt stalker. One wound.')
+      lines.unshift(`Molt stalker. One wound. AP ${u.ap}.`)
       if (by) {
         const w = b.units.find((x) => x.id === by)
         if (w && w.kind === 'warden' && w.alive && roles[w.role].weapon === 'repeater') {
@@ -185,7 +193,12 @@ export function inspectSquare(b: Board, p: Pos, by: string | null): Inspected {
       }
     } else {
       title = nameOf(b, u.id)
-      lines.unshift('Unresolved sonar return. How many stalkers it hides is not known until it resolves.')
+      // the Molt seat's view carries the count (E-7); the Warden seat's never does
+      lines.unshift(
+        typeof u.stalkers === 'number'
+          ? `Unresolved contact hiding ${u.stalkers} stalker${u.stalkers === 1 ? '' : 's'}. AP ${u.ap}. It may not enter a square the squad sees.`
+          : 'Unresolved sonar return. How many stalkers it hides is not known until it resolves.',
+      )
     }
   }
   return { title, lines }

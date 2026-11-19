@@ -38,6 +38,7 @@ class Engine {
   private ambience: AudioBufferSourceNode | null = null
   private wantAmbience = false
   private voiceEnd = 0
+  private voiceSrc: AudioBufferSourceNode | null = null
   private installed = false
   /** diagnostics for sounds.html and tests: ids that played */
   readonly played: string[] = []
@@ -175,13 +176,32 @@ class Engine {
       this.duck.gain.cancelScheduledValues(c)
       this.duck.gain.setTargetAtTime(DUCK_GAIN, c, 0.05)
       this.voiceEnd = t + buf.duration * 1000
+      this.voiceSrc = src
       src.onended = (): void => {
+        if (this.voiceSrc === src) this.voiceSrc = null
         if (!this.ctx || !this.duck || performance.now() < this.voiceEnd - 50) return
         this.duck.gain.setTargetAtTime(1, this.ctx.currentTime, 0.4)
       }
       src.start()
       this.played.push(id)
     })
+  }
+
+  /** Cut the line that is playing (leaving the briefing): the gate opens and the music comes back up. */
+  stopVoice(): void {
+    const src = this.voiceSrc
+    this.voiceSrc = null
+    this.voiceEnd = 0
+    this.gate.release()
+    if (src) {
+      src.onended = null
+      try {
+        src.stop()
+      } catch {
+        /* already stopped */
+      }
+    }
+    if (this.ctx && this.duck) this.duck.gain.setTargetAtTime(1, this.ctx.currentTime, 0.2)
   }
 
   setMusic(state: MusicState | null, force = false): void {

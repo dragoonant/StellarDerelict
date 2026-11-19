@@ -4,7 +4,7 @@ import { installHooks } from './hooks'
 import { pageHidden, tickTimer } from './session'
 import { useStore } from './store'
 import { Hud } from './ui/Hud'
-import { Briefing, Debrief, Title } from './ui/Screens'
+import { Briefing, Debrief, Missions, Title } from './ui/Screens'
 
 export function App() {
   const screen = useStore((s) => s.screen)
@@ -22,6 +22,7 @@ export function App() {
     <>
       <BoardCanvas />
       {screen === 'title' && <Title />}
+      {screen === 'missions' && <Missions />}
       {screen === 'briefing' && <Briefing />}
       {screen === 'mission' && <Hud />}
       {screen === 'debrief' && <Debrief />}

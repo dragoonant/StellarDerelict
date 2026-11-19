@@ -36,5 +36,6 @@
   "stalker": { "moveCost": 1, "doorCost": 1, "tearCost": 1, "tearOn": 5 },
   "ductWatchRadius": 3,
   "revealRadius": 2,
-  "timer": { "base": 45, "perWarden": 15 }
+  "timer": { "base": 45, "perWarden": 15 },
+  "run": { "minSquad": 2 }
 }

@@ -12,8 +12,8 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1200,
     rollupOptions: {
-      // the game, and the sound audition page (sounds.html)
-      input: { main: fileURLToPath(new URL('./index.html', import.meta.url)), sounds: fileURLToPath(new URL('./sounds.html', import.meta.url)) },
+      // the game, the sound audition page (sounds.html) and the art review page (art.html)
+      input: { main: fileURLToPath(new URL('./index.html', import.meta.url)), sounds: fileURLToPath(new URL('./sounds.html', import.meta.url)), art: fileURLToPath(new URL('./art.html', import.meta.url)) },
       output: {
         manualChunks(id: string) {
           if (!id.includes('node_modules')) return undefined

@@ -1,6 +1,8 @@
 # 11 — Mission 1: Dead Reckoning
 
-Data: `src/data/missions/dead-reckoning.json` (the JSON wins on any disagreement with this page).
+Data: `src/data/missions/dead-reckoning.json` (the JSON wins on any disagreement with this page). First cut of the
+boarding run (spec 10 §15); also playable alone, on either seat. Objective words: item *navigation core*, place
+*archive*, exit *aft airlock*. Its `aiHints` are the M4 Warden policy's slots (spec 40 "Any mission").
 
 **Story.** The survey tender *Halcyon Drift* went dark eleven years ago. Lantern Squad cuts in at the aft airlock to
 pull its navigation core from the archive and carry it back out before the hull lets go.

@@ -17,15 +17,26 @@ export function watchErrors(page: Page): string[] {
   return errors
 }
 
-export async function toBriefing(page: Page): Promise<void> {
-  await page.getByRole('button', { name: /board the halcyon drift/i }).click()
+/** Title -> Single mission -> the Missions screen (Dead Reckoning preselected) -> Brief. */
+export async function toBriefing(page: Page, mission = 'dead-reckoning', seat: 'warden' | 'molt' = 'warden'): Promise<void> {
+  await page.getByRole('button', { name: /^single mission/i }).click()
+  await expect(page.locator('[data-screen="missions"]')).toBeVisible()
+  await page.locator(`[data-mission="${mission}"]`).click()
+  if (seat === 'molt') await page.getByRole('group', { name: 'Play as' }).getByRole('button', { name: 'Molt' }).click()
+  await page.locator('[data-act="brief"]').click()
+  await expect(page.locator('[data-screen="briefing"]')).toBeVisible()
+}
+
+/** Title -> Boarding run -> the Briefing of its first mission. */
+export async function toRunBriefing(page: Page): Promise<void> {
+  await page.getByRole('button', { name: /^boarding run/i }).click()
   await expect(page.locator('[data-screen="briefing"]')).toBeVisible()
 }
 
 /** Title, briefing, CUT IN; resolves once the board is up and the camera answers. */
-export async function toMission(page: Page): Promise<void> {
-  await toBriefing(page)
-  await page.getByRole('button', { name: /cut in/i }).click()
+export async function toMission(page: Page, mission = 'dead-reckoning', seat: 'warden' | 'molt' = 'warden'): Promise<void> {
+  await toBriefing(page, mission, seat)
+  await page.getByRole('button', { name: seat === 'warden' ? /cut in/i : /let them in/i }).click()
   await page.waitForFunction(() => window.__sd?.ui().screen === 'mission' && window.__sd.camera() !== null)
   await page.waitForTimeout(400)
 }

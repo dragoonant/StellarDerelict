@@ -2,10 +2,21 @@ import type { Facing, Pos, Role, Seat } from '../data/types'
 
 export type { Facing, Pos, Role, Seat }
 
+/**
+ * Mission options (spec 00). `difficulty` is the Molt AI tier the client plays; `seat` is the side the person plays
+ * (Wardens when absent); `roster` lists the squad members who board (the whole squad when absent: the boarding run, R-2).
+ */
+export type SetupOptions = {
+  difficulty?: string
+  seat?: Seat
+  roster?: string[]
+  [key: string]: unknown
+}
+
 export interface Setup {
   mission: string
   seed: number
-  options?: Record<string, unknown>
+  options?: SetupOptions
 }
 
 export interface WardenUnit {
@@ -144,6 +155,8 @@ export type Event =
       watch: boolean
     }
   | { type: 'locked'; unit: string }
+  /** C-2: command points paid for this Warden's action (the shortfall and any flat CP) */
+  | { type: 'cpSpent'; unit: string; cp: number; left: number }
   | { type: 'vented'; unit: string; heldCp: boolean }
   | { type: 'watchSet'; unit: string }
   | { type: 'watchEnded'; unit: string; why: 'phase' | 'acted' | 'attacked' | 'locked' | 'destroyed' }
