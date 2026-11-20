@@ -45,11 +45,25 @@ test('MOLT-1..4: a Molt-seat mission: the squad AI moves first, arrivals are pla
   // can sit under the clock or the log at the opening view)
   const tap = async (x: number, y: number) => {
     await page.evaluate(([a, b]) => window.__sd!.centre(a!, b!), [x, y])
-    await page.waitForTimeout(450)
-    const p = await page.evaluate(([a, b]) => window.__sd!.project(a!, b!), [x, y])
-    expect(p).not.toBeNull()
-    expect(await page.evaluate(([px, py]) => document.elementFromPoint(px!, py!)?.tagName, [p!.x, p!.y])).toBe('CANVAS')
-    await page.mouse.click(p!.x, p!.y)
+    // the camera eases to the tile, and how long that takes depends on the frame rate: wait until the tile's point on the
+    // screen has stopped moving and lies on the canvas (a fixed 450 ms was too short once on the deploy runner)
+    const project = () => page.evaluate(([a, b]) => window.__sd!.project(a!, b!), [x, y])
+    const at = { x: 0, y: 0 }
+    await expect
+      .poll(
+        async () => {
+          const was = await project()
+          await page.waitForTimeout(150)
+          const now = await project()
+          if (!was || !now || Math.hypot(was.x - now.x, was.y - now.y) > 0.5) return 'MOVING'
+          at.x = now.x
+          at.y = now.y
+          return page.evaluate(([px, py]) => document.elementFromPoint(px!, py!)?.tagName, [now.x, now.y])
+        },
+        { timeout: 10_000 },
+      )
+      .toBe('CANVAS')
+    await page.mouse.click(at.x, at.y)
   }
   for (let i = 0; i < 4; i++) {
     const st = await state(page)
