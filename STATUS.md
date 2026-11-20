@@ -1,5 +1,15 @@
 # STATUS (rewritten at each stage; trust `git log` over this file)
 
+**2026-11-19: M7 to M10 merged and live. Owner: "This is one of the best games we've developed."**
+
+- **Merged:** pull request 1 (M7, M8, M9, M10 and the approval note) went into `main` as merge commit 43cf784 on the
+  owner's "Yes."; the deploy workflow ran the gates and published. The session opened the live site: the new title
+  wreck shows and the game reports 40 images enabled, none failed.
+- **Owner, the same day:** "This is one of the best games we've developed." "Update the kbs." No reason was given. The knowledge-base entry
+  has the verdict, a list of what this build did (the session's reading, section 5), the M10 lessons in `gotchas.md` and
+  a recipe step for a 2D art pass; the submodule points at it.
+- **Not verified:** the audio has still not been confirmed by ear on `sounds.html` (KB rule 9).
+
 **2026-11-15: M10 the wreck pass (owner on M9: "The ship looks too plain, lots of blue, it's supposed to be a derelict
 ship, ruined walls, fires, claw marks etc").** PLAN D9. The board art was made again and the way it is shown changed:
 

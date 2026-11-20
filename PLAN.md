@@ -39,6 +39,8 @@ Not a port: the setting, names, numbers, missions and look are ours. Credit: **e
 | M10 | The wreck pass (owner feedback on M9) | done 2026-11-15: "The ship looks too plain, lots of blue, it's supposed to be a derelict ship, ruined walls, fires, claw marks etc". Board textures made again as a wreck and shown in colour (lit where seen, a cold ghost where only mapped), eight plates and five panels with rarer ruined variants, burning breaches with shader flames and light pools, claw marks and debris on the deck, new title and mission stills; spec 70 ART-3 rewritten, ART-9 new; 40 images; owner on the before and after pictures, 2026-11-18: "Looks right" |
 | M7 | Polish, more missions, playable Molt, run layer | done 2026-11-14: Cold Berth and Last Light (specs 12, 13, balance rows CB-4, LL-4), the Molt seat (spec 50 MOLT-1..5) against the utility squad AI, the boarding run (spec 10 §15, R-1..R-5), a fuller debrief tallied from events, mission-generic Warden policy, `cpSpent` event; 204 unit tests, 27 e2e |
 
+Owner, 2026-11-19, after M7 to M10 were merged and live: "This is one of the best games we've developed."
+
 ## Open questions for the owner
 
 1. (closed 2026-11-13) The repo is public and the Pages link serves.
